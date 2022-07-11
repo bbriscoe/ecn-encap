@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC3168 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
+<!ENTITY RFC6040 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6040.xml">
+<!ENTITY RFC1701 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1701.xml">
+<!ENTITY RFC2637 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2637.xml">
+<!ENTITY RFC2661 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2661.xml">
+<!ENTITY RFC2784 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2784.xml">
+<!ENTITY RFC7348 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7348.xml">
+<!ENTITY I-D.ietf-tsvwg-ecn-encap-guidelines SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-ecn-encap-guidelines.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
+<!-- Alterations to I-D/RFC boilerplate -->
+<?rfc private="" ?>
+<!-- Default private="" Produce an internal memo 2.5pp shorter than an I-D or RFC -->
+<?rfc rfcprocack="yes" ?>
+<!-- Default rfcprocack="no" add a short sentence acknowledging xml2rfc -->
+<?rfc strict="no" ?>
+<!-- Default strict="no" Don't check I-D nits -->
+<?rfc rfcedstyle="yes" ?>
+<!-- Default rfcedstyle="yes" attempt to closely follow finer details from the latest observable RFC-Editor style -->
+<!-- IETF process -->
+<?rfc iprnotified="no" ?>
+<!-- Default iprnotified="no" I haven't disclosed existence of IPR to IETF -->
+<!-- ToC format -->
+<?rfc toc="yes" ?>
+<!-- Default toc="no" No Table of Contents -->
+<!-- Cross referencing, footnotes, comments -->
+<?rfc symrefs="yes"?>
+<!-- Default symrefs="no" Don't use anchors, but use numbers for refs -->
+<?rfc sortrefs="yes"?>
+<!-- Default sortrefs="no" Don't sort references into order -->
+<?rfc comments="yes" ?>
+<!-- Default comments="no" Don't render comments -->
+<?rfc inline="no" ?>
+<!-- Default inline="no" if comments is "yes", then render comments inline; otherwise render them in an `Editorial Comments' section -->
+<!-- Pagination control -->
+<?rfc compact="yes"?>
+<!-- Default compact="no" Start sections on new pages -->
+<?rfc subcompact="no"?>
+<!-- Default subcompact="(as compact setting)" yes/no is not quite as compact as yes/yes -->
+<!-- HTML formatting control -->
+<?rfc emoticonic="yes" ?>
+<!-- Default emoticonic="no" Doesn't prettify HTML format -->
+<rfc category="std" docName="draft-briscoe-tsvwg-rfc6040bis-00"
+     ipr="trust200902" updates="2661, 1701, 2784, 2637, 7348">
+  <front>
+    <title abbrev="ECN Tunnelling">Propagating Explicit Congestion
+    Notification Across IP Tunnel Headers Separated by a Shim</title>
+
+    <author fullname="Bob Briscoe" initials="B." surname="Briscoe">
+      <organization>Simula Research Laboratory</organization>
+
+      <address>
+        <postal>
+          <street/>
+
+          <country>UK</country>
+        </postal>
+
+        <email>ietf@bobbriscoe.net</email>
+
+        <uri>http://bobbriscoe.net/</uri>
+      </address>
+    </author>
+
+    <date day="" month="" year="2016"/>
+
+    <area>Transport</area>
+
+    <workgroup>Transport Area Working Group</workgroup>
+
+    <keyword>Congestion Control and Management</keyword>
+
+    <keyword>Congestion Notification</keyword>
+
+    <keyword>Information Security</keyword>
+
+    <keyword>Tunnelling</keyword>
+
+    <keyword>Encapsulation &amp; Decapsulation</keyword>
+
+    <keyword>Protocol</keyword>
+
+    <keyword>ECN</keyword>
+
+    <keyword>Layering</keyword>
+
+    <abstract>
+      <t>RFC 6040 on "Tunnelling of Explicit Congestion Notification" made the
+      rules for propagation of ECN consistent for all forms of IP in IP
+      tunnel. This specification extends the scope of RFC 6040 to include
+      tunnels where two IP headers are separated by a shim header that cannot
+      stand alone.</t>
+    </abstract>
+  </front>
+
+  <!-- ================================================================ -->
+
+  <middle>
+    <!-- ================================================================ -->
+
+    <section anchor="ecnencap_Introduction" title="Scope of RFC 6040">
+      <t>RFC 6040 on "Tunnelling of Explicit Congestion Notification" <xref
+      target="RFC6040"/> made the rules for propagation of Explicit Congestion
+      Notification (ECN <xref target="RFC3168"/>) consistent for all forms of
+      IP in IP tunnel. The scope of RFC 6040 was stated as <list style="empty">
+          <t>"...ECN field processing at encapsulation and decapsulation for
+          any IP-in-IP tunnelling, whether IPsec or non-IPsec tunnels. It
+          applies irrespective of whether IPv4 or IPv6 is used for either the
+          inner or outer headers. ..."</t>
+        </list>A common pattern for many tunnelling protocols is to
+      encapsulate an inner IP header with shim header(s) then an outer IP
+      header. To clear up confusion, this specification clarifies that the
+      scope of RFC 6040 includes any IP-in-IP tunnel, including those with
+      shim header(s) between the IP headers.</t>
+    </section>
+
+    <!-- ================================================================ -->
+
+    <section anchor="ecnencap_Reqs_Language" title="Terminology">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+      document are to be interpreted as described in RFC 2119 <xref
+      target="RFC2119"/>.</t>
+    </section>
+
+    <section anchor="ecnencap_IP-IP_Coupled_Shim_Tunnels"
+             title="IP-in-IP Tunnels with Tightly Coupled Shim Headers">
+      <t>In many cases the shim header(s) and the outer IP header are always
+      added (or removed) as part of the same process. We call this a tightly
+      coupled shim header. Processing the shim and outer together is often
+      necessary because the shim(s) are not sufficient for packet forwarding
+      in their own right; not unless complemented by an outer header.</t>
+
+      <t>For all such tightly coupled shim headers, the rules in <xref
+      target="RFC6040"/> for propagating the ECN field SHOULD be applied
+      directly between the inner and outer IP headers. This specification
+      therefore updates the following specifications of tightly coupled shim
+      headers by adding that RFC 6040 SHOULD apply when the shim header is
+      used between IP headers: <list style="symbols">
+          <t>L2TP <xref target="RFC2661"/></t>
+
+          <t>GRE <xref target="RFC1701"/>, <xref target="RFC2784"/></t>
+
+          <t>PPTP <xref target="RFC2637"/></t>
+
+          <t>GTP <xref target="GTPv1"/>, <xref target="GTPv1-U"/>, <xref
+          target="GTPv2-C"/></t>
+
+          <t>VXLAN <xref target="RFC7348"/>.</t>
+
+          <!--{ToDo: Check that all the above are always tightly coupled to the IP outer.}
+{ToDo: More examples?}-->
+        </list></t>
+
+      <t>The above is written as a 'SHOULD' not a 'MUST' to allow for the
+      possibility that the structure of some pre-existing tunnel
+      implementations might make it hard to predict what other headers will be
+      added or removed subsequently.</t>
+
+      <t>Although the definition of the various GTP shim headers is under the
+      control of the 3GPP, it is hard to determine whether the 3GPP or the
+      IETF controls standardization of the <spanx style="emph">process</spanx>
+      of adding both a GTP and an IP header to an inner IP header.
+      Nonetheless, the present specification is provided so that the 3GPP can
+      refer to it from any of its own specifications of GTP and IP header
+      processing.</t>
+
+      <t>More generally, whatever form IP-in-IP tunnelling takes, the ECN
+      field SHOULD be propagated according to the rules in RFC 6040 wherever
+      possible. Otherwise <xref target="I-D.ietf-tsvwg-ecn-encap-guidelines"/>
+      gives more general guidance on how to propagate ECN to and from
+      protocols that encapsulate IP.</t>
+    </section>
+
+    <!-- ================================================================ -->
+
+    <section anchor="ecnencap_IANA_Considerations"
+             title="IANA Considerations (to be removed by RFC Editor)">
+      <t>This memo includes no request to IANA.</t>
+    </section>
+
+    <!-- ================================================================ -->
+
+    <section anchor="ecnencap_Security_Considerations"
+             title="Security Considerations">
+      <t>The Security Considerations in RFC 6040 apply equally to the wider
+      scope defined by the present specification.</t>
+    </section>
+
+    <!-- ================================================================ -->
+
+    <section anchor="ecnencap_Comments_Solicited" title="Comments Solicited">
+      <t>Comments and questions are encouraged and very welcome. They can be
+      addressed to the IETF Transport Area working group mailing list
+      &lt;tsvwg@ietf.org&gt;, and/or to the authors.</t>
+    </section>
+  </middle>
+
+  <back>
+    <!-- ================================================================ -->
+
+    <references title="Normative References">
+      &RFC2119;
+
+      &RFC3168;
+
+      &RFC6040;
+
+      &RFC1701;
+
+      &RFC2637;
+
+      &RFC2661;
+
+      &RFC2784;
+
+      &RFC7348;
+
+      &I-D.ietf-tsvwg-ecn-encap-guidelines;
+
+      <reference anchor="GTPv1">
+        <front>
+          <title>GPRS Tunnelling Protocol (GTP) across the Gn and Gp
+          interface</title>
+
+          <author>
+            <organization>3GPP</organization>
+          </author>
+
+          <date/>
+        </front>
+
+        <seriesInfo name="Technical Specification" value="TS 29.060"/>
+      </reference>
+
+      <reference anchor="GTPv1-U">
+        <front>
+          <title>General Packet Radio System (GPRS) Tunnelling Protocol User
+          Plane (GTPv1-U)</title>
+
+          <author>
+            <organization>3GPP</organization>
+          </author>
+
+          <date/>
+        </front>
+
+        <seriesInfo name="Technical Specification" value="TS 29.281"/>
+      </reference>
+
+      <reference anchor="GTPv2-C">
+        <front>
+          <title>Evolved General Packet Radio Service (GPRS) Tunnelling
+          Protocol for Control plane (GTPv2-C)</title>
+
+          <author>
+            <organization>3GPP</organization>
+          </author>
+
+          <date year=""/>
+        </front>
+
+        <seriesInfo name="Technical Specification" value="TS 29.274"/>
+      </reference>
+    </references>
+
+    <!--
+    <references title="Informative References">
+      <reference anchor="None">
+        <front>
+          <title>None</title>
+
+          <author>
+            <organization></organization>
+          </author>
+
+          <date year=""/>
+        </front>
+      </reference>
+
+    </references>
+-->
+  </back>
+</rfc>
