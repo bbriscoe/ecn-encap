@@ -1311,7 +1311,8 @@ start of its segment.-->
 
     <!-- ================================================================ -->
 
-    <section anchor="ecnencap_IANA_Considerations" title="IANA Considerations">
+    <section anchor="ecnencap_IANA_Considerations" removeInRFC="true"
+             title="IANA Considerations">
       <t>This memo includes no request to IANA.</t>
     </section>
 
@@ -1374,48 +1375,6 @@ start of its segment.-->
       <t>Finally, attempting to add ECN to a subnet technology in
       feed-backward mode is deprecated except in special cases, due to its
       likely sluggish response to congestion.</t>
-    </section>
-
-    <!-- ================================================================ -->
-
-    <section anchor="ecnencap_Acknowledgements" title="Acknowledgements">
-      <t>Thanks to Gorry Fairhurst and David Black for extensive reviews.
-      Thanks also to the following reviewers: Joe Touch, Andrew McGregor,
-      Richard Scheffenegger, Ingemar Johansson, Piers O'Hanlon, Donald
-      Eastlake, Jonathan Morton, Markku Kojo and Michael Welzl, who pointed
-      out that lower layer congestion notification signals may have different
-      semantics to those in IP. Thanks are also due to the tsvwg chairs, TSV
-      ADs and IETF liaison people such as Eric Gray, Dan Romascanu and Gonzalo
-      Camarillo for helping with the liaisons with the IEEE and 3GPP. And
-      thanks to Georg Mayer and particularly to Erik Guttman for the extensive
-      search and categorisation of any 3GPP specifications that cite ECN
-      specifications.</t>
-
-      <t>Bob Briscoe was part-funded by the European Community under its
-      Seventh Framework Programme through the Trilogy project (ICT-216372) for
-      initial drafts and through the Reducing Internet Transport Latency
-      (RITE) project (ICT-317700) subsequently. The views expressed here are
-      solely those of the authors.</t>
-    </section>
-
-    <section title="Contributors">
-      <figure>
-        <artwork><![CDATA[   Pat Thaler
-   Broadcom Corporation (retired)
-   CA
-   USA]]></artwork>
-      </figure>
-
-      <t>Pat was a co-author of this draft, but retired before its
-      publication.</t>
-    </section>
-
-    <!-- ================================================================ -->
-
-    <section anchor="ecnencap_Comments_Solicited" title="Comments Solicited">
-      <t>Comments and questions are encouraged and very welcome. They can be
-      addressed to the IETF Transport Area working group mailing list
-      &lt;tsvwg@ietf.org&gt;, and/or to the authors.</t>
     </section>
   </middle>
 
@@ -1772,253 +1731,46 @@ start of its segment.-->
       </reference>
     </references>
 
-    <section anchor="ecnencap_Doc_Changes"
-             title="Changes in This Version (to be removed by RFC Editor)  ">
-      <t><list style="hanging">
-          <t hangText="From ietf-12 to ietf-13"><list style="symbols">
-              <t>Following 3rd tsvwg WGLC:<list style="symbols">
-                  <t>Formalized update to RFC 3819 in its own subsection (1.1)
-                  and referred to it in the abstract</t>
+    <!-- ================================================================ -->
 
-                  <t>Scope: Clarified that the specification of alternative
-                  ECN semantics using ECT(1) was not in RFC 4774, but rather
-                  in RFC 8311, and that the problem with using a DSCP to
-                  indicate alternative semantics has issues at domain
-                  boundaries as well as tunnels.</t>
+    <section anchor="ecnencap_Comments_Solicited" numbered="false"
+             removeInRFC="true" title="Comments Solicited">
+      <t>Comments and questions are encouraged and very welcome. They can be
+      addressed to the IETF Transport Area working group mailing list
+      &lt;tsvwg@ietf.org&gt;, and/or to the authors.</t>
+    </section>
 
-                  <t>Terminology: tighted up definitions of ECN-PDU and
-                  Not-ECN-PDU, and removed definition of Congestion Baseline,
-                  given it was only used once.</t>
+    <section anchor="ecnencap_Acknowledgements" numbered="false"
+             title="Acknowledgements">
+      <t>Thanks to Gorry Fairhurst and David Black for extensive reviews.
+      Thanks also to the following reviewers: Joe Touch, Andrew McGregor,
+      Richard Scheffenegger, Ingemar Johansson, Piers O'Hanlon, Donald
+      Eastlake, Jonathan Morton, Markku Kojo, Michael Welzl and Sebastian
+      Moeller, who pointed out that lower layer congestion notification
+      signals may have different semantics to those in IP. Thanks are also due
+      to the tsvwg chairs, TSV ADs and IETF liaison people such as Eric Gray,
+      Dan Romascanu and Gonzalo Camarillo for helping with the liaisons with
+      the IEEE and 3GPP. And thanks to Georg Mayer and particularly to Erik
+      Guttman for the extensive search and categorisation of any 3GPP
+      specifications that cite ECN specifications.</t>
 
-                  <t>Mentioned QCN where feed-backward is first introduced
-                  (S.3), referring forward to where it is discussed more
-                  deeply (S.4).</t>
+      <t>Bob Briscoe was part-funded by the European Community under its
+      Seventh Framework Programme through the Trilogy project (ICT-216372) for
+      initial drafts and through the Reducing Internet Transport Latency
+      (RITE) project (ICT-317700) subsequently. The views expressed here are
+      solely those of the authors.</t>
+    </section>
 
-                  <t>Clarified that IS-IS solution to adding ECN support to
-                  TRILL was not pursued</t>
+    <section numbered="false" title="Contributors">
+      <figure>
+        <artwork><![CDATA[   Pat Thaler
+   Broadcom Corporation (retired)
+   CA
+   USA]]></artwork>
+      </figure>
 
-                  <t>Completely rewrote the rationale for the guideline about
-                  a Standard Congestion Monitoring Baseline, to focus on
-                  standardization of the otherwise unknown scenario used,
-                  rather than the relative usefulness of the info in each
-                  approach</t>
-
-                  <t>Explained the re-framing problem better and added
-                  fragmentation as another possible cause of the problem</t>
-
-                  <t>Acknowledged new reviewers</t>
-
-                  <t>Updated references, replaced citations of 802.1Qau and
-                  802.1ah with rolled up 802.1Q, and added citations of Fat
-                  trees and Clos Networks</t>
-
-                  <t>Numerous other editorial improvements</t>
-                </list></t>
-            </list></t>
-
-          <t hangText="From ietf-11 to ietf-12"><list style="symbols">
-              <t>Updated references</t>
-            </list></t>
-
-          <t hangText="From ietf-10 to ietf-11"><list style="symbols">
-              <t>Removed short section (was 3) 'Guidelines for All Cases'
-              because it was out of scope, being covered by RFC 4774. Expanded
-              the Scope section (1.2) to explain all this. Explained that the
-              default encap/decap rules already support certain alternative
-              semantics, particularly all three of the alternative semantics
-              for ECT(1): equivalent to ECT(0) , higher severity than ECT(0),
-              and unmarked but implying different marking semantics from
-              ECT(0).</t>
-
-              <t>Clarified why the QCN example was being given even though not
-              about increment deployment of ECN</t>
-
-              <t>Pointed to the spoofing issue with feed-backward mode from
-              the Security Considerations section, to aid security review.</t>
-
-              <t>Removed any ambiguity in the word 'transport' throughout</t>
-            </list></t>
-
-          <t hangText="From ietf-09 to ietf-10"><list style="symbols">
-              <t>Updated section 5.1 on "IP-in-IP tunnels with Shim Headers"
-              to be consistent with updates to
-              draft-ietf-tsvwg-rfc6040update-shim.</t>
-
-              <t>Removed reference to the ECN nonce, which has been made
-              historic by RFC 8311</t>
-
-              <t>Removed "Open Issues" Appendix, given all have been
-              addressed.</t>
-            </list></t>
-
-          <t hangText="From ietf-08 to ietf-09"><list style="symbols">
-              <t>Updated para in Intro that listed all the IP-in-IP tunnelling
-              protocols, to instead refer to
-              draft-ietf-tsvwg-rfc6040update-shim</t>
-
-              <t>Updated section 5.1 on "IP-in-IP tunnels with Shim Headers"
-              to summarize guidance that has evolved as rfc6040update-shim has
-              developed.</t>
-            </list></t>
-
-          <t hangText="From ietf-07 to ietf-08:">Refreshed to avoid expiry.
-          Updated references.</t>
-
-          <t hangText="From ietf-06 to ietf-07:"><list style="symbols">
-              <t>Added the people involved in liaisons to the
-              acknowledgements.</t>
-            </list></t>
-
-          <t hangText="From ietf-05 to ietf-06:"><list style="symbols">
-              <t>Introduction: Added GUE and Geneve as examples of tightly
-              coupled shims between IP headers that cite RFC 6040. And added
-              VXLAN to list of those that do not.</t>
-
-              <t>Replaced normative text about tightly coupled shims between
-              IP headers, with reference to new
-              draft-ietf-tsvwg-rfc6040update-shim</t>
-
-              <t>Wire Protocol Design: Indication of ECN Support: Added TRILL
-              as an example of a well-design protocol that does not need an
-              indication of ECN support in the wire protocol.</t>
-
-              <t>Encapsulation Guidelines: In the case of a Not-ECN-PDU with a
-              CE outer, replaced SHOULD be dropped, with explanations of when
-              SHOULD or MUST are appropriate.</t>
-
-              <t>Feed-Up-and-Forward Mode: Explained examples more carefully,
-              referred to PDCP and cited UTRAN spec as well as E-UTRAN.</t>
-
-              <t>Updated references.</t>
-
-              <t>Marked open issues as resolved, but did not delete Open
-              Issues Appendix (yet).</t>
-            </list></t>
-
-          <t hangText="From ietf-04 to ietf-05:"><list style="symbols">
-              <t>Explained why tightly coupled shim headers only "SHOULD"
-              comply with RFC 6040, not "MUST".</t>
-
-              <t>Updated references</t>
-            </list></t>
-
-          <t hangText="From ietf-03 to ietf-04:"><list style="symbols">
-              <t>Addressed Richard Scheffenegger's review comments: primarily
-              editorial corrections, and addition of examples for clarity.</t>
-            </list></t>
-
-          <t hangText="From ietf-02 to ietf-03:"><list style="symbols">
-              <t>Updated references, ad cited RFC4774.</t>
-            </list></t>
-
-          <t hangText="From ietf-01 to ietf-02:"><list style="symbols">
-              <t>Added Section for guidelines that are applicable in all
-              cases.</t>
-
-              <t>Updated references.</t>
-            </list></t>
-
-          <t hangText="From ietf-00 to ietf-01:">Updated references.</t>
-
-          <t hangText="From briscoe-04 to ietf-00:">Changed filename following
-          tsvwg adoption.</t>
-
-          <t hangText="From briscoe-03 to 04:"><list style="symbols">
-              <t>Re-arranged the introduction to describe the purpose of the
-              document first before introducing ECN in more depth. And
-              clarified the introduction throughout.</t>
-
-              <t>Added applicability to 3GPP TS 36.300.</t>
-            </list></t>
-
-          <t hangText="From briscoe-02 to 03:"><list style="symbols">
-              <t>Scope section:<list style="symbols">
-                  <t>Added dependence on correct propagation of traffic class
-                  information</t>
-
-                  <t>For the feed-backward mode, deemed multicast and anycast
-                  out of scope</t>
-                </list></t>
-
-              <t>Ensured all guidelines referring to subnet technologies also
-              refer to tunnels and vice versa by adding applicability
-              sentences at the start of sections 4.1, 4.2, 4.3, 4.4, 4.6 and
-              5.</t>
-
-              <t>Added Security Considerations on ensuring congestion signal
-              fields are classed as immutable and on using end-to-end
-              congestion signal integrity technologies rather than
-              hop-by-hop.</t>
-            </list></t>
-
-          <t hangText="From briscoe-01 to 02:"><list style="symbols">
-              <t>Added authors: JK &amp; PT</t>
-
-              <t>Added <list style="symbols">
-                  <t>Section 4.1 "IP-in-IP Tunnels with Tightly Coupled Shim
-                  Headers"</t>
-
-                  <t>Section 4.5 "Sequences of Similar Tunnels or Subnets"</t>
-
-                  <t>roadmap at the start of Section 4, given the subsections
-                  have become quite fragmented.</t>
-
-                  <t>Section 9 "Conclusions"</t>
-                </list></t>
-
-              <t>Clarified why transports are starting to be able to saturate
-              interior links</t>
-
-              <t>Under Section 1.1, addressed the question of alternative
-              signal semantics and included multicast &amp; anycast.</t>
-
-              <t>Under Section 3.1, included a 3GPP example.</t>
-
-              <t>Section 4.2. "Wire Protocol Design":<list style="symbols">
-                  <t>Altered guideline 2. to make it clear that it only
-                  applies to the immediate subnet egress, not later ones</t>
-
-                  <t>Added a reminder that it is only necessary to check that
-                  ECN propagates at the egress, not whether interior nodes
-                  mark ECN</t>
-
-                  <t>Added example of how QCN uses 802.1p to indicate support
-                  for QCN.</t>
-                </list></t>
-
-              <t>Added references to Appendix C of RFC6040, about monitoring
-              the amount of congestion signals introduced within a tunnel</t>
-
-              <t>Appendix A: Added more issues to be addressed, including plan
-              to produce a standards track update to IP-in-IP tunnel
-              protocols.</t>
-
-              <t>Updated acks and references</t>
-            </list></t>
-
-          <t hangText="From briscoe-00 to 01:"><list style="symbols">
-              <t>Intended status: BCP (was Informational) &amp; updates 3819
-              added.</t>
-
-              <t>Briefer Introduction: Introductory para justifying benefits
-              of ECN. Moved all but a brief enumeration of modes of operation
-              to their own new section (from both Intro &amp; Scope).
-              Introduced incr. deployment as most tricky part.</t>
-
-              <t>Tightened &amp; added to terminology section</t>
-
-              <t>Structured with Modes of Operation, then Guidelines section
-              for each mode.</t>
-
-              <t>Tightened up guideline text to remove vagueness / passive
-              voice / ambiguity and highlight main guidelines as numbered
-              items.</t>
-
-              <t>Added Outstanding Document Issues Appendix</t>
-
-              <t>Updated references</t>
-            </list></t>
-        </list></t>
+      <t>Pat was a co-author of this draft, but retired before its
+      publication.</t>
     </section>
   </back>
 </rfc>
