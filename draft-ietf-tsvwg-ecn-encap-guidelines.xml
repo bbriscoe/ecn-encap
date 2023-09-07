@@ -33,8 +33,8 @@
 <!-- HTML formatting control -->
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
-<rfc category="bcp" docName="draft-ietf-tsvwg-ecn-encap-guidelines-17"
-     ipr="trust200902" updates="3819">
+<rfc category="bcp" docName="draft-ietf-tsvwg-ecn-encap-guidelines-18"
+     ipr="pre5378Trust200902" updates="3819">
   <front>
     <title abbrev="ECN Encapsulation Guidelines">Guidelines for Adding
     Congestion Notification to Protocols that Encapsulate IP</title>
@@ -237,9 +237,8 @@ experienced' status code to each layer interface.--></t>
 
       <section title="Update to RFC 3819">
         <t>This document updates the brief advice to subnetwork designers
-        about ECN in <xref target="RFC3819"/>, by replacing the last two
-        paragraphs of Section 13 with the following sentence:<list
-            style="empty">
+        about ECN in <xref section="13" target="RFC3819"/>, by replacing the
+        last two paragraphs with the following sentence:<list style="empty">
             <t>By following the guidelines in [this document], subnetwork
             designers can enable a layer-2 protocol to participate in
             congestion control without dropping packets via propagation of
@@ -523,7 +522,7 @@ experienced' status code to each layer interface.--></t>
         <xref target="ITU-T.I.371"/>) bit in ATM user data cells follow a
         feed-forward pattern. However, in ATM, this arrangement is only part
         of a feed-forward-and-backward pattern at the lower layer, not
-        feed-forward-and-up out of the lower layer&mdash;the intention was
+        feed-forward-and-up out of the lower layer &mdash; the intention was
         never to interface to IP ECN at the subnet egress. To our knowledge,
         Frame Relay FECN is solely used to detect where more capacity should
         be provisioned.</t>
@@ -622,8 +621,8 @@ header
         </figure>
 
         <t>ATM's feed-backward approach does not fit well when layered beneath
-        IP's feed-forward approach&mdash;unless the initial data source is the
-        same node as the ATM ingress. <!--(which would be the case if ATM had achieved its aspiration of becoming the global internetwork standard, 
+        IP's feed-forward approach &mdash; unless the initial data source is
+        the same node as the ATM ingress. <!--(which would be the case if ATM had achieved its aspiration of becoming the global internetwork standard, 
 rather than just a subnetwork technology)--><xref
         target="ecnencap_Fig_Feed-Backward"/> shows the feed-backward approach
         being used in subnet H. If the final switch on the path is congested
@@ -740,8 +739,8 @@ has to be fed back from destination to source.-->
         null mode in <xref target="ecnencap_Null"/> above), or a legacy
         implementation might not support ECN. In cases where a tunnel does not
         support ECN, it is important that the ingress does not copy the ECN
-        field from an inner IP header to an outer. Therefore section 4 of
-        <xref target="I-D.ietf-tsvwg-rfc6040update-shim"/> requires network
+        field from an inner IP header to an outer. Therefore <xref section="4"
+        target="I-D.ietf-tsvwg-rfc6040update-shim"/> requires network
         operators to configure the ingress of a tunnel that does not support
         ECN so that it zeros the ECN field in the outer IP header.</t>
 
@@ -763,14 +762,15 @@ has to be fed back from destination to source.-->
         target="RFC5415"/> and LISP <xref target="RFC6830"/>, cite RFC 3168,
         which is compatible with RFC 6040.</t>
 
-        <t>However, as Section 9.3 of RFC 3168 pointed out, ECN support needs
-        to be defined for many earlier shim-based tunnelling protocols, e.g.
-        L2TPv2 <xref target="RFC2661"/>, L2TPv3 <xref target="RFC3931"/>, GRE
-        <xref target="RFC2784"/>, PPTP <xref target="RFC2637"/>, GTP <xref
-        target="GTPv1"/>, <xref target="GTPv1-U"/>, <xref target="GTPv2-C"/>
-        and Teredo <xref target="RFC4380"/> as well as some recent ones, e.g.
-        VXLAN <xref target="RFC7348"/>, NVGRE <xref target="RFC7637"/> and NSH
-        <xref target="RFC8300"/>.</t>
+        <t>However, as <xref section="9.3" target="RFC3168"/> pointed out, ECN
+        support needs to be defined for many earlier shim-based tunnelling
+        protocols, e.g. L2TPv2 <xref target="RFC2661"/>, L2TPv3 <xref
+        target="RFC3931"/>, GRE <xref target="RFC2784"/>, PPTP <xref
+        target="RFC2637"/>, GTP <xref target="GTPv1"/>, <xref
+        target="GTPv1-U"/>, <xref target="GTPv2-C"/> and Teredo <xref
+        target="RFC4380"/> as well as some recent ones, e.g. VXLAN <xref
+        target="RFC7348"/>, NVGRE <xref target="RFC7637"/> and NSH <xref
+        target="RFC8300"/>.</t>
 
         <t>All these IP-based encapsulations can be updated in one shot by
         simple reference to RFC 6040. However, it would not be appropriate to
@@ -854,8 +854,8 @@ has to be fed back from destination to source.-->
         higher layer transport is ECN-capable. When decapsulating a CE-marked
         packet, if the decapsulator discovers that the higher layer (inner
         header) indicates the transport is not ECN-capable, it drops the
-        packet&mdash;effectively on behalf of the earlier congested node (see
-        Decapsulation Guideline <xref format="counter"
+        packet &mdash; effectively on behalf of the earlier congested node
+        (see Decapsulation Guideline <xref format="counter"
         target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref
         target="ecnencap_DecapGuidelines"/>).</t>
 
@@ -1109,13 +1109,22 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
         boundaries as a consequence of reframing.</t>
 
         <t>Two possible design goals for propagating congestion indications,
-        described in section 5.3 of <xref target="RFC3168"/> and section 2.4
-        of <xref target="RFC7141"/>, are:<list style="numbers">
-            <t>approximate preservation of the presence of congestion marks on
-            the L2 frames used to construct an IP packet;</t>
+        described in <xref section="5.3" target="RFC3168"/> and <xref
+        section="2.4" target="RFC7141"/>, are:<list style="numbers">
+            <t anchor="ecnencap_reframing_goal_presence">approximate
+            preservation of the presence (and therefore timing) of congestion
+            marks on the L2 frames used to construct an IP packet;</t>
 
-            <t>approximate preservation of the proportion of congestion marks
-            arriving and departing. </t>
+            <t anchor="ecnencap_reframing_goal_proportion"><list
+                style="letters">
+                <t>at high frequency of congestion marking, approximate
+                preservation of the proportion of congestion marks arriving
+                and departing;</t>
+
+                <t>at low frequency of congestion marking, approximate
+                preservation of the timing of congestion marks arriving and
+                departing.</t>
+              </list></t>
           </list></t>
 
         <t>In either case, an implementation SHOULD ensure that any new
@@ -1126,8 +1135,27 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
         implementation, it would be acceptable for congestion marks to
         propagate to a slightly later IP packet.</t>
 
-        <t>Concrete example implementations of goal #1 include (but are not
-        limited to):<list style="symbols">
+        <t>At decapsulation in either case:<list style="symbols">
+            <t>ECN marking propagation logically occurs before application of
+            Decapsulation Guideline <xref format="counter"
+            target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref
+            target="ecnencap_DecapGuidelines"/>. For instance, if ECN marking
+            propagation would cause an ECN congestion indication to be applied
+            to an IP packet that is a Not-ECN-PDU, then that IP packet is
+            dropped in accordance with Guideline <xref format="counter"
+            target="ecnencap_dropNot-ECTinnerCEouter"/>;</t>
+
+            <t>if a mix of frames with different types of ECN capability
+            arrives to construct the same IP packet, that packet MUST be
+            discarded. This requirement uses the generalization 'types of ECN
+            capability', because the L2 ECN protocol might not map exactly to
+            the three types in IP, which are Not-ECN-capable, ECT(0) and
+            ECT(1) <xref target="RFC8311"/>.</t>
+          </list></t>
+
+        <t>The following are two ways that goal <xref format="counter"
+        target="ecnencap_reframing_goal_presence"/> might be achieved, but
+        they are not intended to be the only ways:<list style="symbols">
             <t>Every IP PDU that is constructed, in whole or in part, from an
             L2 frame that is marked with a congestion signal, has that signal
             propagated to it;</t>
@@ -1137,14 +1165,21 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
             whole or in part, from it. If multiple IP PDUs meet this
             description, the choice can be made arbitrarily but ought to be
             consistent.</t>
-          </list>Concrete example implementations of goal #2 include (but are
-        not limited to):<list style="symbols">
-            <t>A counter ('in') tracks octets arriving within the payload of
-            marked L2 frames and another ('out') tracks octets departing in
-            marked IP packets. While 'in' exceeds 'out', forwarded IP packets
-            are ECN-marked. If 'out' exceeds 'in' for longer than a timeout,
-            both counters are zeroed, to ensure that the start of the next
-            congestion episode propagates immediately;</t>
+          </list>The following gives one way that goal <xref format="counter"
+        target="ecnencap_reframing_goal_proportion"/> might be achieved, but
+        it is not intended to be the only way:<list style="symbols">
+            <t>For each of the streams of frames encapsulating IP packets of
+            each IP-ECN codepoint, a counter ('in') tracks octets arriving
+            within the payload of marked L2 frames and another ('out') tracks
+            octets departing in marked IP packets. While 'in' exceeds 'out',
+            forwarded IP packets are ECN-marked. If 'out' exceeds 'in' for
+            longer than a timeout, both counters are zeroed, to ensure that
+            the start of the next congestion episode propagates immediately.
+            The 'out' counter includes octets in reconstructed IP packets that
+            would have been marked, but had to be dropped because they were
+            Not-ECN-PDUs (by Decapsulation Guideline <xref format="counter"
+            target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref
+            target="ecnencap_DecapGuidelines"/>).</t>
           </list>Generally, the number of L2 frames may be higher (e.g. ATM),
         similar to, or lower (e.g. 802.11 aggregation at a L2-only station)
         than the number of IP PDUs, and this distinction may influence the
@@ -1196,7 +1231,7 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
       field in an encapsulated IP header is a useful optimisation. If the
       implementation follows the guidelines below, this optimisation does not
       have to be confined to a controlled environment such as within a data
-      centre; it could usefully be applied on any network&mdash;even if the
+      centre; it could usefully be applied on any network &mdash; even if the
       operator is not sure whether the above issues will never apply:<list
           style="numbers">
           <t>If a native lower-layer congestion notification mechanism exists
@@ -1239,12 +1274,12 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
 
       <t>The feed-backward approach at least works beneath IP, where the term
       'works' is used only in a narrow functional sense because feed-backward
-      can result in very inefficient and sluggish congestion
-      control&mdash;except if it is confined to the subnet directly connected
-      to the original data source, when it is faster than feed-forward. It
-      would be valid to design a protocol that could work in feed-backward
-      mode for paths that only cross one subnet, and in feed-forward-and-up
-      mode for paths that cross subnets.</t>
+      can result in very inefficient and sluggish congestion control &mdash;
+      except if it is confined to the subnet directly connected to the
+      original data source, when it is faster than feed-forward. It would be
+      valid to design a protocol that could work in feed-backward mode for
+      paths that only cross one subnet, and in feed-forward-and-up mode for
+      paths that cross subnets.</t>
 
       <t>In the early days of TCP/IP, a similar feed-backward approach was
       tried for explicit congestion signalling, using source-quench (SQ) ICMP
@@ -1257,7 +1292,7 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
       headers, and possibly encrypted.</t>
 
       <t>QCN (also known as backward congestion notification, BCN; see
-      Sections 30--33 of <xref target="IEEE802.1Q"/>; previously known as
+      Sections 30-33 of <xref target="IEEE802.1Q"/>; previously known as
       802.1Qau) uses a feed-backward mode structurally similar to ATM's
       relative rate mechanism. However, QCN confines its applicability to
       scenarios such as some data centres where all endpoints are directly
@@ -1288,7 +1323,7 @@ start of its segment.-->
       congestion signalling in-band in the protocol header, care SHOULD be
       take to ensure that the field used is specified as mutable during
       transit. Otherwise interior nodes signalling congestion would invalidate
-      any authentication protocol applied to the lower layer header&mdash;by
+      any authentication protocol applied to the lower layer header &mdash; by
       altering a header field that had been assumed as immutable.</t>
 
       <t>The redesign of protocols that encapsulate IP in order to propagate
@@ -1303,8 +1338,8 @@ start of its segment.-->
           protocol used <xref target="RFC7713"/>.</t>
 
           <t>A test for a sender to detect whether a network or the receiver
-          is suppressing congestion signals (for example see 2nd para of
-          Section 20.2 of <xref target="RFC3168"/>).</t>
+          is suppressing congestion signals (for example see 2nd para of <xref
+          section="20.2" target="RFC3168"/>).</t>
         </list>Given these end-to-end approaches are already being specified,
       it would make little sense to attempt to design hop-by-hop congestion
       signal integrity into a new lower layer protocol, because end-to-end
