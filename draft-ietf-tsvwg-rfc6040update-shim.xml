@@ -33,8 +33,8 @@
 <!-- HTML formatting control -->
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
-<rfc category="std" docName="draft-ietf-tsvwg-rfc6040update-shim-15"
-     ipr="trust200902" updates="6040, 2661, 2784, 3931, 4380, 7450">
+<rfc category="std" docName="draft-ietf-tsvwg-rfc6040update-shim-16"
+     ipr="pre5378Trust200902" updates="6040, 2661, 2784, 3931, 4380, 7450">
   <front>
     <title abbrev="ECN over IP-shim-(L2)-IP Tunnels">Propagating Explicit
     Congestion Notification Across IP Tunnel Headers Separated by a
@@ -86,9 +86,10 @@
       header that is not sufficient on its own for wide area packet
       forwarding. It surveys widely deployed IP tunnelling protocols that use
       such shim header(s) and updates the specifications of those that do not
-      mention ECN propagation (L2TPv2, L2TPv3, GRE, Teredo and AMT). This
-      specification also updates RFC 6040 with configuration requirements
-      needed to make any legacy tunnel ingress safe.</t>
+      mention ECN propagation (that is RFC 2661, RFC 3931, RFC 2784, RFC 4380
+      and RFC 7450, which respectively specify L2TPv2, L2TPv3, GRE, Teredo and
+      AMT). This specification also updates RFC 6040 with configuration
+      requirements needed to make any legacy tunnel ingress safe.</t>
     </abstract>
   </front>
 
@@ -377,7 +378,7 @@
           target="RFC5415"/>;</t>
 
           <t>LISP (Locator/Identifier Separation Protocol) <xref
-          target="RFC6830"/>;</t>
+          target="RFC9300"/>;</t>
 
           <t>AMT (Automatic Multicast Tunneling) <xref target="RFC7450"/>;</t>
 
@@ -396,8 +397,8 @@
           <t>Direct tunnelling of an IP packet within a UDP/IP datagram (see
           Section 3.1.11 of <xref target="RFC8085"/>);</t>
 
-          <t>TCP Encapsulation of IKE and IPsec Packets (see Section 12.5 of
-          <xref target="RFC8229"/>).</t>
+          <t>TCP Encapsulation of IKE and IPsec Packets (see Section 9.5 of
+          <xref target="RFC9329"/>).</t>
         </list></t>
 
       <t>Some of the listed protocols enable encapsulation of a variety of
@@ -475,8 +476,8 @@
       tunnel ingress has to clear the outer IP ECN field to 0b00, e.g. by
       configuration.</t>
 
-      <t>Section 12.5 of TCP Encapsulation of IKE and IPsec Packets <xref
-      target="RFC8229"/> already recommends the compatibility mode of RFC 6040
+      <t>Section 9.5 of TCP Encapsulation of IKE and IPsec Packets <xref
+      target="RFC9329"/> already recommends the compatibility mode of RFC 6040
       in this case, because there is not a one-to-one mapping between inner
       and outer packets.</t>
 
@@ -948,7 +949,7 @@
 
       <?rfc include='reference.RFC.7296'?>
 
-      <?rfc include='reference.RFC.6830'?>
+      <?rfc include='reference.RFC.9300'?>
 
       <?rfc include='reference.RFC.7059'?>
 
@@ -976,7 +977,7 @@
 
       <?rfc include='reference.I-D.ietf-intarea-tunnels'?>
 
-      <?rfc include='reference.RFC.8229'?>
+      <?rfc include='reference.RFC.9329'?>
 
       <?rfc include='reference.RFC.8300'?>
 
