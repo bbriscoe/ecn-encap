@@ -947,7 +947,7 @@ has to be fed back from destination to source.-->
             lower layer protocol.<vspace blankLines="1"/>This ensures that
             bulk congestion monitoring of outer headers (e.g. by a network
             management node monitoring ECN in passing frames) will measure
-            congestion accumulated along the whole upstream path - since the
+            congestion accumulated along the whole upstream path &mdash; since the
             Load Regulator not just since the ingress of the subnet. A node
             that is not the Load Regulator SHOULD NOT re-initialize the level
             of CE markings in the outer to zero. <vspace blankLines="1"/>It
@@ -1292,7 +1292,7 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
       headers, and possibly encrypted.</t>
 
       <t>QCN (also known as backward congestion notification, BCN; see
-      Sections 30-33 of <xref target="IEEE802.1Q"/>; previously known as
+      Sections 30&ndash;33 of <xref target="IEEE802.1Q"/>; previously known as
       802.1Qau) uses a feed-backward mode structurally similar to ATM's
       relative rate mechanism. However, QCN confines its applicability to
       scenarios such as some data centres where all endpoints are directly
@@ -1506,7 +1506,7 @@ start of its segment.-->
                  target="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061">
         <front>
           <title>IEEE Standard for Local and Metropolitan Area
-          Networks&mdash;Virtual Bridged Local Area Networks - Amendment 13:
+          Networks&mdash;Virtual Bridged Local Area Networks&mdash;Amendment 13:
           Congestion Notification</title>
 
           <author fullname="Norm Finn" initials="N" role="editor"
@@ -1727,7 +1727,7 @@ start of its segment.-->
         </front>
 
         <seriesInfo name="Bell Systems Technical Journal"
-                    value="32(2):406--424"/>
+                    value="32(2):406&ndash;424"/>
       </reference>
     </references>
 
@@ -1745,8 +1745,8 @@ start of its segment.-->
       <t>Thanks to Gorry Fairhurst and David Black for extensive reviews.
       Thanks also to the following reviewers: Joe Touch, Andrew McGregor,
       Richard Scheffenegger, Ingemar Johansson, Piers O'Hanlon, Donald
-      Eastlake, Jonathan Morton, Markku Kojo, Michael Welzl and Sebastian
-      Moeller, who pointed out that lower layer congestion notification
+      Eastlake, Jonathan Morton, Markku Kojo, Sebastian M&ouml;ller and
+      Michael Welzl, who pointed out that lower layer congestion notification
       signals may have different semantics to those in IP. Thanks are also due
       to the tsvwg chairs, TSV ADs and IETF liaison people such as Eric Gray,
       Dan Romascanu and Gonzalo Camarillo for helping with the liaisons with
