@@ -273,7 +273,7 @@ experienced' status code to each layer interface.--></t>
             <t>RFC 8311 suggests using the ECT(1) codepoint of the ECN field
             to indicate alternative semantics such as for the experimental Low
             Latency Low Loss Scalable throughput (L4S) service <xref
-            target="I-D.ietf-tsvwg-ecn-l4s-id"/>).</t>
+            target="RFC9331"/>).</t>
           </list></t>
 
         <t>The aim is that the default rules for encapsulating and
@@ -306,12 +306,12 @@ experienced' status code to each layer interface.--></t>
         <t>The guidelines in this document do ensure that common encapsulation
         and decapsulation rules are sufficiently generic to cover cases where
         ECT(1) is used instead of ECT(0) to identify alternative ECN semantics
-        (as in L4S <xref target="I-D.ietf-tsvwg-ecn-l4s-id"/>) and where ECN
-        marking algorithms use ECT(1) to encode 3 severity levels into the ECN
-        field (e.g. PCN <xref target="RFC6660"/>) rather than the default of
-        2. All these different semantics for the ECN field work because it has
-        been possible to define common default decapsulation rules that allow
-        for all cases.</t>
+        (as in L4S <xref target="RFC9331"/>) and where ECN marking algorithms
+        use ECT(1) to encode 3 severity levels into the ECN field (e.g. PCN
+        <xref target="RFC6660"/>) rather than the default of 2. All these
+        different semantics for the ECN field work because it has been
+        possible to define common default decapsulation rules that allow for
+        all cases.</t>
 
         <t>Note that the guidelines in this document do not necessarily
         require the subnet wire protocol to be changed to add support for
@@ -759,7 +759,7 @@ has to be fed back from destination to source.-->
         recent ones e.g. Geneve <xref target="RFC8926"/> and Generic UDP
         Encapsulation (GUE) <xref target="I-D.ietf-intarea-gue"/> cite and
         follow RFC 6040. And some earlier ones, e.g. CAPWAP <xref
-        target="RFC5415"/> and LISP <xref target="RFC6830"/>, cite RFC 3168,
+        target="RFC5415"/> and LISP <xref target="RFC9300"/>, cite RFC 3168,
         which is compatible with RFC 6040.</t>
 
         <t>However, as <xref section="9.3" target="RFC3168"/> pointed out, ECN
@@ -1465,8 +1465,6 @@ start of its segment.-->
 
       <?rfc include="reference.RFC.6660" ?>
 
-      <?rfc include="reference.RFC.6830" ?>
-
       <?rfc include="reference.RFC.7323" ?>
 
       <?rfc include="reference.RFC.7348" ?>
@@ -1493,11 +1491,13 @@ start of its segment.-->
 
       <?rfc include="reference.RFC.8926" ?>
 
+      <?rfc include="reference.RFC.9300" ?>
+
+      <?rfc include="reference.RFC.9331" ?>
+
       <?rfc include="reference.I-D.ietf-intarea-gue" ?>
 
       <?rfc include="reference.I-D.ietf-trill-ecn-support" ?>
-
-      <?rfc include="reference.I-D.ietf-tsvwg-ecn-l4s-id" ?>
 
       <?rfc include="reference.I-D.ietf-tsvwg-rfc6040update-shim" ?>
 
