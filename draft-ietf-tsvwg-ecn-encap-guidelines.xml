@@ -42,12 +42,13 @@
 <!-- HTML formatting control -->
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="bcp" docName="draft-ietf-tsvwg-ecn-encap-guidelines-18" ipr="pre5378Trust200902" updates="3819" obsoletes="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="bcp" consensus="true" docName="draft-ietf-tsvwg-ecn-encap-guidelines-19" ipr="pre5378Trust200902" updates="3819" obsoletes="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 3.18.0 -->
   <front>
     <title abbrev="ECN Encapsulation Guidelines">Guidelines for Adding
     Congestion Notification to Protocols that Encapsulate IP</title>
-    <seriesInfo name="Internet-Draft" value="draft-ietf-tsvwg-ecn-encap-guidelines-18"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-tsvwg-ecn-encap-guidelines-19"/>
+    <seriesInfo name="BCP" value="89"/>
     <author fullname="Bob Briscoe" initials="B." surname="Briscoe">
       <organization>Independent</organization>
       <address>
@@ -92,7 +93,7 @@
       non-IP-aware congested nodes up to the transport layer (L4). Following
       these guidelines should assure interworking among IP layer and lower
       layer congestion notification mechanisms, whether specified by the IETF
-      or other standards bodies. This document updates the advice to
+      or other standards bodies. This document is included in BCP 89 and updates the advice to
       subnetwork designers about ECN in RFC 3819.</t>
     </abstract>
   </front>
@@ -155,7 +156,7 @@ experienced' status code to each layer interface.-->
       well-provisioned interior switches will need to signal episodes of
       queuing.</t>
       <t>Propagation of ECN is defined for MPLS <xref target="RFC5129" format="default"/>, and
-      is being defined for TRILL <xref target="RFC7780" format="default"/>, <xref target="I-D.ietf-trill-ecn-support" format="default"/>, but it remains to be defined for
+      has been defined for TRILL <xref target="RFC7780" format="default"/>, <xref target="I-D.ietf-trill-ecn-support" format="default"/>, but it remains to be defined for
       a number of other subnetwork technologies.</t>
       <t>Similarly, ECN propagation is yet to be defined for many tunnelling
       protocols. <xref target="RFC6040" format="default"/> defines how ECN should be propagated
@@ -1203,7 +1204,7 @@ start of its segment.-->
       concerns. Experimental or proposed approaches exist for assuring the
       end-to-end integrity of in-band congestion signals, e.g.:</t>
       <ul spacing="normal">
-        <li>Congestion exposure (ConEx ) for networks to audit that their
+        <li>Congestion exposure (ConEx) for networks to audit that their
           congestion signals are not being suppressed by other networks or by
           receivers, and for networks to police that senders are responding
           sufficiently to the signals, irrespective of the L4 transport
@@ -2040,8 +2041,8 @@ start of its segment.-->
       specifications that cite ECN specifications.</t>
       <t>Bob Briscoe was part-funded by the European Community under its
       Seventh Framework Programme through the Trilogy project (ICT-216372) for
-      initial drafts and through the Reducing Internet Transport Latency
-      (RITE) project (ICT-317700) subsequently. The views expressed here are
+      initial drafts then through the Reducing Internet Transport Latency
+      (RITE) project (ICT-317700), and for final drafts (from -18) he was funded by Apple Inc. The views expressed here are
       solely those of the authors.</t>
     </section>
     <section numbered="false" toc="default">
