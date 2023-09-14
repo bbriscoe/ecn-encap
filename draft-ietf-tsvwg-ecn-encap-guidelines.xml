@@ -1,5 +1,14 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?xml version='1.0' encoding="US-ASCII"?>
+<!DOCTYPE rfc [
+  <!ENTITY nbsp    "&#160;">
+  <!ENTITY ouml     "&#246;">
+  <!ENTITY zwsp   "&#8203;">
+  <!ENTITY nbhy   "&#8209;">
+  <!ENTITY wj     "&#8288;">
+  <!ENTITY ndash     "&#8211;">
+  <!ENTITY mdash     "&#8212;">
+
+]>
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!-- Alterations to I-D/RFC boilerplate -->
 <?rfc private="" ?>
@@ -33,71 +42,47 @@
 <!-- HTML formatting control -->
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
-<rfc category="bcp" docName="draft-ietf-tsvwg-ecn-encap-guidelines-18"
-     ipr="pre5378Trust200902" updates="3819">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="bcp" docName="draft-ietf-tsvwg-ecn-encap-guidelines-18" ipr="pre5378Trust200902" updates="3819" obsoletes="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
+  <!-- xml2rfc v2v3 conversion 3.18.0 -->
   <front>
     <title abbrev="ECN Encapsulation Guidelines">Guidelines for Adding
     Congestion Notification to Protocols that Encapsulate IP</title>
-
+    <seriesInfo name="Internet-Draft" value="draft-ietf-tsvwg-ecn-encap-guidelines-18"/>
     <author fullname="Bob Briscoe" initials="B." surname="Briscoe">
       <organization>Independent</organization>
-
       <address>
         <postal>
           <street/>
-
           <country>UK</country>
         </postal>
-
         <email>ietf@bobbriscoe.net</email>
-
         <uri>http://bobbriscoe.net/</uri>
       </address>
     </author>
-
-    <author fullname="John Kaippallimalil" initials="J."
-            surname="Kaippallimalil">
+    <author fullname="John Kaippallimalil" initials="J." surname="Kaippallimalil">
       <organization>Futurewei</organization>
-
       <address>
         <postal>
           <street>5700 Tennyson Parkway, Suite 600</street>
-
           <city>Plano</city>
-
           <region>Texas</region>
-
           <code>75024</code>
-
           <country>USA</country>
         </postal>
-
         <email>kjohn@futurewei.com</email>
       </address>
     </author>
-
     <date year=""/>
-
     <area>Transport</area>
-
     <workgroup>Transport Area Working Group</workgroup>
-
     <keyword>Congestion Control and Management</keyword>
-
     <keyword>Congestion Notification</keyword>
-
     <keyword>Information Security</keyword>
-
     <keyword>Tunnelling</keyword>
-
     <keyword>Encapsulation &amp; Decapsulation</keyword>
-
     <keyword>Protocol</keyword>
-
     <keyword>ECN</keyword>
-
     <keyword>Layering</keyword>
-
     <abstract>
       <t>The purpose of this document is to guide the design of congestion
       notification in any lower layer or tunnelling protocol that encapsulates
@@ -111,15 +96,15 @@
       subnetwork designers about ECN in RFC 3819.</t>
     </abstract>
   </front>
-
   <!-- ================================================================ -->
 
   <middle>
     <!-- ================================================================ -->
 
-    <section anchor="ecnencap_Introduction" title="Introduction">
+    <section anchor="ecnencap_Introduction" numbered="true" toc="default">
+      <name>Introduction</name>
       <t>The benefits of Explicit Congestion Notification (ECN) described in
-      <xref target="RFC8087"/> and summarized below can only be fully realized
+      <xref target="RFC8087" format="default"/> and summarized below can only be fully realized
       if support for ECN is added to the relevant subnetwork technology, as
       well as to IP. When a lower layer buffer drops a packet obviously it
       does not just drop at that layer; the packet disappears from all layers.
@@ -133,68 +118,57 @@
       ECN-aware, or if the ultimate receiver or sender is not ECN-aware,
       congestion needs to be indicated by dropping a packet, not marking
       it.</t>
-
       <t>The purpose of this document is to guide the addition of congestion
       notification to any subnet technology or tunnelling protocol, so that
       lower layer AQM algorithms can signal congestion explicitly and it will
       propagate consistently into encapsulated (higher layer) headers,
       otherwise the signals will not reach their ultimate destination.</t>
-
-      <t>ECN is defined in the IP header (v4 and v6) <xref target="RFC3168"/>
+      <t>ECN is defined in the IP header (v4 and v6) <xref target="RFC3168" format="default"/>
       to allow a resource to notify the onset of queue build-up without having
       to drop packets, by explicitly marking a proportion of packets with the
       congestion experienced (CE) codepoint.<!--In the layered model of communication, each layer accepts requests to forward PDUs and eventually returns 
 a status code to the higher layer. Without ECN, each layer returns either a 'delivered' status code or an 
 implicit 'not delivered'. Explicit notification of congestion adds a useful 'delivered but congestion 
-experienced' status code to each layer interface.--></t>
-
+experienced' status code to each layer interface.-->
+      </t>
       <t>Given a suitable marking scheme, ECN removes nearly all congestion
-      loss and it cuts delays for two main reasons: <list style="symbols">
-          <t>It avoids the delay when recovering from congestion losses, which
+      loss and it cuts delays for two main reasons: </t>
+      <ul spacing="normal">
+        <li>It avoids the delay when recovering from congestion losses, which
           particularly benefits small flows or real-time flows, making their
-          delivery time predictably short <xref target="RFC2884"/>;</t>
-
-          <t>As ECN is used more widely by end-systems, it will gradually
+          delivery time predictably short <xref target="RFC2884" format="default"/>;</li>
+        <li>As ECN is used more widely by end-systems, it will gradually
           remove the need to configure a degree of delay into buffers before
           they start to notify congestion (the cause of bufferbloat). This is
           because drop involves a trade-off between sending a timely signal
           and trying to avoid impairment, whereas ECN is solely a signal not
-          an impairment, so there is no harm triggering it earlier.</t>
-        </list></t>
-
+          an impairment, so there is no harm triggering it earlier.</li>
+      </ul>
       <t>Some lower layer technologies (e.g. MPLS, Ethernet) are used to form
       subnetworks with IP-aware nodes only at the edges. These networks are
       often sized so that it is rare for interior queues to overflow. However,
       until recently this was more due to the inability of TCP to saturate the
-      links. For many years, fixes such as window scaling <xref
-      target="RFC7323"/> proved hard to deploy. And the Reno variant of TCP
+      links. For many years, fixes such as window scaling <xref target="RFC7323" format="default"/> proved hard to deploy. And the Reno variant of TCP
       has remained in widespread use despite its inability to scale to high
       flow rates. However, now that modern operating systems are finally
       capable of saturating interior links, even the buffers of
       well-provisioned interior switches will need to signal episodes of
       queuing.</t>
-
-      <t>Propagation of ECN is defined for MPLS <xref target="RFC5129"/>, and
-      is being defined for TRILL <xref target="RFC7780"/>, <xref
-      target="I-D.ietf-trill-ecn-support"/>, but it remains to be defined for
+      <t>Propagation of ECN is defined for MPLS <xref target="RFC5129" format="default"/>, and
+      is being defined for TRILL <xref target="RFC7780" format="default"/>, <xref target="I-D.ietf-trill-ecn-support" format="default"/>, but it remains to be defined for
       a number of other subnetwork technologies.</t>
-
       <t>Similarly, ECN propagation is yet to be defined for many tunnelling
-      protocols. <xref target="RFC6040"/> defines how ECN should be propagated
-      for IP-in-IPv4 <xref target="RFC2003"/>, IP-in-IPv6 <xref
-      target="RFC2473"/> and IPsec <xref target="RFC4301"/> tunnels, but there
+      protocols. <xref target="RFC6040" format="default"/> defines how ECN should be propagated
+      for IP-in-IPv4 <xref target="RFC2003" format="default"/>, IP-in-IPv6 <xref target="RFC2473" format="default"/> and IPsec <xref target="RFC4301" format="default"/> tunnels, but there
       are numerous other tunnelling protocols with a shim and/or a layer 2
       header between two IP headers (v4 or v6). Some address ECN propagation
       between the IP headers, but many do not. This document gives guidance on
       how to address ECN propagation for future tunnelling protocols, and a
-      companion standards track specification <xref
-      target="I-D.ietf-tsvwg-rfc6040update-shim"/> updates those existing
+      companion standards track specification <xref target="I-D.ietf-tsvwg-rfc6040update-shim" format="default"/> updates those existing
       IP-shim-(L2)-IP protocols that are under IETF change control and still
       widely used.</t>
-
       <t>Incremental deployment is the most delicate aspect when adding
-      support for ECN. The original ECN protocol in IP <xref
-      target="RFC3168"/> was carefully designed so that a congested buffer
+      support for ECN. The original ECN protocol in IP <xref target="RFC3168" format="default"/> was carefully designed so that a congested buffer
       would not mark a packet (rather than drop it) unless both source and
       destination hosts were ECN-capable. Otherwise its congestion markings
       would never be detected and congestion would just build up further.
@@ -209,7 +183,6 @@ experienced' status code to each layer interface.--></t>
       given later require protocol designers to carefully consider incremental
       deployment, and suggest various safe approaches for different
       circumstances.</t>
-
       <t>Of course, the IETF does not have standards authority over every link
       layer protocol. So this document gives guidelines for designing
       propagation of congestion notification across the interface between IP
@@ -220,81 +193,76 @@ experienced' status code to each layer interface.--></t>
       Nonetheless, if the guidelines are followed, congestion notification
       should interwork between different technologies, using IP in its role as
       a 'portability layer'.</t>
-
       <t>Therefore, the capitalized terms 'SHOULD' or 'SHOULD NOT' are often
       used in preference to 'MUST' or 'MUST NOT', because it is difficult to
       know the compromises that will be necessary in each protocol design. If
       a particular protocol design chooses not to follow a 'SHOULD (NOT)'
       given in the advice below, it MUST include a sound justification.</t>
-
       <t>It has not been possible to give common guidelines for all lower
       layer technologies, because they do not all fit a common pattern.
       Instead they have been divided into a few distinct modes of operation:
       feed-forward-and-upward; feed-upward-and-forward; feed-backward; and
-      null mode. These modes are described in <xref target="ecnencap_Modes"/>,
+      null mode. These modes are described in <xref target="ecnencap_Modes" format="default"/>,
       then in the subsequent sections separate guidelines are given for each
       mode.</t>
-
-      <section title="Update to RFC 3819">
+      <section numbered="true" toc="default">
+        <name>Update to RFC 3819</name>
         <t>This document updates the brief advice to subnetwork designers
-        about ECN in <xref section="13" target="RFC3819"/>, by replacing the
-        last two paragraphs with the following sentence:<list style="empty">
-            <t>By following the guidelines in [this document], subnetwork
+        about ECN in <xref section="13" target="RFC3819" format="default"/>, by replacing the
+        last two paragraphs with the following sentence:</t>
+        <ul empty="true" spacing="normal">
+          <li>By following the guidelines in [this document], subnetwork
             designers can enable a layer-2 protocol to participate in
             congestion control without dropping packets via propagation of
-            explicit congestion notification (ECN <xref target="RFC3168"/>) to
-            receivers.</t>
-          </list>and adding [this document] as an informative reference. {RFC
+            explicit congestion notification (ECN <xref target="RFC3168" format="default"/>) to
+            receivers.</li>
+        </ul>
+        <t>and adding [this document] as an informative reference. {RFC
         Editor: Please replace both instances of [this document] above with
         the number of the present RFC when published.}</t>
       </section>
-
-      <section anchor="ecnencap_Scope" title="Scope">
+      <section anchor="ecnencap_Scope" numbered="true" toc="default">
+        <name>Scope</name>
         <t>This document only concerns wire protocol processing of explicit
         notification of congestion. It makes no changes or recommendations
         concerning algorithms for congestion marking or for congestion
         response, because algorithm issues should be independent of the layer
         the algorithm operates in.</t>
-
-        <t>The default ECN semantics are described in <xref target="RFC3168"/>
-        and updated by <xref target="RFC8311"/>. Also the guidelines for AQM
-        designers <xref target="RFC7567"/> clarify the semantics of both drop
-        and ECN signals from AQM algorithms. <xref target="RFC4774"/> is the
+        <t>The default ECN semantics are described in <xref target="RFC3168" format="default"/>
+        and updated by <xref target="RFC8311" format="default"/>. Also the guidelines for AQM
+        designers <xref target="RFC7567" format="default"/> clarify the semantics of both drop
+        and ECN signals from AQM algorithms. <xref target="RFC4774" format="default"/> is the
         appropriate best current practice specification of how algorithms with
         alternative semantics for the ECN field can be partitioned from
         Internet traffic that uses the default ECN semantics. There are two
         main examples for how alternative ECN semantics have been defined in
-        practice:<list style="symbols">
-            <t>RFC 4774 suggests using the ECN field in combination with a
-            Diffserv codepoint such as in PCN <xref target="RFC6660"/>, Voice
-            over 3G <xref target="UTRAN"/> or Voice over LTE (VoLTE) <xref
-            target="LTE-RA"/>;</t>
-
-            <t>RFC 8311 suggests using the ECT(1) codepoint of the ECN field
+        practice:</t>
+        <ul spacing="normal">
+          <li>RFC 4774 suggests using the ECN field in combination with a
+            Diffserv codepoint such as in PCN <xref target="RFC6660" format="default"/>, Voice
+            over 3G <xref target="UTRAN" format="default"/> or Voice over LTE (VoLTE) <xref target="LTE-RA" format="default"/>;</li>
+          <li>RFC 8311 suggests using the ECT(1) codepoint of the ECN field
             to indicate alternative semantics such as for the experimental Low
-            Latency Low Loss Scalable throughput (L4S) service <xref
-            target="RFC9331"/>).</t>
-          </list></t>
-
+            Latency Low Loss Scalable throughput (L4S) service <xref target="RFC9331" format="default"/>).</li>
+        </ul>
         <t>The aim is that the default rules for encapsulating and
         decapsulating the ECN field are sufficiently generic that tunnels and
         subnets will encapsulate and decapsulate packets without regard to how
         algorithms elsewhere are setting or interpreting the semantics of the
-        ECN field. <xref target="RFC6040"/> updates RFC 4774 to allow
+        ECN field. <xref target="RFC6040" format="default"/> updates RFC 4774 to allow
         alternative encapsulation and decapsulation behaviours to be defined
         for alternative ECN semantics. However it reinforces the same point -
         that it is far preferable to try to fit within the common ECN
         encapsulation and decapsulation behaviours, because expecting all
         lower layer technologies and tunnels to be updated is likely to be
         completely impractical.</t>
-
         <t>Alternative semantics for the ECN field can be defined to depend on
         the traffic class indicated by the DSCP. Therefore correct propagation
         of congestion signals could depend on correct propagation of the DSCP
         between the layers and along the path. For instance, if the meaning of
         the ECN field depends on the DSCP (as in PCN or VoLTE) and if the
         outer DSCP is stripped on descapsulation, as in the pipe model of
-        <xref target="RFC2983"/>, the special semantics of the ECN field would
+        <xref target="RFC2983" format="default"/>, the special semantics of the ECN field would
         be lost. Similarly, if the DSCP is changed at the boundary between
         Diffserv domains, the special ECN semantics would also be lost. This
         is an important implication of the localized scope of most Diffserv
@@ -302,49 +270,46 @@ experienced' status code to each layer interface.--></t>
         information is assumed, while what 'correct' means and how it is
         achieved is covered elsewhere (e.g. RFC 2983) and is outside the scope
         of the present document.</t>
-
         <t>The guidelines in this document do ensure that common encapsulation
         and decapsulation rules are sufficiently generic to cover cases where
         ECT(1) is used instead of ECT(0) to identify alternative ECN semantics
-        (as in L4S <xref target="RFC9331"/>) and where ECN marking algorithms
+        (as in L4S <xref target="RFC9331" format="default"/>) and where ECN marking algorithms
         use ECT(1) to encode 3 severity levels into the ECN field (e.g. PCN
-        <xref target="RFC6660"/>) rather than the default of 2. All these
+        <xref target="RFC6660" format="default"/>) rather than the default of 2. All these
         different semantics for the ECN field work because it has been
         possible to define common default decapsulation rules that allow for
         all cases.</t>
-
         <t>Note that the guidelines in this document do not necessarily
         require the subnet wire protocol to be changed to add support for
         congestion notification. For instance, the Feed-Up-and-Forward Mode
-        (<xref target="ecnencap_Up"/>) and the Null Mode (<xref
-        target="ecnencap_Null"/>) do not. Another way to add congestion
+        (<xref target="ecnencap_Up" format="default"/>) and the Null Mode (<xref target="ecnencap_Null" format="default"/>) do not. Another way to add congestion
         notification without consuming header space in the subnet protocol
         might be to use a parallel control plane protocol.</t>
-
         <t>This document focuses on the congestion notification interface
         between IP and lower layer or tunnel protocols that can encapsulate
         IP, where the term 'IP' includes v4 or v6, unicast, multicast or
         anycast. However, it is likely that the guidelines will also be useful
         when a lower layer protocol or tunnel encapsulates itself, e.g.
-        Ethernet MAC in MAC (<xref target="IEEE802.1Q"/>; previously 802.1ah)
+        Ethernet MAC in MAC (<xref target="IEEE802.1Q" format="default"/>; previously 802.1ah)
         or when it encapsulates other protocols. In the feed-backward mode,
         propagation of congestion signals for multicast and anycast packets is
         out-of-scope (because the complexity would make it unlikely to be
         attempted).</t>
       </section>
     </section>
-
     <!-- ================================================================ -->
 
-    <section anchor="ecnencap_Reqs_Language" title="Terminology">
+    <section anchor="ecnencap_Reqs_Language" numbered="true" toc="default">
+      <name>Terminology</name>
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-      document are to be interpreted as described in <xref target="RFC2119"/>
-      <xref target="RFC8174"/> when, and only when, they appear in all
+      document are to be interpreted as described in <xref target="RFC2119" format="default"/>
+        <xref target="RFC8174" format="default"/> when, and only when, they appear in all
       capitals, as shown here.</t>
-
-      <t>Further terminology used within this document:<list style="hanging">
-          <t hangText="Protocol data unit (PDU):">Information that is
+      <t>Further terminology used within this document:</t>
+      <dl newline="false" spacing="normal">
+        <dt>Protocol data unit (PDU):</dt>
+        <dd>Information that is
           delivered as a unit among peer entities of a layered network
           consisting of protocol control information (typically a header) and
           possibly user data (payload) of that layer. The scope of this
@@ -352,105 +317,105 @@ experienced' status code to each layer interface.--></t>
           respectively termed a frame or a packet (or a cell in ATM). PDU is a
           general term for any of these. This definition also includes a
           payload with a shim header lying somewhere between layer 2 and
-          3.</t>
-
-          <t hangText="Transport:">The end-to-end transmission control
+          3.</dd>
+        <dt>Transport:</dt>
+        <dd>The end-to-end transmission control
           function, conventionally considered at layer-4 in the OSI reference
           model. Given the audience for this document will often use the word
           transport to mean low level bit carriage, whenever the term is used
-          it will be qualified, e.g. 'L4 transport'.</t>
-
-          <t hangText="Encapsulator:">The link or tunnel endpoint function
+          it will be qualified, e.g. 'L4 transport'.</dd>
+        <dt>Encapsulator:</dt>
+        <dd>The link or tunnel endpoint function
           that adds an outer header to a PDU (also termed the 'link ingress',
           the 'subnet ingress', the 'ingress tunnel endpoint' or just the
-          'ingress' where the context is clear).</t>
-
-          <t hangText="Decapsulator:">The link or tunnel endpoint function
+          'ingress' where the context is clear).</dd>
+        <dt>Decapsulator:</dt>
+        <dd>The link or tunnel endpoint function
           that removes an outer header from a PDU (also termed the 'link
           egress', the 'subnet egress', the 'egress tunnel endpoint' or just
-          the 'egress' where the context is clear).</t>
-
-          <t hangText="Incoming header:">The header of an arriving PDU before
-          encapsulation.</t>
-
-          <t hangText="Outer header:">The header added to encapsulate a
-          PDU.</t>
-
-          <t hangText="Inner header:">The header encapsulated by the outer
-          header.</t>
-
-          <t hangText="Outgoing header:">The header forwarded by the
-          decapsulator.</t>
-
-          <t hangText="CE:">Congestion Experienced <xref
-          target="RFC3168"/></t>
-
-          <t hangText="ECT:">ECN-Capable (L4) Transport <xref
-          target="RFC3168"/></t>
-
-          <t hangText="Not-ECT:">Not ECN-Capable (L4) Transport <xref
-          target="RFC3168"/></t>
-
-          <t hangText="Load Regulator:">For each flow of PDUs, the transport
+          the 'egress' where the context is clear).</dd>
+        <dt>Incoming header:</dt>
+        <dd>The header of an arriving PDU before
+          encapsulation.</dd>
+        <dt>Outer header:</dt>
+        <dd>The header added to encapsulate a
+          PDU.</dd>
+        <dt>Inner header:</dt>
+        <dd>The header encapsulated by the outer
+          header.</dd>
+        <dt>Outgoing header:</dt>
+        <dd>The header forwarded by the
+          decapsulator.</dd>
+        <dt>CE:</dt>
+        <dd>Congestion Experienced <xref target="RFC3168" format="default"/></dd>
+        <dt>ECT:</dt>
+        <dd>ECN-Capable (L4) Transport <xref target="RFC3168" format="default"/></dd>
+        <dt>Not-ECT:</dt>
+        <dd>Not ECN-Capable (L4) Transport <xref target="RFC3168" format="default"/></dd>
+        <dt>Load Regulator:</dt>
+        <dd>For each flow of PDUs, the transport
           function that is capable of controlling the data rate. Typically
           located at the data source, but in-path nodes can regulate load in
           some congestion control arrangements (e.g. admission control,
-          policing nodes or transport circuit-breakers <xref
-          target="RFC8084"/>). Note the term "a function capable of
+          policing nodes or transport circuit-breakers <xref target="RFC8084" format="default"/>). Note the term "a function capable of
           controlling the load" deliberately includes a transport that does
           not actually control the load responsively but ideally it ought to
           (e.g. a sending application without congestion control that uses
-          UDP).</t>
-
-          <t hangText="ECN-PDU:">A PDU at the IP layer or below with a
+          UDP).</dd>
+        <dt>ECN-PDU:</dt>
+        <dd>A PDU at the IP layer or below with a
           capacity to signal congestion that is part of a congestion control
           feedback loop within which all the nodes necessary to propagate the
           signal back to the Load Regulator are capable of doing that
           propagation. An IP packet with a non-zero ECN field implies that the
           endpoints are ECN-capable, so this would be an ECN-PDU. However,
           ECN-PDU is intended to be a general term for a PDU at lower layers,
-          as well as at the IP layer.</t>
-
-          <t hangText="Not-ECN-PDU:">A PDU at the IP layer or below that is
+          as well as at the IP layer.</dd>
+        <dt>Not-ECN-PDU:</dt>
+        <dd>A PDU at the IP layer or below that is
           part of a congestion control feedback-loop within which at least one
           node necessary to propagate any explicit congestion notification
           signals back to the Load Regulator is not capable of doing that
-          propagation.</t>
-        </list></t>
+          propagation.</dd>
+      </dl>
     </section>
-
-    <section anchor="ecnencap_Modes" title="Modes of Operation">
+    <section anchor="ecnencap_Modes" numbered="true" toc="default">
+      <name>Modes of Operation</name>
       <t>This section sets down the different modes by which congestion
       information is passed between the lower layer and the higher one. It
       acts as a reference framework for the following sections, which give
       normative guidelines for designers of explicit congestion notification
-      protocols, taking each mode in turn:<list style="hanging">
-          <t hangText="Feed-Forward-and-Up:">Nodes feed forward congestion
+      protocols, taking each mode in turn:</t>
+      <dl newline="false" spacing="normal">
+        <dt>Feed-Forward-and-Up:</dt>
+        <dd>
+          <t>Nodes feed forward congestion
           notification towards the egress within the lower layer then up and
           along the layers towards the end-to-end destination at the transport
-          layer. The following local optimisation is possible:<list
-              style="hanging">
-              <t hangText="Feed-Up-and-Forward:">A lower layer switch feeds-up
+          layer. The following local optimisation is possible:</t>
+          <dl newline="false" spacing="normal">
+            <dt>Feed-Up-and-Forward:</dt>
+            <dd>A lower layer switch feeds-up
               congestion notification directly into the higher layer (e.g.
               into the ECN field in the IP header), irrespective of whether
-              the node is at the egress of a subnet.</t>
-            </list></t>
-
-          <t hangText="Feed-Backward:">Nodes feed back congestion signals
+              the node is at the egress of a subnet.</dd>
+          </dl>
+        </dd>
+        <dt>Feed-Backward:</dt>
+        <dd>Nodes feed back congestion signals
           towards the ingress of the lower layer and (optionally) attempt to
-          control congestion within their own layer.</t>
-
-          <t hangText="Null:">Nodes cannot experience congestion at the lower
+          control congestion within their own layer.</dd>
+        <dt>Null:</dt>
+        <dd>Nodes cannot experience congestion at the lower
           layer except at ingress nodes (which are IP-aware or equivalently
-          higher-layer-aware).</t>
-        </list></t>
-
-      <section anchor="ecnencap_Forward" title="Feed-Forward-and-Up Mode">
+          higher-layer-aware).</dd>
+      </dl>
+      <section anchor="ecnencap_Forward" numbered="true" toc="default">
+        <name>Feed-Forward-and-Up Mode</name>
         <t>Like IP and MPLS, many subnet technologies are based on
         self-contained protocol data units (PDUs) or frames sent unreliably.
         They provide no feedback channel at the subnetwork layer, instead
         relying on higher layers (e.g. TCP) to feed back loss signals.</t>
-
         <t>In these cases, ECN may best be supported by standardising explicit
         notification of congestion into the lower layer protocol that carries
         the data forwards. Then a specification is needed for how the egress
@@ -460,11 +425,8 @@ experienced' status code to each layer interface.--></t>
         typically the destination will feed this congestion notification back
         to the source transport using an end-to-end protocol (e.g. TCP). This
         is the arrangement that has already been used to add ECN to IP-in-IP
-        tunnels <xref target="RFC6040"/>, IP-in-MPLS and MPLS-in-MPLS <xref
-        target="RFC5129"/>.</t>
-
-        <t>This mode is illustrated in <xref
-        target="ecnencap_Fig_Feed-Forward-and-Up"/>. Along the middle of the
+        tunnels <xref target="RFC6040" format="default"/>, IP-in-MPLS and MPLS-in-MPLS <xref target="RFC5129" format="default"/>.</t>
+        <t>This mode is illustrated in <xref target="ecnencap_Fig_Feed-Forward-and-Up" format="default"/>. Along the middle of the
         figure, layers 2, 3 and 4 of the protocol stack are shown, and one
         packet is shown along the bottom as it progresses across the network
         from source to destination, crossing two subnets connected by a
@@ -479,19 +441,16 @@ experienced' status code to each layer interface.--></t>
         new L2 header it copies the L3 marking into the L2 header as well, as
         shown by the 'C's in both layers (assuming the technology of subnet 2
         also supports explicit congestion marking).</t>
-
         <t>Note that there is no implication that each 'C' marking is encoded
         the same; a different encoding might be used for the 'C' marking in
         each protocol.</t>
-
         <t>Finally, for completeness, we show the L3 marking arriving at the
         destination, where the host transport protocol (e.g. TCP) feeds it
         back to the source in the L4 acknowledgement (the 'C' at L4 in the
         packet at the top of the diagram).</t>
-
-        <figure align="center" anchor="ecnencap_Fig_Feed-Forward-and-Up"
-                title="Feed-Forward-and-Up Mode">
-          <artwork><![CDATA[                     _ _ _ 
+        <figure anchor="ecnencap_Fig_Feed-Forward-and-Up">
+          <name>Feed-Forward-and-Up Mode</name>
+          <artwork name="" type="" align="left" alt=""><![CDATA[                     _ _ _ 
           /_______  | | |C|  ACK Packet (V)
           \         |_|_|_|
  +---+        layer: 2 3 4 header                            +---+
@@ -508,18 +467,15 @@ experienced' status code to each layer interface.--></t>
  layer: 4 3 2A      4 3 2A      4 3           4 3 2B
  header]]></artwork>
         </figure>
-
         <t>Of course, modern networks are rarely as simple as this text-book
         example, often involving multiple nested layers. For example, a 3GPP
-        mobile network may have two IP-in-IP (GTP <xref target="GTPv1"/>)
+        mobile network may have two IP-in-IP (GTP <xref target="GTPv1" format="default"/>)
         tunnels in series and an MPLS backhaul between the base station and
         the first router. Nonetheless, the example illustrates the general
         idea of feeding congestion notification forward then upward whenever a
         header is removed at the egress of a subnet.</t>
-
-        <t>Note that the FECN (forward ECN ) bit in Frame Relay <xref
-        target="Buck00"/> and the explicit forward congestion indication (EFCI
-        <xref target="ITU-T.I.371"/>) bit in ATM user data cells follow a
+        <t>Note that the FECN (forward ECN ) bit in Frame Relay <xref target="Buck00" format="default"/> and the explicit forward congestion indication (EFCI
+        <xref target="ITU-T.I.371" format="default"/>) bit in ATM user data cells follow a
         feed-forward pattern. However, in ATM, this arrangement is only part
         of a feed-forward-and-backward pattern at the lower layer, not
         feed-forward-and-up out of the lower layer &mdash; the intention was
@@ -527,24 +483,22 @@ experienced' status code to each layer interface.--></t>
         Frame Relay FECN is solely used to detect where more capacity should
         be provisioned.</t>
       </section>
-
-      <section anchor="ecnencap_Up" title="Feed-Up-and-Forward Mode">
+      <section anchor="ecnencap_Up" numbered="true" toc="default">
+        <name>Feed-Up-and-Forward Mode</name>
         <t>Ethernet is particularly difficult to extend incrementally to
         support explicit congestion notification. One way to support ECN in
         such cases has been to use so called 'layer-3 switches'. These are
         Ethernet switches that dig into the Ethernet payload to find an IP
         header and manipulate or act on certain IP fields (specifically
-        Diffserv &amp; ECN). For instance, in Data Center TCP <xref
-        target="RFC8257"/>, layer-3 switches are configured to mark the ECN
+        Diffserv &amp; ECN). For instance, in Data Center TCP <xref target="RFC8257" format="default"/>, layer-3 switches are configured to mark the ECN
         field of the IP header within the Ethernet payload when their output
         buffer becomes congested. With respect to switching, a layer-3 switch
         acts solely on the addresses in the Ethernet header; it does not use
         IP addresses, and it does not decrement the TTL field in the IP
         header.</t>
-
-        <figure align="center" anchor="ecnencap_Fig_Feed-Up"
-                title="Feed-Up-and-Forward Mode">
-          <artwork><![CDATA[                     _ _ _ 
+        <figure anchor="ecnencap_Fig_Feed-Up">
+          <name>Feed-Up-and-Forward Mode</name>
+          <artwork name="" type="" align="left" alt=""><![CDATA[                     _ _ _ 
           /_______  | | |C|  ACK packet (V)
           \         |_|_|_|
  +---+        layer: 2 3 4 header                            +---+
@@ -561,9 +515,7 @@ experienced' status code to each layer interface.--></t>
  layer: 4 3 2       4 3 2       4 3           4 3 2
  header]]></artwork>
         </figure>
-
-        <t>By comparing <xref target="ecnencap_Fig_Feed-Up"/> with <xref
-        target="ecnencap_Fig_Feed-Forward-and-Up"/>, it can be seen that
+        <t>By comparing <xref target="ecnencap_Fig_Feed-Up" format="default"/> with <xref target="ecnencap_Fig_Feed-Forward-and-Up" format="default"/>, it can be seen that
         subnet E (perhaps a subnet of layer-3 Ethernet switches) works in
         feed-up-and-forward mode by notifying congestion directly into L3 at
         the point of congestion, even though the congested switch does not
@@ -571,13 +523,12 @@ experienced' status code to each layer interface.--></t>
         MPLS) does support ECN natively, so when the router adds the layer-2
         header it copies the ECN marking from L3 to L2 as well.</t>
       </section>
-
-      <section anchor="ecnencap_Backward" title="Feed-Backward Mode">
+      <section anchor="ecnencap_Backward" numbered="true" toc="default">
+        <name>Feed-Backward Mode</name>
         <t>In some layer 2 technologies, explicit congestion notification has
         been defined for use internally within the subnet with its own
         feedback and load regulation, but typically the interface with IP for
         ECN has not been defined.</t>
-
         <t>For instance, for the available bit-rate (ABR) service in ATM, the
         relative rate mechanism was one of the more popular mechanisms for
         managing traffic, tending to supersede earlier designs. In this
@@ -586,13 +537,11 @@ experienced' status code to each layer interface.--></t>
         of user data into a virtual circuit. If a switch buffer is approaching
         congestion or is congested it sends an RM cell back towards the
         ingress with respectively the No Increase (NI) or Congestion
-        Indication (CI) bit set in its message type field <xref
-        target="ATM-TM-ABR"/>. The ingress then holds or decreases its sending
+        Indication (CI) bit set in its message type field <xref target="ATM-TM-ABR" format="default"/>. The ingress then holds or decreases its sending
         bit-rate accordingly.</t>
-
-        <figure align="center" anchor="ecnencap_Fig_Feed-Backward"
-                title="Feed-Backward Mode">
-          <artwork><![CDATA[                     _ _ _ 
+        <figure anchor="ecnencap_Fig_Feed-Backward">
+          <name>Feed-Backward Mode</name>
+          <artwork name="" type="" align="left" alt=""><![CDATA[                     _ _ _ 
           /_______  | | |C|  ACK packet (X)
           \         |_|_|_|
  +---+        layer: 2 3 4 header                            +---+
@@ -619,17 +568,15 @@ layer:  4 3 2       4 3 2       4 3           4 3 2
 header
 ]]></artwork>
         </figure>
-
         <t>ATM's feed-backward approach does not fit well when layered beneath
         IP's feed-forward approach &mdash; unless the initial data source is
         the same node as the ATM ingress. <!--(which would be the case if ATM had achieved its aspiration of becoming the global internetwork standard, 
-rather than just a subnetwork technology)--><xref
-        target="ecnencap_Fig_Feed-Backward"/> shows the feed-backward approach
+rather than just a subnetwork technology)-->
+          <xref target="ecnencap_Fig_Feed-Backward" format="default"/> shows the feed-backward approach
         being used in subnet H. If the final switch on the path is congested
         (*), it does not feed-forward any congestion indications on packet
         (U). Instead it sends a control cell (V) back to the router at the ATM
         ingress.</t>
-
         <t>However, the backward feedback does not reach the original data
         source directly because IP does not support backward feedback (and
         subnet G is independent of subnet H). Instead, the router in the
@@ -641,109 +588,97 @@ rather than just a subnetwork technology)--><xref
         is not triggered directly by the backward signal. Rather, it is
         triggered by congestion resulting from the middle router's mismatched
         rate response to the backward signal.</t>
-
         <t>In response to this later forward signalling, end-to-end feedback
         at layer-4 finally completes the tortuous path of congestion
         indications back to the origin data source, as before.</t>
-
-        <t>Quantized congestion notification (QCN <xref target="IEEE802.1Q"/>)
+        <t>Quantized congestion notification (QCN <xref target="IEEE802.1Q" format="default"/>)
         would suffer from similar problems if extended to multiple subnets.
         However, from the start QCN was clearly characterized as solely
-        applicable to a single subnet (see <xref
-        target="ecnencap_Guidelines_Backward"/>).</t>
-
+        applicable to a single subnet (see <xref target="ecnencap_Guidelines_Backward" format="default"/>).</t>
         <!--To summarise so far, feeding congestion notification backwards can reach the source faster, but only 
 if the congested subnet is directly connected to the original data source. In a more general case, 
 feedback takes a tortuous path part-way backwards, which can lead to queuing at the higher layer in 
 the middle of the network, which can in turn trigger a much-delayed feed-forward signal, which then 
 has to be fed back from destination to source.-->
       </section>
-
-      <section anchor="ecnencap_Null" title="Null Mode">
+      <section anchor="ecnencap_Null" numbered="true" toc="default">
+        <name>Null Mode</name>
         <t>Often link and physical layer resources are 'non-blocking' by
         design. In these cases congestion notification may be implemented but
         it does not need to be deployed at the lower layer; ECN in IP would be
         sufficient.</t>
-
         <t>A degenerate example is a point-to-point Ethernet link. Excess
         loading of the link merely causes the queue from the higher layer to
         back up, while the lower layer remains immune to congestion. Even a
         whole meshed subnetwork can be made immune to interior congestion by
         limiting ingress capacity and sufficient sizing of interior links,
-        e.g. a non-blocking fat-tree network <xref target="Leiserson85"/>. An
+        e.g. a non-blocking fat-tree network <xref target="Leiserson85" format="default"/>. An
         alternative to fat links near the root is numerous thin links with
         multi-path routing to ensure even worst-case patterns of load cannot
-        congest any link, e.g. a Clos network <xref target="Clos53"/>.</t>
+        congest any link, e.g. a Clos network <xref target="Clos53" format="default"/>.</t>
       </section>
     </section>
-
-    <section anchor="ecnencap_Guidelines_Forward"
-             title="Feed-Forward-and-Up Mode: Guidelines for Adding Congestion Notification">
+    <section anchor="ecnencap_Guidelines_Forward" numbered="true" toc="default">
+      <name>Feed-Forward-and-Up Mode: Guidelines for Adding Congestion Notification</name>
       <t>Feed-forward-and-up is the mode already used for signalling ECN up
-      the layers through MPLS into IP <xref target="RFC5129"/> and through
-      IP-in-IP tunnels <xref target="RFC6040"/>, whether encapsulating with
-      IPv4 <xref target="RFC2003"/>, IPv6 <xref target="RFC2473"/> or IPsec
-      <xref target="RFC4301"/>. These RFCs take a consistent approach and the
+      the layers through MPLS into IP <xref target="RFC5129" format="default"/> and through
+      IP-in-IP tunnels <xref target="RFC6040" format="default"/>, whether encapsulating with
+      IPv4 <xref target="RFC2003" format="default"/>, IPv6 <xref target="RFC2473" format="default"/> or IPsec
+      <xref target="RFC4301" format="default"/>. These RFCs take a consistent approach and the
       following guidelines are designed to ensure this consistency continues
       as ECN support is added to other protocols that encapsulate IP. The
       guidelines are also designed to ensure compliance with the more general
       best current practice for the design of alternate ECN schemes given in
-      <xref target="RFC4774"/> and extended by <xref target="RFC8311"/>.</t>
-
-      <t>The rest of this section is structured as follows:<list
-          style="symbols">
-          <t><xref target="ecnencap_IP-IP_Coupled_Shim_Tunnels"/> addresses
-          the most straightforward cases, where <xref target="RFC6040"/> can
+      <xref target="RFC4774" format="default"/> and extended by <xref target="RFC8311" format="default"/>.</t>
+      <t>The rest of this section is structured as follows:</t>
+      <ul spacing="normal">
+        <li>
+          <xref target="ecnencap_IP-IP_Coupled_Shim_Tunnels" format="default"/> addresses
+          the most straightforward cases, where <xref target="RFC6040" format="default"/> can
           be applied directly to add ECN to tunnels that are effectively
           IP-in-IP tunnels, but with shim header(s) between the IP
-          headers.</t>
-
+          headers.</li>
+        <li>
           <t>The subsequent sections give guidelines for adding ECN to a
           subnet technology that uses feed-forward-and-up mode like IP, but it
-          is not so similar to IP that <xref target="RFC6040"/> rules can be
-          applied directly. Specifically:<list style="symbols">
-              <t>Sections <xref format="counter"
-              target="ecnencap_WireProtocolECNSupport"/>, <xref
-              format="counter" target="ecnencap_EncapGuidelines"/> and <xref
-              format="counter" target="ecnencap_DecapGuidelines"/>
+          is not so similar to IP that <xref target="RFC6040" format="default"/> rules can be
+          applied directly. Specifically:</t>
+          <ul spacing="normal">
+            <li>Sections <xref format="counter" target="ecnencap_WireProtocolECNSupport"/>, <xref format="counter" target="ecnencap_EncapGuidelines"/> and <xref format="counter" target="ecnencap_DecapGuidelines"/>
               respectively address how to add ECN support to the wire protocol
               and to the encapsulators and decapsulators at the ingress and
-              egress of the subnet.</t>
-
-              <t><xref target="ecnencap_Sequences"/> deals with the special,
+              egress of the subnet.</li>
+            <li>
+              <xref target="ecnencap_Sequences" format="default"/> deals with the special,
               but common, case of sequences of tunnels or subnets that all use
-              the same technology</t>
-
-              <t><xref target="ecnencap_Reframing"/> deals with the question
+              the same technology</li>
+            <li>
+              <xref target="ecnencap_Reframing" format="default"/> deals with the question
               of reframing when IP packets do not map 1:1 into lower layer
-              frames.</t>
-            </list></t>
-        </list></t>
-
-      <section anchor="ecnencap_IP-IP_Coupled_Shim_Tunnels"
-               title="IP-in-IP Tunnels with Shim Headers">
+              frames.</li>
+          </ul>
+        </li>
+      </ul>
+      <section anchor="ecnencap_IP-IP_Coupled_Shim_Tunnels" numbered="true" toc="default">
+        <name>IP-in-IP Tunnels with Shim Headers</name>
         <t>A common pattern for many tunnelling protocols is to encapsulate an
         inner IP header with shim header(s) then an outer IP header. A shim
         header is defined as one that is not sufficient alone to forward the
         packet as an outer header. Another common pattern is for a shim to
         encapsulate a layer 2 (L2) header, which in turn encapsulates (or
-        might encapsulate) an IP header. <xref
-        target="I-D.ietf-tsvwg-rfc6040update-shim"/> clarifies that RFC 6040
+        might encapsulate) an IP header. <xref target="I-D.ietf-tsvwg-rfc6040update-shim" format="default"/> clarifies that RFC 6040
         is just as applicable when there are shim(s) and possibly a L2 header
         between two IP headers.</t>
-
         <t>However, it is not always feasible or necessary to propagate ECN
         between IP headers when separated by a shim. For instance, it might be
         too costly to dig to arbitrary depths to find an inner IP header,
         there may be little or no congestion within the tunnel by design (see
-        null mode in <xref target="ecnencap_Null"/> above), or a legacy
+        null mode in <xref target="ecnencap_Null" format="default"/> above), or a legacy
         implementation might not support ECN. In cases where a tunnel does not
         support ECN, it is important that the ingress does not copy the ECN
-        field from an inner IP header to an outer. Therefore <xref section="4"
-        target="I-D.ietf-tsvwg-rfc6040update-shim"/> requires network
+        field from an inner IP header to an outer. Therefore <xref section="4" target="I-D.ietf-tsvwg-rfc6040update-shim" format="default"/> requires network
         operators to configure the ingress of a tunnel that does not support
         ECN so that it zeros the ECN field in the outer IP header.</t>
-
         <t>Nonetheless, in many cases it is feasible to propagate the ECN
         field between IP headers separated by shim header(s) and/or a L2
         header. Particularly in the typical case when the outer IP header and
@@ -751,81 +686,61 @@ has to be fed back from destination to source.-->
         if the shim(s) encapsulate a L2 header, it is often possible to find
         an inner IP header within the L2 PDU and propagate ECN between that
         and the outer IP header. This can be thought of as a special case of
-        the feed-up-and-forward mode (<xref target="ecnencap_Up"/>), so the
-        guidelines for this mode apply (<xref
-        target="ecnencap_Guidelines_Up"/>).</t>
-
+        the feed-up-and-forward mode (<xref target="ecnencap_Up" format="default"/>), so the
+        guidelines for this mode apply (<xref target="ecnencap_Guidelines_Up" format="default"/>).</t>
         <t>Numerous shim protocols have been defined for IP tunnelling. More
-        recent ones e.g. Geneve <xref target="RFC8926"/> and Generic UDP
-        Encapsulation (GUE) <xref target="I-D.ietf-intarea-gue"/> cite and
-        follow RFC 6040. And some earlier ones, e.g. CAPWAP <xref
-        target="RFC5415"/> and LISP <xref target="RFC9300"/>, cite RFC 3168,
+        recent ones e.g. Geneve <xref target="RFC8926" format="default"/> and Generic UDP
+        Encapsulation (GUE) <xref target="I-D.ietf-intarea-gue" format="default"/> cite and
+        follow RFC 6040. And some earlier ones, e.g. CAPWAP <xref target="RFC5415" format="default"/> and LISP <xref target="RFC9300" format="default"/>, cite RFC 3168,
         which is compatible with RFC 6040.</t>
-
-        <t>However, as <xref section="9.3" target="RFC3168"/> pointed out, ECN
+        <t>However, as <xref section="9.3" target="RFC3168" format="default"/> pointed out, ECN
         support needs to be defined for many earlier shim-based tunnelling
-        protocols, e.g. L2TPv2 <xref target="RFC2661"/>, L2TPv3 <xref
-        target="RFC3931"/>, GRE <xref target="RFC2784"/>, PPTP <xref
-        target="RFC2637"/>, GTP <xref target="GTPv1"/>, <xref
-        target="GTPv1-U"/>, <xref target="GTPv2-C"/> and Teredo <xref
-        target="RFC4380"/> as well as some recent ones, e.g. VXLAN <xref
-        target="RFC7348"/>, NVGRE <xref target="RFC7637"/> and NSH <xref
-        target="RFC8300"/>.</t>
-
+        protocols, e.g. L2TPv2 <xref target="RFC2661" format="default"/>, L2TPv3 <xref target="RFC3931" format="default"/>, GRE <xref target="RFC2784" format="default"/>, PPTP <xref target="RFC2637" format="default"/>, GTP <xref target="GTPv1" format="default"/>, <xref target="GTPv1-U" format="default"/>, <xref target="GTPv2-C" format="default"/> and Teredo <xref target="RFC4380" format="default"/> as well as some recent ones, e.g. VXLAN <xref target="RFC7348" format="default"/>, NVGRE <xref target="RFC7637" format="default"/> and NSH <xref target="RFC8300" format="default"/>.</t>
         <t>All these IP-based encapsulations can be updated in one shot by
         simple reference to RFC 6040. However, it would not be appropriate to
         update all these protocols from within the present guidance document.
-        Instead a companion specification <xref
-        target="I-D.ietf-tsvwg-rfc6040update-shim"/> has been prepared that
+        Instead a companion specification <xref target="I-D.ietf-tsvwg-rfc6040update-shim" format="default"/> has been prepared that
         has the appropriate standards track status to update standards track
-        protocols. For those that are not under IETF change control <xref
-        target="I-D.ietf-tsvwg-rfc6040update-shim"/> can only recommend that
+        protocols. For those that are not under IETF change control <xref target="I-D.ietf-tsvwg-rfc6040update-shim" format="default"/> can only recommend that
         the relevant body updates them.</t>
       </section>
-
-      <section anchor="ecnencap_WireProtocolECNSupport"
-               title="Wire Protocol Design: Indication of ECN Support">
+      <section anchor="ecnencap_WireProtocolECNSupport" numbered="true" toc="default">
+        <name>Wire Protocol Design: Indication of ECN Support</name>
         <t>This section is intended to guide the redesign of any lower layer
         protocol that encapsulate IP to add native ECN support at the lower
-        layer. It reflects the approaches used in <xref target="RFC6040"/> and
-        in <xref target="RFC5129"/>. Therefore IP-in-IP tunnels or IP-in-MPLS
-        or MPLS-in-MPLS encapsulations that already comply with <xref
-        target="RFC6040"/> or <xref target="RFC5129"/> will already satisfy
+        layer. It reflects the approaches used in <xref target="RFC6040" format="default"/> and
+        in <xref target="RFC5129" format="default"/>. Therefore IP-in-IP tunnels or IP-in-MPLS
+        or MPLS-in-MPLS encapsulations that already comply with <xref target="RFC6040" format="default"/> or <xref target="RFC5129" format="default"/> will already satisfy
         this guidance.</t>
-
-        <t>A lower layer (or subnet) congestion notification system:<list
-            style="numbers">
-            <t>SHOULD NOT apply explicit congestion notifications to PDUs that
+        <t>A lower layer (or subnet) congestion notification system:</t>
+        <ol spacing="normal" type="1"><li>SHOULD NOT apply explicit congestion notifications to PDUs that
             are destined for legacy layer-4 transport implementations that
-            will not understand ECN, and</t>
-
-            <t anchor="ecnencap_Egress_Check">SHOULD NOT apply explicit
+            will not understand ECN, and</li>
+          <li anchor="ecnencap_Egress_Check">
+            <t>SHOULD NOT apply explicit
             congestion notifications to PDUs if the egress of the subnet might
             not propagate congestion notifications onward into the higher
-            layer.<vspace blankLines="1"/>We use the term ECN-PDUs for a PDU
+            layer.</t>
+            <t>We use the term ECN-PDUs for a PDU
             on a feedback loop that will propagate congestion notification
             properly because it meets both the above criteria. And a
             Not-ECN-PDU is a PDU on a feedback loop that does not meet at
             least one of the criteria, and will therefore not propagate
             congestion notification properly. A corollary of the above is that
             a lower layer congestion notification protocol:</t>
-
-            <t>SHOULD be able to distinguish ECN-PDUs from Not-ECN-PDUs.</t>
-          </list></t>
-
+          </li>
+          <li>SHOULD be able to distinguish ECN-PDUs from Not-ECN-PDUs.</li>
+        </ol>
         <t>Note that there is no need for all interior nodes within a subnet
         to be able to mark congestion explicitly. A mix of ECN and drop
-        signals from different nodes is fine. However, if <spanx style="emph">any</spanx>
-        interior nodes might generate ECN markings, guideline <xref
-        format="counter" target="ecnencap_Egress_Check"/> above says that all
+        signals from different nodes is fine. However, if <em>any</em>
+        interior nodes might generate ECN markings, guideline <xref format="counter" target="ecnencap_Egress_Check"/> above says that all
         relevant egress node(s) SHOULD be able to propagate those markings up
         to the higher layer.</t>
-
         <t>In IP, if the ECN field in each PDU is cleared to the Not-ECT (not
         ECN-capable transport) codepoint, it indicates that the L4 transport
         will not understand congestion markings. A congested buffer must not
         mark these Not-ECT PDUs, and therefore drops them instead.</t>
-
         <t>The mechanism a lower layer uses to distinguish the ECN-capability
         of PDUs need not mimic that of IP. The above guidelines merely say
         that the lower layer system, as a whole, should achieve the same
@@ -835,12 +750,9 @@ has to be fed back from destination to source.-->
         PDU can be congestion marked by checking for ECN-support in the flow
         state. Other protocols might depend on out-of-band control
         signals.</t>
-
-        <t>The per-domain checking of ECN support in MPLS <xref
-        target="RFC5129"/> is a good example of a way to avoid sending
+        <t>The per-domain checking of ECN support in MPLS <xref target="RFC5129" format="default"/> is a good example of a way to avoid sending
         congestion markings to L4 transports that will not understand them,
         without using any header space in the subnet protocol.</t>
-
         <t>In MPLS, header space is extremely limited, therefore RFC5129 does
         not provide a field in the MPLS header to indicate whether the PDU is
         an ECN-PDU or a Not-ECN-PDU. Instead, interior nodes in a domain are
@@ -855,10 +767,7 @@ has to be fed back from destination to source.-->
         packet, if the decapsulator discovers that the higher layer (inner
         header) indicates the transport is not ECN-capable, it drops the
         packet &mdash; effectively on behalf of the earlier congested node
-        (see Decapsulation Guideline <xref format="counter"
-        target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref
-        target="ecnencap_DecapGuidelines"/>).</t>
-
+        (see Decapsulation Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref target="ecnencap_DecapGuidelines" format="default"/>).</t>
         <t>It was only appropriate to define such an incremental deployment
         strategy because MPLS is targeted solely at professional operators,
         who can be expected to ensure that a whole subnetwork is consistently
@@ -870,10 +779,8 @@ has to be fed back from destination to source.-->
         matter how inconsistently a system is put together. Alternatively,
         congestion notification relying on correct system configuration could
         be confined to flavours of Ethernet intended only for professional
-        network operators, such as Provider Backbone Bridges (PBB <xref
-        target="IEEE802.1Q"/>; previously 802.1ah).</t>
-
-        <t>ECN support in TRILL <xref target="I-D.ietf-trill-ecn-support"/>
+        network operators, such as Provider Backbone Bridges (PBB <xref target="IEEE802.1Q" format="default"/>; previously 802.1ah).</t>
+        <t>ECN support in TRILL <xref target="I-D.ietf-trill-ecn-support" format="default"/>
         provides a good example of how to add ECN to a lower layer protocol
         without relying on careful and consistent operator configuration.
         TRILL provides an extension header word with space for flags of
@@ -886,167 +793,165 @@ has to be fed back from destination to source.-->
         in no particular order and, at the egress of the TRILL campus,
         congestion notification will be propagated to IP as ECN whenever ECN
         logic has been implemented, or as drop otherwise.</t>
-
-        <t>QCN <xref target="IEEE802.1Q"/> is not intended to extend beyond a
+        <t>QCN <xref target="IEEE802.1Q" format="default"/> is not intended to extend beyond a
         single subnet, or to interoperate with ECN. Nonetheless, the way QCN
         indicates to lower layer devices that the end-points will not
         understand QCN provides another example that a lower layer protocol
         designer might be able to mimic for their scenario. An operator can
-        define certain Priority Code Points (PCPs <xref target="IEEE802.1Q"/>;
+        define certain Priority Code Points (PCPs <xref target="IEEE802.1Q" format="default"/>;
         previously 802.1p) to indicate non-QCN frames and an ingress bridge is
         required to map arriving not-QCN-capable IP packets to one of these
         non-QCN PCPs.</t>
       </section>
-
-      <section anchor="ecnencap_EncapGuidelines"
-               title="Encapsulation Guidelines">
+      <section anchor="ecnencap_EncapGuidelines" numbered="true" toc="default">
+        <name>Encapsulation Guidelines</name>
         <t>This section is intended to guide the redesign of any node that
         encapsulates IP with a lower layer header when adding native ECN
         support to the lower layer protocol. It reflects the approaches used
-        in <xref target="RFC6040"/> and in <xref target="RFC5129"/>. Therefore
+        in <xref target="RFC6040" format="default"/> and in <xref target="RFC5129" format="default"/>. Therefore
         IP-in-IP tunnels or IP-in-MPLS or MPLS-in-MPLS encapsulations that
-        already comply with <xref target="RFC6040"/> or <xref
-        target="RFC5129"/> will already satisfy this guidance.<list
-            style="numbers">
+        already comply with <xref target="RFC6040" format="default"/> or <xref target="RFC5129" format="default"/> will already satisfy this guidance.</t>
+        <ol spacing="normal" type="1"><li>
             <t>Egress Capability Check: A subnet ingress needs to be sure that
             the corresponding egress of a subnet will propagate any congestion
             notification added to the outer header across the subnet. This is
             necessary in addition to checking that an incoming PDU indicates
             an ECN-capable (L4) transport. Examples of how this guarantee
-            might be provided include:<list style="symbols">
-                <t>by configuration (e.g. if any label switches in a domain
-                support ECN marking, <xref target="RFC5129"/> requires all
-                egress nodes to have been configured to propagate ECN)</t>
-
-                <t>by the ingress explicitly checking that the egress
+            might be provided include:</t>
+            <ul spacing="normal">
+              <li>by configuration (e.g. if any label switches in a domain
+                support ECN marking, <xref target="RFC5129" format="default"/> requires all
+                egress nodes to have been configured to propagate ECN)</li>
+              <li>by the ingress explicitly checking that the egress
                 propagates ECN (e.g. an early attempt to add ECN support to
                 TRILL used IS-IS to check path capabilities before adding ECN
-                extension flags to each frame <xref target="RFC7780"/>).</t>
-
-                <t>by inherent design of the protocol (e.g. by encoding ECN
+                extension flags to each frame <xref target="RFC7780" format="default"/>).</li>
+              <li>by inherent design of the protocol (e.g. by encoding ECN
                 marking on the outer header in such a way that a legacy egress
                 that does not understand ECN will consider the PDU corrupt or
                 invalid and discard it, thus at least propagating a form of
-                congestion signal).</t>
-              </list></t>
-
-            <t>Egress Fails Capability Check: If the ingress cannot guarantee
+                congestion signal).</li>
+            </ul>
+          </li>
+          <li>Egress Fails Capability Check: If the ingress cannot guarantee
             that the egress will propagate congestion notification, the
             ingress SHOULD disable ECN at the lower layer when it forwards the
             PDU. An example of how the ingress might disable ECN at the lower
             layer would be by setting the outer header of the PDU to identify
             it as a Not-ECN-PDU, assuming the subnet technology supports such
-            a concept.</t>
-
-            <t anchor="ecnencap_Encap_Copy">Standard Congestion Monitoring
+            a concept.</li>
+          <li anchor="ecnencap_Encap_Copy">
+            <t>Standard Congestion Monitoring
             Baseline: Once the ingress to a subnet has established that the
             egress will correctly propagate ECN, on encapsulation it SHOULD
             encode the same level of congestion in outer headers as is
             arriving in incoming headers. For example it might copy any
             incoming congestion notification into the outer header of the
-            lower layer protocol.<vspace blankLines="1"/>This ensures that
+            lower layer protocol.</t>
+            <t>This ensures that
             bulk congestion monitoring of outer headers (e.g. by a network
             management node monitoring ECN in passing frames) will measure
             congestion accumulated along the whole upstream path &mdash; since the
             Load Regulator not just since the ingress of the subnet. A node
             that is not the Load Regulator SHOULD NOT re-initialize the level
-            of CE markings in the outer to zero. <vspace blankLines="1"/>It
+            of CE markings in the outer to zero. </t>
+            <t>It
             would still also be possible to measure congestion introduced
             across one subnet (or tunnel) by subtracting the level of CE
             markings on inner headers from that on outer headers (see Appendix
-            C of <xref target="RFC6040"/>). For example:<list style="symbols">
-                <t>If this guideline has been followed and if the level of CE
+            C of <xref target="RFC6040" format="default"/>). For example:</t>
+            <ul spacing="normal">
+              <li>If this guideline has been followed and if the level of CE
                 markings is 0.4% on the outer and 0.1% on the inner, 0.4%
                 congestion has been introduced across all the networks since
                 the load regulator, and 0.3% (= 0.4% - 0.1%) has been
                 introduced since the ingress to the current subnet (or
-                tunnel);</t>
-
-                <t>Without this guideline, if the subnet ingress had
+                tunnel);</li>
+              <li>Without this guideline, if the subnet ingress had
                 re-initialized the outer congestion level to zero, the outer
                 and inner would measure 0.1% and 0.3%. It would still be
                 possible to infer that the congestion introduced since the
                 Load Regulator was 0.4% (= 0.1% + 0.3%). But only if the
                 monitoring system somehow knows whether the subnet ingress
-                re-initialized the congestion level.</t>
-              </list>As long as subnet and tunnel technologies use the
+                re-initialized the congestion level.</li>
+            </ul>
+            <t>As long as subnet and tunnel technologies use the
             standard congestion monitoring baseline in this guideline,
             monitoring systems will know to use the former approach, rather
             than having to "somehow know" which approach to use.<!--{If required, an example can be given of where it would be appropriate to contradict this SHOULD.
 It may be safe to assume a subnetwork technology will not span a trust boundary. 
 Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS scheme.}
 
---></t>
-          </list></t>
+-->
+            </t>
+          </li>
+        </ol>
       </section>
-
-      <section anchor="ecnencap_DecapGuidelines"
-               title="Decapsulation Guidelines">
+      <section anchor="ecnencap_DecapGuidelines" numbered="true" toc="default">
+        <name>Decapsulation Guidelines</name>
         <t>This section is intended to guide the redesign of any node that
         decapsulates IP from within a lower layer header when adding native
         ECN support to the lower layer protocol. It reflects the approaches
-        used in <xref target="RFC6040"/> and in <xref target="RFC5129"/>.
+        used in <xref target="RFC6040" format="default"/> and in <xref target="RFC5129" format="default"/>.
         Therefore IP-in-IP tunnels or IP-in-MPLS or MPLS-in-MPLS
-        encapsulations that already comply with <xref target="RFC6040"/> or
-        <xref target="RFC5129"/> will already satisfy this guidance.</t>
-
+        encapsulations that already comply with <xref target="RFC6040" format="default"/> or
+        <xref target="RFC5129" format="default"/> will already satisfy this guidance.</t>
         <t>A subnet egress SHOULD NOT simply copy congestion notification from
         outer headers to the forwarded header. It SHOULD calculate the
         outgoing congestion notification field from the inner and outer
         headers using the following guidelines. If there is any conflict,
         rules earlier in the list take precedence over rules later in the
-        list:<list style="numbers">
-            <t anchor="ecnencap_dropNot-ECTinnerCEouter">If the arriving inner
+        list:</t>
+        <ol spacing="normal" type="1"><li anchor="ecnencap_dropNot-ECTinnerCEouter">
+            <t>If the arriving inner
             header is a Not-ECN-PDU it implies the L4 transport will not
-            understand explicit congestion markings. Then:<list
-                style="symbols">
-                <t>If the outer header carries an explicit congestion marking,
+            understand explicit congestion markings. Then:</t>
+            <ul spacing="normal">
+              <li>If the outer header carries an explicit congestion marking,
                 drop is the only indication of congestion that the L4
                 transport will understand. If the congestion marking is the
                 most severe possible, the packet MUST be dropped. However, if
                 congestion can be marked with multiple levels of severity and
                 the packet's marking is not the most severe, this requirement
-                can be relaxed to: the packet SHOULD be dropped.</t>
-
-                <t>If the outer is an ECN-PDU that carries no indication of
+                can be relaxed to: the packet SHOULD be dropped.</li>
+              <li>If the outer is an ECN-PDU that carries no indication of
                 congestion or a Not-ECN-PDU the PDU SHOULD be forwarded, but
-                still as a Not-ECN-PDU.</t>
-              </list></t>
-
-            <t>If the outer header does not support explicit congestion
+                still as a Not-ECN-PDU.</li>
+            </ul>
+          </li>
+          <li>If the outer header does not support explicit congestion
             notification (a Not-ECN-PDU), but the inner header does (an
-            ECN-PDU), the inner header SHOULD be forwarded unchanged.</t>
-
-            <t>In some lower layer protocols congestion may be signalled as a
+            ECN-PDU), the inner header SHOULD be forwarded unchanged.</li>
+          <li>In some lower layer protocols congestion may be signalled as a
             numerical level, such as in the control frames of quantized
-            congestion notification (QCN <xref target="IEEE802.1Q"/>). If such
+            congestion notification (QCN <xref target="IEEE802.1Q" format="default"/>). If such
             a multi-bit encoding encapsulates an ECN-capable IP data packet, a
             function will be needed to convert the quantized congestion level
             into the frequency of congestion markings in outgoing IP
-            packets.</t>
-
+            packets.</li>
+          <li>
             <t>Congestion indications might be encoded by a severity level.
             For instance increasing levels of congestion might be encoded by
             numerically increasing indications, e.g. pre-congestion
             notification (PCN) can be encoded in each PDU at three severity
-            levels in IP or MPLS <xref target="RFC6660"/> and the default
-            encapsulation and decapsulation rules <xref target="RFC6040"/> are
-            compatible with this interpretation of the ECN field. <vspace
-            blankLines="1"/>If the arriving inner header is an ECN-PDU, where
+            levels in IP or MPLS <xref target="RFC6660" format="default"/> and the default
+            encapsulation and decapsulation rules <xref target="RFC6040" format="default"/> are
+            compatible with this interpretation of the ECN field. </t>
+            <t>If the arriving inner header is an ECN-PDU, where
             the inner and outer headers carry indications of congestion of
             different severity, the more severe indication SHOULD be forwarded
             in preference to the less severe.</t>
-
+          </li>
+          <li>
             <t>The inner and outer headers might carry a combination of
             congestion notification fields that should not be possible given
             any currently used protocol transitions. For instance, if
-            Encapsulation Guideline <xref format="counter"
-            target="ecnencap_Encap_Copy"/> in <xref
-            target="ecnencap_EncapGuidelines"/> had been followed, it should
+            Encapsulation Guideline <xref format="counter" target="ecnencap_Encap_Copy"/> in <xref target="ecnencap_EncapGuidelines" format="default"/> had been followed, it should
             not be possible to have a less severe indication of congestion in
             the outer than in the inner. It MAY be appropriate to log
             unexpected combinations of headers and possibly raise an alarm.
-            <vspace blankLines="1"/>If a safe outgoing codepoint can be
+            </t>
+            <t>If a safe outgoing codepoint can be
             defined for such a PDU, the PDU SHOULD be forwarded rather than
             dropped. Some implementers discard PDUs with currently unused
             combinations of headers just in case they represent an attack.
@@ -1054,15 +959,14 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
             preferable to hard-coded drop, so that operators can keep track of
             possible attacks but currently unused combinations are not
             precluded from future use through new standards actions.</t>
-          </list></t>
+          </li>
+        </ol>
       </section>
-
-      <section anchor="ecnencap_Sequences"
-               title="Sequences of Similar Tunnels or Subnets">
+      <section anchor="ecnencap_Sequences" numbered="true" toc="default">
+        <name>Sequences of Similar Tunnels or Subnets</name>
         <t>In some deployments, particularly in 3GPP networks, an IP packet
         may traverse two or more IP-in-IP tunnels in sequence that all use
         identical technology (e.g. GTP).</t>
-
         <t>In such cases, it would be sufficient for every encapsulation and
         decapsulation in the chain to comply with RFC 6040. Alternatively, as
         an optimisation, a node that decapsulates a packet and immediately
@@ -1071,7 +975,6 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
         directly to the outgoing inner. Then the overall behavior across the
         sequence of tunnel segments would still be consistent with RFC
         6040.</t>
-
         <t>Appendix C of RFC6040 describes how a tunnel egress can monitor how
         much congestion has been introduced within a tunnel. A network
         operator might want to monitor how much congestion had been introduced
@@ -1082,18 +985,15 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
         as a single tunnel. Therefore, tunnel endpoint implementations SHOULD
         allow the operator to configure whether this optimisation is
         enabled.</t>
-
         <t>When ECN support is added to a subnet technology, consideration
         SHOULD be given to a similar optimisation between subnets in sequence
         if they all use the same technology.</t>
       </section>
-
-      <section anchor="ecnencap_Reframing"
-               title="Reframing and Congestion Markings">
+      <section anchor="ecnencap_Reframing" numbered="true" toc="default">
+        <name>Reframing and Congestion Markings</name>
         <t>The guidance in this section is worded in terms of framing
         boundaries, but it applies equally whether the protocol data units are
         frames, cells or packets.</t>
-
         <t>Where an AQM marks the ECN field of IP packets as they queue into a
         layer-2 link, there will be no problem with framing boundaries,
         because the ECN markings would be applied directly to IP packets. The
@@ -1101,74 +1001,62 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
         being added to a layer-2 protocol so that layer-2 frames can be
         ECN-marked by an AQM at layer-2. This would only be necessary where
         AQM will be applied at pure layer-2 nodes (without IP-awareness).</t>
-
         <t>Where ECN marking has had to be applied at non-IP-aware nodes and
         framing boundaries do not necessarily align with packet boundaries,
         the decapsulating IP forwarding node SHOULD propagate ECN markings
         from layer-2 frame headers to IP packets that may have different
         boundaries as a consequence of reframing.</t>
-
         <t>Two possible design goals for propagating congestion indications,
-        described in <xref section="5.3" target="RFC3168"/> and <xref
-        section="2.4" target="RFC7141"/>, are:<list style="numbers">
-            <t anchor="ecnencap_reframing_goal_presence">approximate
+        described in <xref section="5.3" target="RFC3168" format="default"/> and <xref section="2.4" target="RFC7141" format="default"/>, are:</t>
+        <ol spacing="normal" type="1"><li anchor="ecnencap_reframing_goal_presence">approximate
             preservation of the presence (and therefore timing) of congestion
-            marks on the L2 frames used to construct an IP packet;</t>
-
-            <t anchor="ecnencap_reframing_goal_proportion"><list
-                style="letters">
-                <t>at high frequency of congestion marking, approximate
+            marks on the L2 frames used to construct an IP packet;</li>
+          <li anchor="ecnencap_reframing_goal_proportion">
+            <ol spacing="normal" type="a"><li>at high frequency of congestion marking, approximate
                 preservation of the proportion of congestion marks arriving
-                and departing;</t>
-
-                <t>at low frequency of congestion marking, approximate
+                and departing;</li>
+              <li>at low frequency of congestion marking, approximate
                 preservation of the timing of congestion marks arriving and
-                departing.</t>
-              </list></t>
-          </list></t>
-
+                departing.</li>
+            </ol>
+          </li>
+        </ol>
         <t>In either case, an implementation SHOULD ensure that any new
         incoming congestion indication is propagated immediately, not held
         awaiting the possibility of further congestion indications to be
-        sufficient to indicate congestion on an outgoing PDU <xref
-        target="RFC7141"/>. Nonetheless, to facilitate pipelined
+        sufficient to indicate congestion on an outgoing PDU <xref target="RFC7141" format="default"/>. Nonetheless, to facilitate pipelined
         implementation, it would be acceptable for congestion marks to
         propagate to a slightly later IP packet.</t>
-
-        <t>At decapsulation in either case:<list style="symbols">
-            <t>ECN marking propagation logically occurs before application of
-            Decapsulation Guideline <xref format="counter"
-            target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref
-            target="ecnencap_DecapGuidelines"/>. For instance, if ECN marking
+        <t>At decapsulation in either case:</t>
+        <ul spacing="normal">
+          <li>ECN marking propagation logically occurs before application of
+            Decapsulation Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref target="ecnencap_DecapGuidelines" format="default"/>. For instance, if ECN marking
             propagation would cause an ECN congestion indication to be applied
             to an IP packet that is a Not-ECN-PDU, then that IP packet is
-            dropped in accordance with Guideline <xref format="counter"
-            target="ecnencap_dropNot-ECTinnerCEouter"/>;</t>
-
-            <t>if a mix of frames with different types of ECN capability
+            dropped in accordance with Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/>;</li>
+          <li>if a mix of frames with different types of ECN capability
             arrives to construct the same IP packet, that packet MUST be
             discarded. This requirement uses the generalization 'types of ECN
             capability', because the L2 ECN protocol might not map exactly to
             the three types in IP, which are Not-ECN-capable, ECT(0) and
-            ECT(1) <xref target="RFC8311"/>.</t>
-          </list></t>
-
-        <t>The following are two ways that goal <xref format="counter"
-        target="ecnencap_reframing_goal_presence"/> might be achieved, but
-        they are not intended to be the only ways:<list style="symbols">
-            <t>Every IP PDU that is constructed, in whole or in part, from an
+            ECT(1) <xref target="RFC8311" format="default"/>.</li>
+        </ul>
+        <t>The following are two ways that goal <xref format="counter" target="ecnencap_reframing_goal_presence"/> might be achieved, but
+        they are not intended to be the only ways:</t>
+        <ul spacing="normal">
+          <li>Every IP PDU that is constructed, in whole or in part, from an
             L2 frame that is marked with a congestion signal, has that signal
-            propagated to it;</t>
-
-            <t>Every L2 frame that is marked with a congestion signal,
+            propagated to it;</li>
+          <li>Every L2 frame that is marked with a congestion signal,
             propagates that signal to one IP PDU which is constructed, in
             whole or in part, from it. If multiple IP PDUs meet this
             description, the choice can be made arbitrarily but ought to be
-            consistent.</t>
-          </list>The following gives one way that goal <xref format="counter"
-        target="ecnencap_reframing_goal_proportion"/> might be achieved, but
-        it is not intended to be the only way:<list style="symbols">
-            <t>For each of the streams of frames encapsulating IP packets of
+            consistent.</li>
+        </ul>
+        <t>The following gives one way that goal <xref format="counter" target="ecnencap_reframing_goal_proportion"/> might be achieved, but
+        it is not intended to be the only way:</t>
+        <ul spacing="normal">
+          <li>For each of the streams of frames encapsulating IP packets of
             each IP-ECN codepoint, a counter ('in') tracks octets arriving
             within the payload of marked L2 frames and another ('out') tracks
             octets departing in marked IP packets. While 'in' exceeds 'out',
@@ -1177,84 +1065,73 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
             the start of the next congestion episode propagates immediately.
             The 'out' counter includes octets in reconstructed IP packets that
             would have been marked, but had to be dropped because they were
-            Not-ECN-PDUs (by Decapsulation Guideline <xref format="counter"
-            target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref
-            target="ecnencap_DecapGuidelines"/>).</t>
-          </list>Generally, the number of L2 frames may be higher (e.g. ATM),
+            Not-ECN-PDUs (by Decapsulation Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref target="ecnencap_DecapGuidelines" format="default"/>).</li>
+        </ul>
+        <t>Generally, the number of L2 frames may be higher (e.g. ATM),
         similar to, or lower (e.g. 802.11 aggregation at a L2-only station)
         than the number of IP PDUs, and this distinction may influence the
         choice of mechanism.</t>
       </section>
     </section>
-
-    <section anchor="ecnencap_Guidelines_Up"
-             title="Feed-Up-and-Forward Mode: Guidelines for Adding Congestion Notification">
+    <section anchor="ecnencap_Guidelines_Up" numbered="true" toc="default">
+      <name>Feed-Up-and-Forward Mode: Guidelines for Adding Congestion Notification</name>
       <t>The guidance in this section is applicable, for example, when IP
-      packets:<list style="symbols">
-          <t>are encapsulated in Ethernet headers, which have no support for
-          ECN;</t>
-
-          <t>are forwarded by the eNode-B (base station) of a 3GPP radio
+      packets:</t>
+      <ul spacing="normal">
+        <li>are encapsulated in Ethernet headers, which have no support for
+          ECN;</li>
+        <li>are forwarded by the eNode-B (base station) of a 3GPP radio
           access network, which is required to apply ECN marking during
-          congestion, <xref target="LTE-RA"/>, <xref target="UTRAN"/>, but the
+          congestion, <xref target="LTE-RA" format="default"/>, <xref target="UTRAN" format="default"/>, but the
           Packet Data Convergence Protocol (PDCP) that encapsulates the IP
-          header over the radio access has no support for ECN.</t>
-        </list>This guidance also generalizes to encapsulation by other subnet
+          header over the radio access has no support for ECN.</li>
+      </ul>
+      <t>This guidance also generalizes to encapsulation by other subnet
       technologies with no native support for explicit congestion notification
       at the lower layer, but with support for finding and processing an IP
       header. It is unlikely to be applicable or necessary for IP-in-IP
-      encapsulation, where feed-forward-and-up mode based on <xref
-      target="RFC6040"/> would be more appropriate.</t>
-
+      encapsulation, where feed-forward-and-up mode based on <xref target="RFC6040" format="default"/> would be more appropriate.</t>
       <t>Marking the IP header while switching at layer-2 (by using a layer-3
       switch) or while forwarding in a radio access network seems to represent
       a layering violation. However, it can be considered as a benign
       optimisation if the guidelines below are followed. Feed-up-and-forward
       is certainly not a general alternative to implementing feed-forward
-      congestion notification in the lower layer, because:<list
-          style="symbols">
-          <t>IPv4 and IPv6 are not the only layer-3 protocols that might be
-          encapsulated by lower layer protocols</t>
-
-          <t>Link-layer encryption might be in use, making the layer-2 payload
-          inaccessible</t>
-
-          <t>Many Ethernet switches do not have 'layer-3 switch' capabilities
-          so they cannot read or modify an IP payload</t>
-
-          <t>It might be costly to find an IP header (v4 or v6) when it may be
+      congestion notification in the lower layer, because:</t>
+      <ul spacing="normal">
+        <li>IPv4 and IPv6 are not the only layer-3 protocols that might be
+          encapsulated by lower layer protocols</li>
+        <li>Link-layer encryption might be in use, making the layer-2 payload
+          inaccessible</li>
+        <li>Many Ethernet switches do not have 'layer-3 switch' capabilities
+          so they cannot read or modify an IP payload</li>
+        <li>It might be costly to find an IP header (v4 or v6) when it may be
           encapsulated by more than one lower layer header, e.g. Ethernet MAC
-          in MAC (<xref target="IEEE802.1Q"/>; previously 802.1ah).</t>
-        </list></t>
-
+          in MAC (<xref target="IEEE802.1Q" format="default"/>; previously 802.1ah).</li>
+      </ul>
       <t>Nonetheless, configuring lower layer equipment to look for an ECN
       field in an encapsulated IP header is a useful optimisation. If the
       implementation follows the guidelines below, this optimisation does not
       have to be confined to a controlled environment such as within a data
       centre; it could usefully be applied on any network &mdash; even if the
-      operator is not sure whether the above issues will never apply:<list
-          style="numbers">
-          <t>If a native lower-layer congestion notification mechanism exists
+      operator is not sure whether the above issues will never apply:</t>
+      <ol spacing="normal" type="1"><li>If a native lower-layer congestion notification mechanism exists
           for a subnet technology, it is safe to mix feed-up-and-forward with
           feed-forward-and-up on other switches in the same subnet. However,
-          it will generally be more efficient to use the native mechanism.</t>
-
-          <t>The depth of the search for an IP header SHOULD be limited. If an
+          it will generally be more efficient to use the native mechanism.</li>
+        <li>The depth of the search for an IP header SHOULD be limited. If an
           IP header is not found soon enough, or an unrecognized or unreadable
           header is encountered, the switch SHOULD resort to an alternative
           means of signalling congestion (e.g. drop, or the native lower layer
-          mechanism if available).</t>
-
-          <t>It is sufficient to use the first IP header found in the stack;
+          mechanism if available).</li>
+        <li>It is sufficient to use the first IP header found in the stack;
           the egress of the relevant tunnel can propagate congestion
           notification upwards to any more deeply encapsulated IP headers
-          later.</t>
-        </list></t>
+          later.</li>
+      </ol>
     </section>
-
-    <section anchor="ecnencap_Guidelines_Backward"
-             title="Feed-Backward Mode: Guidelines for Adding Congestion Notification">
-      <t>It can be seen from <xref target="ecnencap_Backward"/> that
+    <section anchor="ecnencap_Guidelines_Backward" numbered="true" toc="default">
+      <name>Feed-Backward Mode: Guidelines for Adding Congestion Notification</name>
+      <t>It can be seen from <xref target="ecnencap_Backward" format="default"/> that
       congestion notification in a subnet using feed-backward mode has
       generally not been designed to be directly coupled with IP layer
       congestion notification. The subnet attempts to minimize congestion
@@ -1264,14 +1141,14 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
       mode subnet, in that there is no need for any direct interaction between
       the subnet and higher layer congestion notification. Therefore no
       detailed protocol design guidelines are appropriate. Nonetheless, a more
-      general guideline is appropriate: <list style="empty">
-          <t>A subnetwork technology intended to eventually interface to IP
+      general guideline is appropriate: </t>
+      <ul empty="true" spacing="normal">
+        <li>A subnetwork technology intended to eventually interface to IP
           SHOULD NOT be designed using only the feed-backward mode, which is
           certainly best for a stand-alone subnet, but would need to be
           modified to work efficiently as part of the wider Internet, because
-          IP uses feed-forward-and-up mode.</t>
-        </list></t>
-
+          IP uses feed-forward-and-up mode.</li>
+      </ul>
       <t>The feed-backward approach at least works beneath IP, where the term
       'works' is used only in a narrow functional sense because feed-backward
       can result in very inefficient and sluggish congestion control &mdash;
@@ -1280,27 +1157,24 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
       valid to design a protocol that could work in feed-backward mode for
       paths that only cross one subnet, and in feed-forward-and-up mode for
       paths that cross subnets.</t>
-
       <t>In the early days of TCP/IP, a similar feed-backward approach was
       tried for explicit congestion signalling, using source-quench (SQ) ICMP
       control packets. However, SQ fell out of favour and is now formally
-      deprecated <xref target="RFC6633"/>. The main problem was that it is
+      deprecated <xref target="RFC6633" format="default"/>. The main problem was that it is
       hard for a data source to tell the difference between a spoofed SQ
       message and a quench request from a genuine buffer on the path. It is
       also hard for a lower layer buffer to address an SQ message to the
       original source port number, which may be buried within many layers of
       headers, and possibly encrypted.</t>
-
       <t>QCN (also known as backward congestion notification, BCN; see
-      Sections 30&ndash;33 of <xref target="IEEE802.1Q"/>; previously known as
+      Sections 30&ndash;33 of <xref target="IEEE802.1Q" format="default"/>; previously known as
       802.1Qau) uses a feed-backward mode structurally similar to ATM's
       relative rate mechanism. However, QCN confines its applicability to
       scenarios such as some data centres where all endpoints are directly
       attached by the same Ethernet technology. If a QCN subnet were later
       connected into a wider IP-based internetwork (e.g. when attempting to
       interconnect multiple data centres) it would suffer the inefficiency
-      shown in <xref target="ecnencap_Fig_Feed-Backward"/>.</t>
-
+      shown in <xref target="ecnencap_Fig_Feed-Backward" format="default"/>.</t>
       <!--{ToDo - either make this a separate case, move it to modes, or delete it} 
 In some circumstances (e.g. pseudowire emulations with link-local flow control), the whole 
 path is divided into segments, each with its own congestion notification and feedback loop. 
@@ -1308,183 +1182,644 @@ In these cases, the function that regulates load at the start of each segment wi
 reset congestion notification (i.e. clear any accumulated congestion notifications) at the 
 start of its segment.-->
     </section>
-
     <!-- ================================================================ -->
 
-    <section anchor="ecnencap_IANA_Considerations" removeInRFC="true"
-             title="IANA Considerations">
+    <section anchor="ecnencap_IANA_Considerations" removeInRFC="true" numbered="true" toc="default">
+      <name>IANA Considerations</name>
       <t>This memo includes no request to IANA.</t>
     </section>
-
     <!-- ================================================================ -->
 
-    <section anchor="ecnencap_Security_Considerations"
-             title="Security Considerations">
+    <section anchor="ecnencap_Security_Considerations" numbered="true" toc="default">
+      <name>Security Considerations</name>
       <t>If a lower layer wire protocol is redesigned to include explicit
       congestion signalling in-band in the protocol header, care SHOULD be
       take to ensure that the field used is specified as mutable during
       transit. Otherwise interior nodes signalling congestion would invalidate
       any authentication protocol applied to the lower layer header &mdash; by
       altering a header field that had been assumed as immutable.</t>
-
       <t>The redesign of protocols that encapsulate IP in order to propagate
       congestion signals between layers raises potential signal integrity
       concerns. Experimental or proposed approaches exist for assuring the
-      end-to-end integrity of in-band congestion signals, e.g.:<list
-          style="symbols">
-          <t>Congestion exposure (ConEx ) for networks to audit that their
+      end-to-end integrity of in-band congestion signals, e.g.:</t>
+      <ul spacing="normal">
+        <li>Congestion exposure (ConEx ) for networks to audit that their
           congestion signals are not being suppressed by other networks or by
           receivers, and for networks to police that senders are responding
           sufficiently to the signals, irrespective of the L4 transport
-          protocol used <xref target="RFC7713"/>.</t>
-
-          <t>A test for a sender to detect whether a network or the receiver
-          is suppressing congestion signals (for example see 2nd para of <xref
-          section="20.2" target="RFC3168"/>).</t>
-        </list>Given these end-to-end approaches are already being specified,
+          protocol used <xref target="RFC7713" format="default"/>.</li>
+        <li>A test for a sender to detect whether a network or the receiver
+          is suppressing congestion signals (for example see 2nd para of <xref section="20.2" target="RFC3168" format="default"/>).</li>
+      </ul>
+      <t>Given these end-to-end approaches are already being specified,
       it would make little sense to attempt to design hop-by-hop congestion
       signal integrity into a new lower layer protocol, because end-to-end
       integrity inherently achieves hop-by-hop integrity.</t>
-
-      <t><xref target="ecnencap_Guidelines_Backward"/> gives vulnerability to
+      <t><xref target="ecnencap_Guidelines_Backward" format="default"/> gives vulnerability to
       spoofing as one of the reasons for deprecating feed-backward mode.</t>
     </section>
-
     <!-- ================================================================ -->
 
-    <section anchor="ecnencap_Conclusions" title="Conclusions">
+    <section anchor="ecnencap_Conclusions" numbered="true" toc="default">
+      <name>Conclusions</name>
       <t>Following the guidance in this document enables ECN support to be
       extended to numerous protocols that encapsulate IP (v4 &amp; v6) in a
       consistent way, so that IP continues to fulfil its role as an end-to-end
-      interoperability layer. This includes:<list style="symbols">
-          <t>A wide range of tunnelling protocols including those with various
+      interoperability layer. This includes:</t>
+      <ul spacing="normal">
+        <li>A wide range of tunnelling protocols including those with various
           forms of shim header between two IP headers, possibly also separated
-          by a L2 header;</t>
-
-          <t>A wide range of subnet technologies, particularly those that work
+          by a L2 header;</li>
+        <li>A wide range of subnet technologies, particularly those that work
           in the same 'feed-forward-and-up' mode that is used to support ECN
-          in IP and MPLS.</t>
-        </list></t>
-
+          in IP and MPLS.</li>
+      </ul>
       <t>Guidelines have been defined for supporting propagation of ECN
       between Ethernet and IP on so-called Layer-3 Ethernet switches, using a
       'feed-up-and-forward' mode. This approach could enable other subnet
       technologies to pass ECN signals into the IP layer, even if they do not
       support ECN natively.</t>
-
       <t>Finally, attempting to add ECN to a subnet technology in
       feed-backward mode is deprecated except in special cases, due to its
       likely sluggish response to congestion.</t>
     </section>
   </middle>
-
   <back>
     <!-- ================================================================ -->
 
-    <references title="Normative References">
-      <?rfc include="reference.RFC.2119" ?>
-
-      <?rfc include="reference.RFC.3168" ?>
-
-      <?rfc include="reference.RFC.3819" ?>
-
-      <?rfc include="reference.RFC.4774" ?>
-
-      <?rfc include="reference.RFC.5129" ?>
-
-      <?rfc include="reference.RFC.6040" ?>
-
-      <?rfc include="reference.RFC.7141" ?>
-    </references>
-
-    <references title="Informative References">
-      <?rfc include="reference.RFC.2003" ?>
-
-      <?rfc include="reference.RFC.2473" ?>
-
-      <?rfc include="reference.RFC.2637" ?>
-
-      <?rfc include="reference.RFC.2661" ?>
-
-      <?rfc include="reference.RFC.2784" ?>
-
-      <?rfc include="reference.RFC.2884" ?>
-
-      <?rfc include="reference.RFC.2983" ?>
-
-      <?rfc include="reference.RFC.3931" ?>
-
-      <?rfc include="reference.RFC.4301" ?>
-
-      <?rfc include="reference.RFC.4380" ?>
-
-      <?rfc include="reference.RFC.5415" ?>
-
-      <?rfc include="reference.RFC.6633" ?>
-
-      <?rfc include="reference.RFC.6660" ?>
-
-      <?rfc include="reference.RFC.7323" ?>
-
-      <?rfc include="reference.RFC.7348" ?>
-
-      <?rfc include="reference.RFC.7780" ?>
-
-      <?rfc include="reference.RFC.7567" ?>
-
-      <?rfc include="reference.RFC.7637" ?>
-
-      <?rfc include="reference.RFC.7713" ?>
-
-      <?rfc include="reference.RFC.8084" ?>
-
-      <?rfc include="reference.RFC.8087" ?>
-
-      <?rfc include="reference.RFC.8174" ?>
-
-      <?rfc include="reference.RFC.8257" ?>
-
-      <?rfc include="reference.RFC.8300" ?>
-
-      <?rfc include="reference.RFC.8311" ?>
-
-      <?rfc include="reference.RFC.8926" ?>
-
-      <?rfc include="reference.RFC.9300" ?>
-
-      <?rfc include="reference.RFC.9331" ?>
-
-      <?rfc include="reference.I-D.ietf-intarea-gue" ?>
-
-      <?rfc include="reference.I-D.ietf-trill-ecn-support" ?>
-
-      <?rfc include="reference.I-D.ietf-tsvwg-rfc6040update-shim" ?>
-
-      <reference anchor="IEEE802.1Q"
-                 target="https://ieeexplore.ieee.org/document/8403927">
-        <front>
-          <title>IEEE Standard for Local and Metropolitan Area
+    <references>
+      <name>References</name>
+      <references>
+        <name>Normative References</name>
+        <reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+          <front>
+            <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+            <author fullname="S. Bradner" initials="S." surname="Bradner"/>
+            <date month="March" year="1997"/>
+            <abstract>
+              <t>In many standards track documents several words are used to signify the requirements in the specification. These words are often capitalized. This document defines these words as they should be interpreted in IETF documents. This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="14"/>
+          <seriesInfo name="RFC" value="2119"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2119"/>
+        </reference>
+        <reference anchor="RFC3168" target="https://www.rfc-editor.org/info/rfc3168" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3168.xml">
+          <front>
+            <title>The Addition of Explicit Congestion Notification (ECN) to IP</title>
+            <author fullname="K. Ramakrishnan" initials="K." surname="Ramakrishnan"/>
+            <author fullname="S. Floyd" initials="S." surname="Floyd"/>
+            <author fullname="D. Black" initials="D." surname="Black"/>
+            <date month="September" year="2001"/>
+            <abstract>
+              <t>This memo specifies the incorporation of ECN (Explicit Congestion Notification) to TCP and IP, including ECN's use of two bits in the IP header. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="3168"/>
+          <seriesInfo name="DOI" value="10.17487/RFC3168"/>
+        </reference>
+        <reference anchor="RFC3819" target="https://www.rfc-editor.org/info/rfc3819" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3819.xml">
+          <front>
+            <title>Advice for Internet Subnetwork Designers</title>
+            <author fullname="P. Karn" initials="P." role="editor" surname="Karn"/>
+            <author fullname="C. Bormann" initials="C." surname="Bormann"/>
+            <author fullname="G. Fairhurst" initials="G." surname="Fairhurst"/>
+            <author fullname="D. Grossman" initials="D." surname="Grossman"/>
+            <author fullname="R. Ludwig" initials="R." surname="Ludwig"/>
+            <author fullname="J. Mahdavi" initials="J." surname="Mahdavi"/>
+            <author fullname="G. Montenegro" initials="G." surname="Montenegro"/>
+            <author fullname="J. Touch" initials="J." surname="Touch"/>
+            <author fullname="L. Wood" initials="L." surname="Wood"/>
+            <date month="July" year="2004"/>
+            <abstract>
+              <t>This document provides advice to the designers of digital communication equipment, link-layer protocols, and packet-switched local networks (collectively referred to as subnetworks), who wish to support the Internet protocols but may be unfamiliar with the Internet architecture and the implications of their design choices on the performance and efficiency of the Internet. This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="89"/>
+          <seriesInfo name="RFC" value="3819"/>
+          <seriesInfo name="DOI" value="10.17487/RFC3819"/>
+        </reference>
+        <reference anchor="RFC4774" target="https://www.rfc-editor.org/info/rfc4774" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4774.xml">
+          <front>
+            <title>Specifying Alternate Semantics for the Explicit Congestion Notification (ECN) Field</title>
+            <author fullname="S. Floyd" initials="S." surname="Floyd"/>
+            <date month="November" year="2006"/>
+            <abstract>
+              <t>There have been a number of proposals for alternate semantics for the Explicit Congestion Notification (ECN) field in the IP header RFC 3168. This document discusses some of the issues in defining alternate semantics for the ECN field, and specifies requirements for a safe coexistence in an Internet that could include routers that do not understand the defined alternate semantics. This document evolved as a result of discussions with the authors of one recent proposal for such alternate semantics. This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="124"/>
+          <seriesInfo name="RFC" value="4774"/>
+          <seriesInfo name="DOI" value="10.17487/RFC4774"/>
+        </reference>
+        <reference anchor="RFC5129" target="https://www.rfc-editor.org/info/rfc5129" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5129.xml">
+          <front>
+            <title>Explicit Congestion Marking in MPLS</title>
+            <author fullname="B. Davie" initials="B." surname="Davie"/>
+            <author fullname="B. Briscoe" initials="B." surname="Briscoe"/>
+            <author fullname="J. Tay" initials="J." surname="Tay"/>
+            <date month="January" year="2008"/>
+            <abstract>
+              <t>RFC 3270 defines how to support the Diffserv architecture in MPLS networks, including how to encode Diffserv Code Points (DSCPs) in an MPLS header. DSCPs may be encoded in the EXP field, while other uses of that field are not precluded. RFC 3270 makes no statement about how Explicit Congestion Notification (ECN) marking might be encoded in the MPLS header. This document defines how an operator might define some of the EXP codepoints for explicit congestion notification, without precluding other uses. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="5129"/>
+          <seriesInfo name="DOI" value="10.17487/RFC5129"/>
+        </reference>
+        <reference anchor="RFC6040" target="https://www.rfc-editor.org/info/rfc6040" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6040.xml">
+          <front>
+            <title>Tunnelling of Explicit Congestion Notification</title>
+            <author fullname="B. Briscoe" initials="B." surname="Briscoe"/>
+            <date month="November" year="2010"/>
+            <abstract>
+              <t>This document redefines how the explicit congestion notification (ECN) field of the IP header should be constructed on entry to and exit from any IP-in-IP tunnel. On encapsulation, it updates RFC 3168 to bring all IP-in-IP tunnels (v4 or v6) into line with RFC 4301 IPsec ECN processing. On decapsulation, it updates both RFC 3168 and RFC 4301 to add new behaviours for previously unused combinations of inner and outer headers. The new rules ensure the ECN field is correctly propagated across a tunnel whether it is used to signal one or two severity levels of congestion; whereas before, only one severity level was supported. Tunnel endpoints can be updated in any order without affecting pre-existing uses of the ECN field, thus ensuring backward compatibility. Nonetheless, operators wanting to support two severity levels (e.g., for pre-congestion notification -- PCN) can require compliance with this new specification. A thorough analysis of the reasoning for these changes and the implications is included. In the unlikely event that the new rules do not meet a specific need, RFC 4774 gives guidance on designing alternate ECN semantics, and this document extends that to include tunnelling issues. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="6040"/>
+          <seriesInfo name="DOI" value="10.17487/RFC6040"/>
+        </reference>
+        <reference anchor="RFC7141" target="https://www.rfc-editor.org/info/rfc7141" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7141.xml">
+          <front>
+            <title>Byte and Packet Congestion Notification</title>
+            <author fullname="B. Briscoe" initials="B." surname="Briscoe"/>
+            <author fullname="J. Manner" initials="J." surname="Manner"/>
+            <date month="February" year="2014"/>
+            <abstract>
+              <t>This document provides recommendations of best current practice for dropping or marking packets using any active queue management (AQM) algorithm, including Random Early Detection (RED), BLUE, Pre- Congestion Notification (PCN), and newer schemes such as CoDel (Controlled Delay) and PIE (Proportional Integral controller Enhanced). We give three strong recommendations: (1) packet size should be taken into account when transports detect and respond to congestion indications, (2) packet size should not be taken into account when network equipment creates congestion signals (marking, dropping), and therefore (3) in the specific case of RED, the byte- mode packet drop variant that drops fewer small packets should not be used. This memo updates RFC 2309 to deprecate deliberate preferential treatment of small packets in AQM algorithms.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="41"/>
+          <seriesInfo name="RFC" value="7141"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7141"/>
+        </reference>
+      </references>
+      <references>
+        <name>Informative References</name>
+        <reference anchor="RFC2003" target="https://www.rfc-editor.org/info/rfc2003" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2003.xml">
+          <front>
+            <title>IP Encapsulation within IP</title>
+            <author fullname="C. Perkins" initials="C." surname="Perkins"/>
+            <date month="October" year="1996"/>
+            <abstract>
+              <t>This document specifies a method by which an IP datagram may be encapsulated (carried as payload) within an IP datagram. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="2003"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2003"/>
+        </reference>
+        <reference anchor="RFC2473" target="https://www.rfc-editor.org/info/rfc2473" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2473.xml">
+          <front>
+            <title>Generic Packet Tunneling in IPv6 Specification</title>
+            <author fullname="A. Conta" initials="A." surname="Conta"/>
+            <author fullname="S. Deering" initials="S." surname="Deering"/>
+            <date month="December" year="1998"/>
+            <abstract>
+              <t>This document defines the model and generic mechanisms for IPv6 encapsulation of Internet packets, such as IPv6 and IPv4. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="2473"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2473"/>
+        </reference>
+        <reference anchor="RFC2637" target="https://www.rfc-editor.org/info/rfc2637" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2637.xml">
+          <front>
+            <title>Point-to-Point Tunneling Protocol (PPTP)</title>
+            <author fullname="K. Hamzeh" initials="K." surname="Hamzeh"/>
+            <author fullname="G. Pall" initials="G." surname="Pall"/>
+            <author fullname="W. Verthein" initials="W." surname="Verthein"/>
+            <author fullname="J. Taarud" initials="J." surname="Taarud"/>
+            <author fullname="W. Little" initials="W." surname="Little"/>
+            <author fullname="G. Zorn" initials="G." surname="Zorn"/>
+            <date month="July" year="1999"/>
+            <abstract>
+              <t>This document specifies a protocol which allows the Point to Point Protocol (PPP) to be tunneled through an IP network. This memo provides information for the Internet community.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="2637"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2637"/>
+        </reference>
+        <reference anchor="RFC2661" target="https://www.rfc-editor.org/info/rfc2661" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2661.xml">
+          <front>
+            <title>Layer Two Tunneling Protocol "L2TP"</title>
+            <author fullname="W. Townsley" initials="W." surname="Townsley"/>
+            <author fullname="A. Valencia" initials="A." surname="Valencia"/>
+            <author fullname="A. Rubens" initials="A." surname="Rubens"/>
+            <author fullname="G. Pall" initials="G." surname="Pall"/>
+            <author fullname="G. Zorn" initials="G." surname="Zorn"/>
+            <author fullname="B. Palter" initials="B." surname="Palter"/>
+            <date month="August" year="1999"/>
+            <abstract>
+              <t>This document describes the Layer Two Tunneling Protocol (L2TP). [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="2661"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2661"/>
+        </reference>
+        <reference anchor="RFC2784" target="https://www.rfc-editor.org/info/rfc2784" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2784.xml">
+          <front>
+            <title>Generic Routing Encapsulation (GRE)</title>
+            <author fullname="D. Farinacci" initials="D." surname="Farinacci"/>
+            <author fullname="T. Li" initials="T." surname="Li"/>
+            <author fullname="S. Hanks" initials="S." surname="Hanks"/>
+            <author fullname="D. Meyer" initials="D." surname="Meyer"/>
+            <author fullname="P. Traina" initials="P." surname="Traina"/>
+            <date month="March" year="2000"/>
+            <abstract>
+              <t>This document specifies a protocol for encapsulation of an arbitrary network layer protocol over another arbitrary network layer protocol. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="2784"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2784"/>
+        </reference>
+        <reference anchor="RFC2884" target="https://www.rfc-editor.org/info/rfc2884" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2884.xml">
+          <front>
+            <title>Performance Evaluation of Explicit Congestion Notification (ECN) in IP Networks</title>
+            <author fullname="J. Hadi Salim" initials="J." surname="Hadi Salim"/>
+            <author fullname="U. Ahmed" initials="U." surname="Ahmed"/>
+            <date month="July" year="2000"/>
+            <abstract>
+              <t>This memo presents a performance study of the Explicit Congestion Notification (ECN) mechanism in the TCP/IP protocol using our implementation on the Linux Operating System. This memo provides information for the Internet community.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="2884"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2884"/>
+        </reference>
+        <reference anchor="RFC2983" target="https://www.rfc-editor.org/info/rfc2983" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2983.xml">
+          <front>
+            <title>Differentiated Services and Tunnels</title>
+            <author fullname="D. Black" initials="D." surname="Black"/>
+            <date month="October" year="2000"/>
+            <abstract>
+              <t>This document considers the interaction of Differentiated Services (diffserv) with IP tunnels of various forms. This memo provides information for the Internet community.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="2983"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2983"/>
+        </reference>
+        <reference anchor="RFC3931" target="https://www.rfc-editor.org/info/rfc3931" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3931.xml">
+          <front>
+            <title>Layer Two Tunneling Protocol - Version 3 (L2TPv3)</title>
+            <author fullname="J. Lau" initials="J." role="editor" surname="Lau"/>
+            <author fullname="M. Townsley" initials="M." role="editor" surname="Townsley"/>
+            <author fullname="I. Goyret" initials="I." role="editor" surname="Goyret"/>
+            <date month="March" year="2005"/>
+            <abstract>
+              <t>This document describes "version 3" of the Layer Two Tunneling Protocol (L2TPv3). L2TPv3 defines the base control protocol and encapsulation for tunneling multiple Layer 2 connections between two IP nodes. Additional documents detail the specifics for each data link type being emulated. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="3931"/>
+          <seriesInfo name="DOI" value="10.17487/RFC3931"/>
+        </reference>
+        <reference anchor="RFC4301" target="https://www.rfc-editor.org/info/rfc4301" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4301.xml">
+          <front>
+            <title>Security Architecture for the Internet Protocol</title>
+            <author fullname="S. Kent" initials="S." surname="Kent"/>
+            <author fullname="K. Seo" initials="K." surname="Seo"/>
+            <date month="December" year="2005"/>
+            <abstract>
+              <t>This document describes an updated version of the "Security Architecture for IP", which is designed to provide security services for traffic at the IP layer. This document obsoletes RFC 2401 (November 1998). [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="4301"/>
+          <seriesInfo name="DOI" value="10.17487/RFC4301"/>
+        </reference>
+        <reference anchor="RFC4380" target="https://www.rfc-editor.org/info/rfc4380" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4380.xml">
+          <front>
+            <title>Teredo: Tunneling IPv6 over UDP through Network Address Translations (NATs)</title>
+            <author fullname="C. Huitema" initials="C." surname="Huitema"/>
+            <date month="February" year="2006"/>
+            <abstract>
+              <t>We propose here a service that enables nodes located behind one or more IPv4 Network Address Translations (NATs) to obtain IPv6 connectivity by tunneling packets over UDP; we call this the Teredo service. Running the service requires the help of "Teredo servers" and "Teredo relays". The Teredo servers are stateless, and only have to manage a small fraction of the traffic between Teredo clients; the Teredo relays act as IPv6 routers between the Teredo service and the "native" IPv6 Internet. The relays can also provide interoperability with hosts using other transition mechanisms such as "6to4". [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="4380"/>
+          <seriesInfo name="DOI" value="10.17487/RFC4380"/>
+        </reference>
+        <reference anchor="RFC5415" target="https://www.rfc-editor.org/info/rfc5415" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5415.xml">
+          <front>
+            <title>Control And Provisioning of Wireless Access Points (CAPWAP) Protocol Specification</title>
+            <author fullname="P. Calhoun" initials="P." role="editor" surname="Calhoun"/>
+            <author fullname="M. Montemurro" initials="M." role="editor" surname="Montemurro"/>
+            <author fullname="D. Stanley" initials="D." role="editor" surname="Stanley"/>
+            <date month="March" year="2009"/>
+            <abstract>
+              <t>This specification defines the Control And Provisioning of Wireless Access Points (CAPWAP) Protocol, meeting the objectives defined by the CAPWAP Working Group in RFC 4564. The CAPWAP protocol is designed to be flexible, allowing it to be used for a variety of wireless technologies. This document describes the base CAPWAP protocol, while separate binding extensions will enable its use with additional wireless technologies. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="5415"/>
+          <seriesInfo name="DOI" value="10.17487/RFC5415"/>
+        </reference>
+        <reference anchor="RFC6633" target="https://www.rfc-editor.org/info/rfc6633" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6633.xml">
+          <front>
+            <title>Deprecation of ICMP Source Quench Messages</title>
+            <author fullname="F. Gont" initials="F." surname="Gont"/>
+            <date month="May" year="2012"/>
+            <abstract>
+              <t>This document formally deprecates the use of ICMP Source Quench messages by transport protocols, formally updating RFC 792, RFC 1122, and RFC 1812. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="6633"/>
+          <seriesInfo name="DOI" value="10.17487/RFC6633"/>
+        </reference>
+        <reference anchor="RFC6660" target="https://www.rfc-editor.org/info/rfc6660" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6660.xml">
+          <front>
+            <title>Encoding Three Pre-Congestion Notification (PCN) States in the IP Header Using a Single Diffserv Codepoint (DSCP)</title>
+            <author fullname="B. Briscoe" initials="B." surname="Briscoe"/>
+            <author fullname="T. Moncaster" initials="T." surname="Moncaster"/>
+            <author fullname="M. Menth" initials="M." surname="Menth"/>
+            <date month="July" year="2012"/>
+            <abstract>
+              <t>The objective of Pre-Congestion Notification (PCN) is to protect the quality of service (QoS) of inelastic flows within a Diffserv domain. The overall rate of PCN-traffic is metered on every link in the PCN- domain, and PCN-packets are appropriately marked when certain configured rates are exceeded. Egress nodes pass information about these PCN-marks to Decision Points that then decide whether to admit or block new flow requests or to terminate some already admitted flows during serious pre-congestion.</t>
+              <t>This document specifies how PCN-marks are to be encoded into the IP header by reusing the Explicit Congestion Notification (ECN) codepoints within a PCN-domain. The PCN wire protocol for non-IP protocol headers will need to be defined elsewhere. Nonetheless, this document clarifies the PCN encoding for MPLS in an informational appendix. The encoding for IP provides for up to three different PCN marking states using a single Diffserv codepoint (DSCP): not-marked (NM), threshold-marked (ThM), and excess-traffic-marked (ETM). Hence, it is called the 3-in-1 PCN encoding. This document obsoletes RFC 5696. [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="6660"/>
+          <seriesInfo name="DOI" value="10.17487/RFC6660"/>
+        </reference>
+        <reference anchor="RFC7323" target="https://www.rfc-editor.org/info/rfc7323" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7323.xml">
+          <front>
+            <title>TCP Extensions for High Performance</title>
+            <author fullname="D. Borman" initials="D." surname="Borman"/>
+            <author fullname="B. Braden" initials="B." surname="Braden"/>
+            <author fullname="V. Jacobson" initials="V." surname="Jacobson"/>
+            <author fullname="R. Scheffenegger" initials="R." role="editor" surname="Scheffenegger"/>
+            <date month="September" year="2014"/>
+            <abstract>
+              <t>This document specifies a set of TCP extensions to improve performance over paths with a large bandwidth * delay product and to provide reliable operation over very high-speed paths. It defines the TCP Window Scale (WS) option and the TCP Timestamps (TS) option and their semantics. The Window Scale option is used to support larger receive windows, while the Timestamps option can be used for at least two distinct mechanisms, Protection Against Wrapped Sequences (PAWS) and Round-Trip Time Measurement (RTTM), that are also described herein.</t>
+              <t>This document obsoletes RFC 1323 and describes changes from it.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7323"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7323"/>
+        </reference>
+        <reference anchor="RFC7348" target="https://www.rfc-editor.org/info/rfc7348" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7348.xml">
+          <front>
+            <title>Virtual eXtensible Local Area Network (VXLAN): A Framework for Overlaying Virtualized Layer 2 Networks over Layer 3 Networks</title>
+            <author fullname="M. Mahalingam" initials="M." surname="Mahalingam"/>
+            <author fullname="D. Dutt" initials="D." surname="Dutt"/>
+            <author fullname="K. Duda" initials="K." surname="Duda"/>
+            <author fullname="P. Agarwal" initials="P." surname="Agarwal"/>
+            <author fullname="L. Kreeger" initials="L." surname="Kreeger"/>
+            <author fullname="T. Sridhar" initials="T." surname="Sridhar"/>
+            <author fullname="M. Bursell" initials="M." surname="Bursell"/>
+            <author fullname="C. Wright" initials="C." surname="Wright"/>
+            <date month="August" year="2014"/>
+            <abstract>
+              <t>This document describes Virtual eXtensible Local Area Network (VXLAN), which is used to address the need for overlay networks within virtualized data centers accommodating multiple tenants. The scheme and the related protocols can be used in networks for cloud service providers and enterprise data centers. This memo documents the deployed VXLAN protocol for the benefit of the Internet community.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7348"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7348"/>
+        </reference>
+        <reference anchor="RFC7780" target="https://www.rfc-editor.org/info/rfc7780" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7780.xml">
+          <front>
+            <title>Transparent Interconnection of Lots of Links (TRILL): Clarifications, Corrections, and Updates</title>
+            <author fullname="D. Eastlake 3rd" initials="D." surname="Eastlake 3rd"/>
+            <author fullname="M. Zhang" initials="M." surname="Zhang"/>
+            <author fullname="R. Perlman" initials="R." surname="Perlman"/>
+            <author fullname="A. Banerjee" initials="A." surname="Banerjee"/>
+            <author fullname="A. Ghanwani" initials="A." surname="Ghanwani"/>
+            <author fullname="S. Gupta" initials="S." surname="Gupta"/>
+            <date month="February" year="2016"/>
+            <abstract>
+              <t>Since the publication of the TRILL (Transparent Interconnection of Lots of Links) base protocol in 2011, active development and deployment of TRILL have revealed errata in RFC 6325 and areas that could use clarifications or updates. RFC 7177, RFC 7357, and an intended replacement of RFC 6439 provide clarifications and updates with respect to adjacency, the TRILL ESADI (End Station Address Distribution Information) protocol, and Appointed Forwarders, respectively. This document provides other known clarifications, corrections, and updates. It obsoletes RFC 7180 (the previous "TRILL clarifications, corrections, and updates" RFC), and it updates RFCs 6325, 7177, and 7179.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7780"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7780"/>
+        </reference>
+        <reference anchor="RFC7567" target="https://www.rfc-editor.org/info/rfc7567" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7567.xml">
+          <front>
+            <title>IETF Recommendations Regarding Active Queue Management</title>
+            <author fullname="F. Baker" initials="F." role="editor" surname="Baker"/>
+            <author fullname="G. Fairhurst" initials="G." role="editor" surname="Fairhurst"/>
+            <date month="July" year="2015"/>
+            <abstract>
+              <t>This memo presents recommendations to the Internet community concerning measures to improve and preserve Internet performance. It presents a strong recommendation for testing, standardization, and widespread deployment of active queue management (AQM) in network devices to improve the performance of today's Internet. It also urges a concerted effort of research, measurement, and ultimate deployment of AQM mechanisms to protect the Internet from flows that are not sufficiently responsive to congestion notification.</t>
+              <t>Based on 15 years of experience and new research, this document replaces the recommendations of RFC 2309.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="197"/>
+          <seriesInfo name="RFC" value="7567"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7567"/>
+        </reference>
+        <reference anchor="RFC7637" target="https://www.rfc-editor.org/info/rfc7637" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7637.xml">
+          <front>
+            <title>NVGRE: Network Virtualization Using Generic Routing Encapsulation</title>
+            <author fullname="P. Garg" initials="P." role="editor" surname="Garg"/>
+            <author fullname="Y. Wang" initials="Y." role="editor" surname="Wang"/>
+            <date month="September" year="2015"/>
+            <abstract>
+              <t>This document describes the usage of the Generic Routing Encapsulation (GRE) header for Network Virtualization (NVGRE) in multi-tenant data centers. Network Virtualization decouples virtual networks and addresses from physical network infrastructure, providing isolation and concurrency between multiple virtual networks on the same physical network infrastructure. This document also introduces a Network Virtualization framework to illustrate the use cases, but the focus is on specifying the data-plane aspect of NVGRE.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7637"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7637"/>
+        </reference>
+        <reference anchor="RFC7713" target="https://www.rfc-editor.org/info/rfc7713" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7713.xml">
+          <front>
+            <title>Congestion Exposure (ConEx) Concepts, Abstract Mechanism, and Requirements</title>
+            <author fullname="M. Mathis" initials="M." surname="Mathis"/>
+            <author fullname="B. Briscoe" initials="B." surname="Briscoe"/>
+            <date month="December" year="2015"/>
+            <abstract>
+              <t>This document describes an abstract mechanism by which senders inform the network about the congestion recently encountered by packets in the same flow. Today, network elements at any layer may signal congestion to the receiver by dropping packets or by Explicit Congestion Notification (ECN) markings, and the receiver passes this information back to the sender in transport-layer feedback. The mechanism described here enables the sender to also relay this congestion information back into the network in-band at the IP layer, such that the total amount of congestion from all elements on the path is revealed to all IP elements along the path, where it could, for example, be used to provide input to traffic management. This mechanism is called Congestion Exposure, or ConEx. The companion document, "Congestion Exposure (ConEx) Concepts and Use Cases" (RFC 6789), provides the entry point to the set of ConEx documentation.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7713"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7713"/>
+        </reference>
+        <reference anchor="RFC8084" target="https://www.rfc-editor.org/info/rfc8084" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8084.xml">
+          <front>
+            <title>Network Transport Circuit Breakers</title>
+            <author fullname="G. Fairhurst" initials="G." surname="Fairhurst"/>
+            <date month="March" year="2017"/>
+            <abstract>
+              <t>This document explains what is meant by the term "network transport Circuit Breaker". It describes the need for Circuit Breakers (CBs) for network tunnels and applications when using non-congestion- controlled traffic and explains where CBs are, and are not, needed. It also defines requirements for building a CB and the expected outcomes of using a CB within the Internet.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="208"/>
+          <seriesInfo name="RFC" value="8084"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8084"/>
+        </reference>
+        <reference anchor="RFC8087" target="https://www.rfc-editor.org/info/rfc8087" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8087.xml">
+          <front>
+            <title>The Benefits of Using Explicit Congestion Notification (ECN)</title>
+            <author fullname="G. Fairhurst" initials="G." surname="Fairhurst"/>
+            <author fullname="M. Welzl" initials="M." surname="Welzl"/>
+            <date month="March" year="2017"/>
+            <abstract>
+              <t>The goal of this document is to describe the potential benefits of applications using a transport that enables Explicit Congestion Notification (ECN). The document outlines the principal gains in terms of increased throughput, reduced delay, and other benefits when ECN is used over a network path that includes equipment that supports Congestion Experienced (CE) marking. It also discusses challenges for successful deployment of ECN. It does not propose new algorithms to use ECN nor does it describe the details of implementation of ECN in endpoint devices (Internet hosts), routers, or other network devices.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8087"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8087"/>
+        </reference>
+        <reference anchor="RFC8174" target="https://www.rfc-editor.org/info/rfc8174" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml">
+          <front>
+            <title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
+            <author fullname="B. Leiba" initials="B." surname="Leiba"/>
+            <date month="May" year="2017"/>
+            <abstract>
+              <t>RFC 2119 specifies common key words that may be used in protocol specifications. This document aims to reduce the ambiguity by clarifying that only UPPERCASE usage of the key words have the defined special meanings.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="14"/>
+          <seriesInfo name="RFC" value="8174"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8174"/>
+        </reference>
+        <reference anchor="RFC8257" target="https://www.rfc-editor.org/info/rfc8257" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8257.xml">
+          <front>
+            <title>Data Center TCP (DCTCP): TCP Congestion Control for Data Centers</title>
+            <author fullname="S. Bensley" initials="S." surname="Bensley"/>
+            <author fullname="D. Thaler" initials="D." surname="Thaler"/>
+            <author fullname="P. Balasubramanian" initials="P." surname="Balasubramanian"/>
+            <author fullname="L. Eggert" initials="L." surname="Eggert"/>
+            <author fullname="G. Judd" initials="G." surname="Judd"/>
+            <date month="October" year="2017"/>
+            <abstract>
+              <t>This Informational RFC describes Data Center TCP (DCTCP): a TCP congestion control scheme for data-center traffic. DCTCP extends the Explicit Congestion Notification (ECN) processing to estimate the fraction of bytes that encounter congestion rather than simply detecting that some congestion has occurred. DCTCP then scales the TCP congestion window based on this estimate. This method achieves high-burst tolerance, low latency, and high throughput with shallow- buffered switches. This memo also discusses deployment issues related to the coexistence of DCTCP and conventional TCP, discusses the lack of a negotiating mechanism between sender and receiver, and presents some possible mitigations. This memo documents DCTCP as currently implemented by several major operating systems. DCTCP, as described in this specification, is applicable to deployments in controlled environments like data centers, but it must not be deployed over the public Internet without additional measures.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8257"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8257"/>
+        </reference>
+        <reference anchor="RFC8300" target="https://www.rfc-editor.org/info/rfc8300" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8300.xml">
+          <front>
+            <title>Network Service Header (NSH)</title>
+            <author fullname="P. Quinn" initials="P." role="editor" surname="Quinn"/>
+            <author fullname="U. Elzur" initials="U." role="editor" surname="Elzur"/>
+            <author fullname="C. Pignataro" initials="C." role="editor" surname="Pignataro"/>
+            <date month="January" year="2018"/>
+            <abstract>
+              <t>This document describes a Network Service Header (NSH) imposed on packets or frames to realize Service Function Paths (SFPs). The NSH also provides a mechanism for metadata exchange along the instantiated service paths. The NSH is the Service Function Chaining (SFC) encapsulation required to support the SFC architecture (defined in RFC 7665).</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8300"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8300"/>
+        </reference>
+        <reference anchor="RFC8311" target="https://www.rfc-editor.org/info/rfc8311" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8311.xml">
+          <front>
+            <title>Relaxing Restrictions on Explicit Congestion Notification (ECN) Experimentation</title>
+            <author fullname="D. Black" initials="D." surname="Black"/>
+            <date month="January" year="2018"/>
+            <abstract>
+              <t>This memo updates RFC 3168, which specifies Explicit Congestion Notification (ECN) as an alternative to packet drops for indicating network congestion to endpoints. It relaxes restrictions in RFC 3168 that hinder experimentation towards benefits beyond just removal of loss. This memo summarizes the anticipated areas of experimentation and updates RFC 3168 to enable experimentation in these areas. An Experimental RFC in the IETF document stream is required to take advantage of any of these enabling updates. In addition, this memo makes related updates to the ECN specifications for RTP in RFC 6679 and for the Datagram Congestion Control Protocol (DCCP) in RFCs 4341, 4342, and 5622. This memo also records the conclusion of the ECN nonce experiment in RFC 3540 and provides the rationale for reclassification of RFC 3540 from Experimental to Historic; this reclassification enables new experimental use of the ECT(1) codepoint.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8311"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8311"/>
+        </reference>
+        <reference anchor="RFC8926" target="https://www.rfc-editor.org/info/rfc8926" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8926.xml">
+          <front>
+            <title>Geneve: Generic Network Virtualization Encapsulation</title>
+            <author fullname="J. Gross" initials="J." role="editor" surname="Gross"/>
+            <author fullname="I. Ganga" initials="I." role="editor" surname="Ganga"/>
+            <author fullname="T. Sridhar" initials="T." role="editor" surname="Sridhar"/>
+            <date month="November" year="2020"/>
+            <abstract>
+              <t>Network virtualization involves the cooperation of devices with a wide variety of capabilities such as software and hardware tunnel endpoints, transit fabrics, and centralized control clusters. As a result of their role in tying together different elements of the system, the requirements on tunnels are influenced by all of these components. Therefore, flexibility is the most important aspect of a tunneling protocol if it is to keep pace with the evolution of technology. This document describes Geneve, an encapsulation protocol designed to recognize and accommodate these changing capabilities and needs.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8926"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8926"/>
+        </reference>
+        <reference anchor="RFC9300" target="https://www.rfc-editor.org/info/rfc9300" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9300.xml">
+          <front>
+            <title>The Locator/ID Separation Protocol (LISP)</title>
+            <author fullname="D. Farinacci" initials="D." surname="Farinacci"/>
+            <author fullname="V. Fuller" initials="V." surname="Fuller"/>
+            <author fullname="D. Meyer" initials="D." surname="Meyer"/>
+            <author fullname="D. Lewis" initials="D." surname="Lewis"/>
+            <author fullname="A. Cabellos" initials="A." role="editor" surname="Cabellos"/>
+            <date month="October" year="2022"/>
+            <abstract>
+              <t>This document describes the data plane protocol for the Locator/ID Separation Protocol (LISP). LISP defines two namespaces: Endpoint Identifiers (EIDs), which identify end hosts; and Routing Locators (RLOCs), which identify network attachment points. With this, LISP effectively separates control from data and allows routers to create overlay networks. LISP-capable routers exchange encapsulated packets according to EID-to-RLOC mappings stored in a local Map-Cache.</t>
+              <t>LISP requires no change to either host protocol stacks or underlay routers and offers Traffic Engineering (TE), multihoming, and mobility, among other features.</t>
+              <t>This document obsoletes RFC 6830.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="9300"/>
+          <seriesInfo name="DOI" value="10.17487/RFC9300"/>
+        </reference>
+        <reference anchor="RFC9331" target="https://www.rfc-editor.org/info/rfc9331" xml:base="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9331.xml">
+          <front>
+            <title>The Explicit Congestion Notification (ECN) Protocol for Low Latency, Low Loss, and Scalable Throughput (L4S)</title>
+            <author fullname="K. De Schepper" initials="K." surname="De Schepper"/>
+            <author fullname="B. Briscoe" initials="B." role="editor" surname="Briscoe"/>
+            <date month="January" year="2023"/>
+            <abstract>
+              <t>This specification defines the protocol to be used for a new network service called Low Latency, Low Loss, and Scalable throughput (L4S). L4S uses an Explicit Congestion Notification (ECN) scheme at the IP layer that is similar to the original (or 'Classic') ECN approach, except as specified within. L4S uses 'Scalable' congestion control, which induces much more frequent control signals from the network, and it responds to them with much more fine-grained adjustments so that very low (typically sub-millisecond on average) and consistently low queuing delay becomes possible for L4S traffic without compromising link utilization. Thus, even capacity-seeking (TCP-like) traffic can have high bandwidth and very low delay at the same time, even during periods of high traffic load.</t>
+              <t>The L4S identifier defined in this document distinguishes L4S from 'Classic' (e.g., TCP-Reno-friendly) traffic. Then, network bottlenecks can be incrementally modified to distinguish and isolate existing traffic that still follows the Classic behaviour, to prevent it from degrading the low queuing delay and low loss of L4S traffic. This Experimental specification defines the rules that L4S transports and network elements need to follow, with the intention that L4S flows neither harm each other's performance nor that of Classic traffic. It also suggests open questions to be investigated during experimentation. Examples of new Active Queue Management (AQM) marking algorithms and new transports (whether TCP-like or real time) are specified separately.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="9331"/>
+          <seriesInfo name="DOI" value="10.17487/RFC9331"/>
+        </reference>
+        <reference anchor="I-D.ietf-intarea-gue" target="https://datatracker.ietf.org/doc/html/draft-ietf-intarea-gue-09" xml:base="https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-intarea-gue.xml">
+          <front>
+            <title>Generic UDP Encapsulation</title>
+            <author fullname="Tom Herbert" initials="T." surname="Herbert">
+              <organization>Quantonium</organization>
+            </author>
+            <author fullname="Lucy Yong" initials="L." surname="Yong">
+              <organization>Independent</organization>
+            </author>
+            <author fullname="Osama Zia" initials="O." surname="Zia">
+              <organization>Microsoft</organization>
+            </author>
+            <date day="26" month="October" year="2019"/>
+            <abstract>
+              <t>This specification describes Generic UDP Encapsulation (GUE), which is a scheme for using UDP to encapsulate packets of different IP protocols for transport across layer 3 networks. By encapsulating packets in UDP, specialized capabilities in networking hardware for efficient handling of UDP packets can be leveraged. GUE specifies basic encapsulation methods upon which higher level constructs, such as tunnels and overlay networks for network virtualization, can be constructed. GUE is extensible by allowing optional data fields as part of the encapsulation, and is generic in that it can encapsulate packets of various IP protocols.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="Internet-Draft" value="draft-ietf-intarea-gue-09"/>
+        </reference>
+        <reference anchor="I-D.ietf-trill-ecn-support" target="https://datatracker.ietf.org/doc/html/draft-ietf-trill-ecn-support-07" xml:base="https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-trill-ecn-support.xml">
+          <front>
+            <title>TRILL (TRansparent Interconnection of Lots of Links): ECN (Explicit Congestion Notification) Support</title>
+            <author fullname="Donald E. Eastlake 3rd" initials="D. E." surname="Eastlake">
+              <organization>Huawei</organization>
+            </author>
+            <author fullname="Bob Briscoe" initials="B." surname="Briscoe">
+              <organization>CableLabs</organization>
+            </author>
+            <date day="25" month="February" year="2018"/>
+            <abstract>
+              <t>Explicit congestion notification (ECN) allows a forwarding element to notify downstream devices, including the destination, of the onset of congestion without having to drop packets. This can improve network efficiency through better congestion control without packet drops. This document extends ECN to TRILL (TRansparent Interconnection of Lots of Links) switches, including integration with IP ECN, and provides for ECN marking in the TRILL Header Extension Flags Word (see RFC 7179).</t>
+            </abstract>
+          </front>
+          <seriesInfo name="Internet-Draft" value="draft-ietf-trill-ecn-support-07"/>
+        </reference>
+        <reference anchor="I-D.ietf-tsvwg-rfc6040update-shim" target="https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-rfc6040update-shim-16" xml:base="https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-tsvwg-rfc6040update-shim.xml">
+          <front>
+            <title>Propagating Explicit Congestion Notification Across IP Tunnel Headers Separated by a Shim</title>
+            <author fullname="Bob Briscoe" initials="B." surname="Briscoe">
+              <organization>Independent</organization>
+            </author>
+            <date day="13" month="March" year="2023"/>
+            <abstract>
+              <t>RFC 6040 on "Tunnelling of Explicit Congestion Notification" made the rules for propagation of ECN consistent for all forms of IP in IP tunnel. This specification updates RFC 6040 to clarify that its scope includes tunnels where two IP headers are separated by at least one shim header that is not sufficient on its own for wide area packet forwarding. It surveys widely deployed IP tunnelling protocols that use such shim header(s) and updates the specifications of those that do not mention ECN propagation (that is RFC 2661, RFC 3931, RFC 2784, RFC 4380 and RFC 7450, which respectively specify L2TPv2, L2TPv3, GRE, Teredo and AMT). This specification also updates RFC 6040 with configuration requirements needed to make any legacy tunnel ingress safe.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="Internet-Draft" value="draft-ietf-tsvwg-rfc6040update-shim-16"/>
+        </reference>
+        <reference anchor="IEEE802.1Q" target="https://ieeexplore.ieee.org/document/8403927">
+          <front>
+            <title>IEEE Standard for Local and Metropolitan Area
           Networks&mdash;Virtual Bridged Local Area Networks&mdash;Amendment
           6: Provider Backbone Bridges</title>
-
-          <author>
-            <organization>IEEE</organization>
-          </author>
-
-          <date month="July" year="2018"/>
-        </front>
-
-        <seriesInfo name="IEEE Std" value="802.1Q-2018"/>
-
-        <format target="https://ieeexplore.ieee.org/document/8403927"
-                type="PDF"/>
-      </reference>
-
-      <!-- <reference anchor="IEEE802.1ah"
+            <author>
+              <organization>IEEE</organization>
+            </author>
+            <date month="July" year="2018"/>
+          </front>
+          <seriesInfo name="IEEE Std" value="802.1Q-2018"/>
+        </reference>
+        <!-- <reference anchor="IEEE802.1ah"
                  target="http://www.ieee802.org/1/pages/802.1ah.html">
         <front>
           <title>IEEE Standard for Local and Metropolitan Area
-          Networks&mdash;Virtual Bridged Local Area Networks&mdash;Amendment
+          Networks&mdash;Virtual Bridged Local Area Networks &mdash; Amendment
           6: Provider Backbone Bridges</title>
 
           <author>
@@ -1525,25 +1860,18 @@ start of its segment.-->
         <annotation>(Access Controlled link within page)</annotation>
       </reference> -->
 
-      <reference anchor="ITU-T.I.371"
-                 target="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061">
-        <front>
-          <title>Traffic Control and Congestion Control in B-ISDN</title>
-
-          <author fullname="" initials="" surname="">
-            <organization>ITU-T</organization>
-          </author>
-
-          <date month="March" year="2004"/>
-        </front>
-
-        <seriesInfo name="ITU-T Rec." value="I.371 (03/04)"/>
-
-        <format target="http://www.itu.int/rec/recommendation.asp?type=folders&amp;lang=e&amp;parent=T-REC-I.371"
-                type="PDF"/>
-      </reference>
-
-      <!--      <reference anchor="DCTCP"
+      <reference anchor="ITU-T.I.371" target="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061">
+          <front>
+            <title>Traffic Control and Congestion Control in B-ISDN</title>
+            <author fullname="" initials="" surname="">
+              <organization>ITU-T</organization>
+            </author>
+            <date month="March" year="2004"/>
+          </front>
+          <seriesInfo name="ITU-T Rec." value="I.371 (03/04)"/>
+          <format target="http://www.itu.int/rec/recommendation.asp?type=folders&amp;lang=e&amp;parent=T-REC-I.371" type="PDF"/>
+        </reference>
+        <!--      <reference anchor="DCTCP"
                  target="http://portal.acm.org/citation.cfm?id=1851192">
         <front>
           <title>Data Center TCP (DCTCP)</title>
@@ -1591,157 +1919,114 @@ start of its segment.-->
 -->
 
       <reference anchor="Buck00">
-        <front>
-          <title>Frame Relay: Technology and Practice</title>
-
-          <author fullname="Jeff T. Buckwalter" initials="J.T."
-                  surname="Buckwalter">
-            <organization/>
-          </author>
-
-          <date day="" month="" year="2000"/>
-        </front>
-
-        <seriesInfo name="Pub. Addison Wesley" value="ISBN-13: 978-0201485240"/>
-      </reference>
-
-      <reference anchor="GTPv1">
-        <front>
-          <title>GPRS Tunnelling Protocol (GTP) across the Gn and Gp
+          <front>
+            <title>Frame Relay: Technology and Practice</title>
+            <author fullname="Jeff T. Buckwalter" initials="J.T." surname="Buckwalter">
+              <organization/>
+            </author>
+            <date day="" month="" year="2000"/>
+          </front>
+          <seriesInfo name="Pub. Addison Wesley" value="ISBN-13: 978-0201485240"/>
+        </reference>
+        <reference anchor="GTPv1">
+          <front>
+            <title>GPRS Tunnelling Protocol (GTP) across the Gn and Gp
           interface</title>
-
-          <author>
-            <organization>3GPP</organization>
-          </author>
-
-          <date/>
-        </front>
-
-        <seriesInfo name="Technical Specification" value="TS 29.060"/>
-      </reference>
-
-      <reference anchor="GTPv1-U">
-        <front>
-          <title>General Packet Radio System (GPRS) Tunnelling Protocol User
+            <author>
+              <organization>3GPP</organization>
+            </author>
+            <date/>
+          </front>
+          <seriesInfo name="Technical Specification" value="TS 29.060"/>
+        </reference>
+        <reference anchor="GTPv1-U">
+          <front>
+            <title>General Packet Radio System (GPRS) Tunnelling Protocol User
           Plane (GTPv1-U)</title>
-
-          <author>
-            <organization>3GPP</organization>
-          </author>
-
-          <date/>
-        </front>
-
-        <seriesInfo name="Technical Specification" value="TS 29.281"/>
-      </reference>
-
-      <reference anchor="LTE-RA">
-        <front>
-          <title>Evolved Universal Terrestrial Radio Access (E-UTRA) and
+            <author>
+              <organization>3GPP</organization>
+            </author>
+            <date/>
+          </front>
+          <seriesInfo name="Technical Specification" value="TS 29.281"/>
+        </reference>
+        <reference anchor="LTE-RA">
+          <front>
+            <title>Evolved Universal Terrestrial Radio Access (E-UTRA) and
           Evolved Universal Terrestrial Radio Access Network (E-UTRAN);
           Overall description; Stage 2</title>
-
-          <author>
-            <organization>3GPP</organization>
-          </author>
-
-          <date/>
-        </front>
-
-        <seriesInfo name="Technical Specification" value="TS 36.300"/>
-      </reference>
-
-      <reference anchor="UTRAN">
-        <front>
-          <title>UTRAN Overall Description</title>
-
-          <author>
-            <organization>3GPP</organization>
-          </author>
-
-          <date/>
-        </front>
-
-        <seriesInfo name="Technical Specification" value="TS 25.401"/>
-      </reference>
-
-      <reference anchor="GTPv2-C">
-        <front>
-          <title>Evolved General Packet Radio Service (GPRS) Tunnelling
+            <author>
+              <organization>3GPP</organization>
+            </author>
+            <date/>
+          </front>
+          <seriesInfo name="Technical Specification" value="TS 36.300"/>
+        </reference>
+        <reference anchor="UTRAN">
+          <front>
+            <title>UTRAN Overall Description</title>
+            <author>
+              <organization>3GPP</organization>
+            </author>
+            <date/>
+          </front>
+          <seriesInfo name="Technical Specification" value="TS 25.401"/>
+        </reference>
+        <reference anchor="GTPv2-C">
+          <front>
+            <title>Evolved General Packet Radio Service (GPRS) Tunnelling
           Protocol for Control plane (GTPv2-C)</title>
-
-          <author>
-            <organization>3GPP</organization>
-          </author>
-
-          <date year=""/>
-        </front>
-
-        <seriesInfo name="Technical Specification" value="TS 29.274"/>
-      </reference>
-
-      <reference anchor="ATM-TM-ABR">
-        <front>
-          <title>Understanding the Available Bit Rate (ABR) Service Category
+            <author>
+              <organization>3GPP</organization>
+            </author>
+            <date year=""/>
+          </front>
+          <seriesInfo name="Technical Specification" value="TS 29.274"/>
+        </reference>
+        <reference anchor="ATM-TM-ABR" target="http://www.cisco.com/en/US/tech/tk39/tk51/technologies_tech_note09186a00800fbc76.shtml">
+          <front>
+            <title>Understanding the Available Bit Rate (ABR) Service Category
           for ATM VCs</title>
-
-          <author>
-            <organization>Cisco</organization>
-          </author>
-
-          <date day="5" month="June" year="2005"/>
-        </front>
-
-        <seriesInfo name="Design Technote" value="10415"/>
-
-        <format target="http://www.cisco.com/en/US/tech/tk39/tk51/technologies_tech_note09186a00800fbc76.shtml"
-                type="HTML"/>
-      </reference>
-
-      <reference anchor="Leiserson85">
-        <front>
-          <title>Fat-trees: universal networks for hardware-efficient
+            <author>
+              <organization>Cisco</organization>
+            </author>
+            <date day="5" month="June" year="2005"/>
+          </front>
+          <seriesInfo name="Design Technote" value="10415"/>
+        </reference>
+        <reference anchor="Leiserson85">
+          <front>
+            <title>Fat-trees: universal networks for hardware-efficient
           supercomputing</title>
-
-          <author fullname="Charles E. Leiserson" initials="C.E."
-                  surname="Leiserson">
-            <organization/>
-          </author>
-
-          <date day="" month="October" year="1985"/>
-        </front>
-
-        <seriesInfo name="IEEE Transactions on Computers"
-                    value="34(10):892&ndash;901"/>
-      </reference>
-
-      <reference anchor="Clos53">
-        <front>
-          <title>A Study of Non-Blocking Switching Networks</title>
-
-          <author fullname="Charles Clos" initials="C." surname="Clos">
-            <organization/>
-          </author>
-
-          <date day="" month="March" year="1953"/>
-        </front>
-
-        <seriesInfo name="Bell Systems Technical Journal"
-                    value="32(2):406&ndash;424"/>
-      </reference>
+            <author fullname="Charles E. Leiserson" initials="C.E." surname="Leiserson">
+              <organization/>
+            </author>
+            <date day="" month="October" year="1985"/>
+          </front>
+          <seriesInfo name="IEEE Transactions on Computers" value="34(10):892&ndash;901"/>
+        </reference>
+        <reference anchor="Clos53">
+          <front>
+            <title>A Study of Non-Blocking Switching Networks</title>
+            <author fullname="Charles Clos" initials="C." surname="Clos">
+              <organization/>
+            </author>
+            <date day="" month="March" year="1953"/>
+          </front>
+          <seriesInfo name="Bell Systems Technical Journal" value="32(2):406&ndash;424"/>
+        </reference>
+      </references>
     </references>
-
     <!-- ================================================================ -->
 
-    <section anchor="ecnencap_Comments_Solicited" numbered="false"
-             removeInRFC="true" title="Comments Solicited">
+    <section anchor="ecnencap_Comments_Solicited" numbered="false" removeInRFC="true" toc="default">
+      <name>Comments Solicited</name>
       <t>Comments and questions are encouraged and very welcome. They can be
       addressed to the IETF Transport Area working group mailing list
       &lt;tsvwg@ietf.org&gt;, and/or to the authors.</t>
     </section>
-
-    <section anchor="ecnencap_Acknowledgements" numbered="false"
-             title="Acknowledgements">
+    <section anchor="ecnencap_Acknowledgements" numbered="false" toc="default">
+      <name>Acknowledgements</name>
       <t>Thanks to Gorry Fairhurst and David Black for extensive reviews.
       Thanks also to the following reviewers: Joe Touch, Andrew McGregor,
       Richard Scheffenegger, Ingemar Johansson, Piers O'Hanlon, Donald
@@ -1753,22 +2038,18 @@ start of its segment.-->
       the IEEE and 3GPP. And thanks to Georg Mayer and particularly to Erik
       Guttman for the extensive search and categorisation of any 3GPP
       specifications that cite ECN specifications.</t>
-
       <t>Bob Briscoe was part-funded by the European Community under its
       Seventh Framework Programme through the Trilogy project (ICT-216372) for
       initial drafts and through the Reducing Internet Transport Latency
       (RITE) project (ICT-317700) subsequently. The views expressed here are
       solely those of the authors.</t>
     </section>
-
-    <section numbered="false" title="Contributors">
-      <figure>
-        <artwork><![CDATA[   Pat Thaler
+    <section numbered="false" toc="default">
+      <name>Contributors</name>
+      <artwork name="" type="" align="left" alt=""><![CDATA[   Pat Thaler
    Broadcom Corporation (retired)
    CA
    USA]]></artwork>
-      </figure>
-
       <t>Pat was a co-author of this draft, but retired before its
       publication.</t>
     </section>
