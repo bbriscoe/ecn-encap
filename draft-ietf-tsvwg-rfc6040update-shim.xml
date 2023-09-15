@@ -33,7 +33,7 @@
 <!-- HTML formatting control -->
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
-<rfc category="std" docName="draft-ietf-tsvwg-rfc6040update-shim-16"
+<rfc category="std" consensus="true" docName="draft-ietf-tsvwg-rfc6040update-shim-17"
      ipr="pre5378Trust200902" updates="6040, 2661, 2784, 3931, 4380, 7450">
   <front>
     <title abbrev="ECN over IP-shim-(L2)-IP Tunnels">Propagating Explicit
@@ -469,9 +469,15 @@
       <t>Section 3.1.11 of RFC 8085 already explains that a tunnel that
       encapsulates an IP header within a UDP/IP datagram needs to follow RFC
       6040 when propagating the ECN field between inner and outer IP headers.
-      The requirements in <xref target="rfc6040up_sec_safe"/> update RFC 6040,
-      and hence implicitly update the UDP usage guidelines in RFC 8085 to add
-      the important but previously unstated requirement that, if the UDP
+      <xref target="rfc6040up_scope"/> of the present specficiation updates RFC
+      6040 to clarify that its scope includes cases with a shim header
+      between the IP headers. So it indirectly updates the scope of RFC 8085
+      to include cases with a shim header as well as a UDP header between the IP
+      headers.</t>
+      
+      <t>The requirements in <xref target="rfc6040up_sec_safe"/> update RFC
+      6040, and hence indirectly update the UDP usage guidelines in RFC 8085 to
+      add the important but previously unstated requirement that, if the UDP
       tunnel egress does not, or might not, support ECN propagation, a UDP
       tunnel ingress has to clear the outer IP ECN field to 0b00, e.g. by
       configuration.</t>
