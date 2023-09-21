@@ -33,8 +33,9 @@
 <!-- HTML formatting control -->
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
-<rfc category="std" consensus="true" docName="draft-ietf-tsvwg-rfc6040update-shim-17"
-     ipr="pre5378Trust200902" updates="6040, 2661, 2784, 3931, 4380, 7450">
+<rfc category="std" consensus="true"
+     docName="draft-ietf-tsvwg-rfc6040update-shim-18" ipr="pre5378Trust200902"
+     updates="6040, 2661, 2784, 3931, 4380, 7450">
   <front>
     <title abbrev="ECN over IP-shim-(L2)-IP Tunnels">Propagating Explicit
     Congestion Notification Across IP Tunnel Headers Separated by a
@@ -329,7 +330,9 @@
 
       <t>Section 5.3 of <xref target="RFC3168"/> specifies ECN requirements
       for reassembly of sets of outer fragments <xref
-      target="I-D.ietf-intarea-tunnels"/> into packets. The following two
+      target="I-D.ietf-intarea-tunnels"/> into packets (in outer
+      fragmentation, the fragmentation is visible in the outer header so that
+      the tunnel egress can reassemble the fragments). The following two
       additional requirements apply at a tunnel egress:<list style="symbols">
           <t>During reassembly of outer fragments <xref
           target="I-D.ietf-intarea-tunnels"/>, if the ECN fields of the outer
@@ -337,13 +340,17 @@
           of Not-ECT and other ECN codepoints, the packet MUST be
           discarded.</t>
 
-          <t>If there is mix of ECT(0) and ECT(1) fragments, then the
-          reassembled packet MUST be set to either ECT(0) or ECT(1). In this
-          case, reassembly SHOULD take into account that the RFC series has so
-          far ensured that ECT(0) and ECT(1) can either be considered
-          equivalent, or they can provide 2 levels of congestion severity,
-          where the ranking of severity from highest to lowest is CE, ECT(1),
-          ECT(0) <xref target="RFC6040"/>.</t>
+          <t>If there is mix of ECT(0) and ECT(1) outer fragments, then the
+          reassembled packet MUST be set to ECT(1).<vspace
+          blankLines="1"/>Reasoning: Originally <xref target="RFC3168"/>
+          defined ECT(0) and ECT(1) as equivalent, but RFC 3168 has been
+          updated by <xref target="RFC8311"/> to make ECT(1) available for
+          congestion marking differences. The rule is independent of the
+          current use of ECT(1) for L4S <xref target="RFC9331"/>. The rule is
+          compatible with PCN <xref target="RFC6660"/>, which uses 2 levels of
+          congestion severity, with the ranking of severity from highest to
+          lowest being CE, ECT(1), ECT(0)). The decapsulation rules in <xref
+          target="RFC6040"/> take a similar approach.</t>
         </list></t>
     </section>
 
@@ -469,16 +476,16 @@
       <t>Section 3.1.11 of RFC 8085 already explains that a tunnel that
       encapsulates an IP header within a UDP/IP datagram needs to follow RFC
       6040 when propagating the ECN field between inner and outer IP headers.
-      <xref target="rfc6040up_scope"/> of the present specficiation updates RFC
-      6040 to clarify that its scope includes cases with a shim header
+      <xref target="rfc6040up_scope"/> of the present specficiation updates
+      RFC 6040 to clarify that its scope includes cases with a shim header
       between the IP headers. So it indirectly updates the scope of RFC 8085
-      to include cases with a shim header as well as a UDP header between the IP
-      headers.</t>
-      
+      to include cases with a shim header as well as a UDP header between the
+      IP headers.</t>
+
       <t>The requirements in <xref target="rfc6040up_sec_safe"/> update RFC
-      6040, and hence indirectly update the UDP usage guidelines in RFC 8085 to
-      add the important but previously unstated requirement that, if the UDP
-      tunnel egress does not, or might not, support ECN propagation, a UDP
+      6040, and hence indirectly update the UDP usage guidelines in RFC 8085
+      to add the important but previously unstated requirement that, if the
+      UDP tunnel egress does not, or might not, support ECN propagation, a UDP
       tunnel ingress has to clear the outer IP ECN field to 0b00, e.g. by
       configuration.</t>
 
@@ -534,11 +541,12 @@
                 need to be inserted by the RFC Editor}</t>
               </list></t>
 
-            <t>In particular, for an LCCE implementation that does not support
-            the ECN Extension, this means that configuration of how it
-            propagates the ECN field between inner and outer IP headers MUST
-            be independent of any configuration of the Diffserv extension of
-            L2TP <xref target="RFC3308"/>.</t>
+            <t>In particular, for an L2TP Control Connection Endpoint (LCCE)
+            implementation that does not support the ECN Extension, this means
+            that configuration of how it propagates the ECN field between
+            inner and outer IP headers MUST be independent of any
+            configuration of the Diffserv extension of L2TP <xref
+            target="RFC3308"/>.</t>
           </section>
 
           <section anchor="rfc6040up_L2TP_ECN"
@@ -580,7 +588,7 @@
               a bit-mask with the following 16-bit format:</t>
 
               <figure align="center" anchor="Fig_rfc6040up_LCCE_Capabiliy_AVP"
-                      title="Value Field for the LCCE Capability Attribute">
+                      title="Value Field for the LCCE Capability Attribute (E is the ECN Capability flag, the value of X is reserved)">
                 <artwork><![CDATA[       0                   1
        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -706,10 +714,10 @@
           would be unsafe for a Teredo tunnel ingress to copy the ECN field to
           the IPv6 outer.</t>
 
-          <t>It is believed that current implementations do not support
-          propagation of ECN, but that they do safely zero the ECN field in
-          the outer IPv6 header. However the specification does not mention
-          anything about this.</t>
+          <t>Those implementations known to the authors at the time of writing
+          do not support propagation of ECN, but that they do safely zero the
+          ECN field in the outer IPv6 header. However the specification does
+          not mention anything about this.</t>
 
           <t>To make existing Teredo deployments safe, it would be possible to
           add ECN capability negotiation to those that are subject to remote
@@ -880,31 +888,6 @@
       target="I-D.ietf-tsvwg-ecn-encap-guidelines"/> apply equally to the
       scope defined for the present specification.</t>
     </section>
-
-    <!-- ================================================================ -->
-
-    <section anchor="rfc6040up_Comments_Solicited" title="Comments Solicited">
-      <t>Comments and questions are encouraged and very welcome. They can be
-      addressed to the IETF Transport Area working group mailing list
-      &lt;tsvwg@ietf.org&gt;, and/or to the authors.</t>
-    </section>
-
-    <!-- ================================================================ -->
-
-    <section title="Acknowledgements">
-      <t>Thanks to Ing-jyh (Inton) Tsang for initial discussions on the need
-      for ECN propagation in L2TP and its applicability. Thanks also to Carlos
-      Pignataro, Tom Herbert, Ignacio Goyret, Alia Atlas, Praveen
-      Balasubramanian, Joe Touch, Mohamed Boucadair, David Black, Jake Holland
-      and Sri Gundavelli for helpful advice and comments. "A Comparison of
-      IPv6-over-IPv4 Tunnel Mechanisms" <xref target="RFC7059"/> helped to
-      identify a number of tunnelling protocols to include within the scope of
-      this document.</t>
-
-      <t>Bob Briscoe was part-funded by the Research Council of Norway through
-      the TimeIn project. The views expressed here are solely those of the
-      authors.</t>
-    </section>
   </middle>
 
   <back>
@@ -930,6 +913,8 @@
       <?rfc include='reference.RFC.5129'?>
 
       <?rfc include='reference.RFC.6040'?>
+
+      <?rfc include='reference.RFC.6660'?>
 
       <?rfc include='reference.I-D.ietf-tsvwg-ecn-encap-guidelines'?>
     </references>
@@ -973,6 +958,10 @@
 
       <?rfc include='reference.RFC.8159'?>
 
+      <?rfc include='reference.RFC.8300'?>
+
+      <?rfc include='reference.RFC.8311'?>
+
       <?rfc include='reference.RFC.8926'?>
 
       <?rfc include='reference.I-D.ietf-nvo3-vxlan-gpe'?>
@@ -985,7 +974,7 @@
 
       <?rfc include='reference.RFC.9329'?>
 
-      <?rfc include='reference.RFC.8300'?>
+      <?rfc include='reference.RFC.9331'?>
 
       <reference anchor="GTPv1">
         <front>
@@ -1032,5 +1021,32 @@
         <seriesInfo name="Technical Specification" value="TS 29.274"/>
       </reference>
     </references>
+
+    <!-- ================================================================ -->
+
+    <section anchor="rfc6040up_Comments_Solicited" numbered="false"
+             removeInRFC="true" title="Comments Solicited">
+      <t>Comments and questions are encouraged and very welcome. They can be
+      addressed to the IETF Transport Area working group mailing list
+      &lt;tsvwg@ietf.org&gt;, and/or to the authors.</t>
+    </section>
+
+    <!-- ================================================================ -->
+
+    <section numbered="false" title="Acknowledgements">
+      <t>Thanks to Ing-jyh (Inton) Tsang for initial discussions on the need
+      for ECN propagation in L2TP and its applicability. Thanks also to Carlos
+      Pignataro, Tom Herbert, Ignacio Goyret, Alia Atlas, Praveen
+      Balasubramanian, Joe Touch, Mohamed Boucadair, David Black, Jake Holland
+      and Sri Gundavelli for helpful advice and comments. "A Comparison of
+      IPv6-over-IPv4 Tunnel Mechanisms" <xref target="RFC7059"/> helped to
+      identify a number of tunnelling protocols to include within the scope of
+      this document.</t>
+
+      <t>Bob Briscoe was part-funded by the Research Council of Norway through
+      the TimeIn project for early drafts, and for final drafts (from -17) he
+      was funded by Apple Inc. The views expressed here are solely those of
+      the authors.</t>
+    </section>
   </back>
 </rfc>
