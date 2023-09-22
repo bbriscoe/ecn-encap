@@ -1037,11 +1037,11 @@
       <t>Thanks to Ing-jyh (Inton) Tsang for initial discussions on the need
       for ECN propagation in L2TP and its applicability. Thanks also to Carlos
       Pignataro, Tom Herbert, Ignacio Goyret, Alia Atlas, Praveen
-      Balasubramanian, Joe Touch, Mohamed Boucadair, David Black, Jake Holland
-      and Sri Gundavelli for helpful advice and comments. "A Comparison of
-      IPv6-over-IPv4 Tunnel Mechanisms" <xref target="RFC7059"/> helped to
-      identify a number of tunnelling protocols to include within the scope of
-      this document.</t>
+      Balasubramanian, Joe Touch, Mohamed Boucadair, David Black, Jake
+      Holland, Sri Gundavelli and Gorry Fairhurst for helpful advice and
+      comments. "A Comparison of IPv6-over-IPv4 Tunnel Mechanisms" <xref
+      target="RFC7059"/> helped to identify a number of tunnelling protocols
+      to include within the scope of this document.</t>
 
       <t>Bob Briscoe was part-funded by the Research Council of Norway through
       the TimeIn project for early drafts, and for final drafts (from -17) he
