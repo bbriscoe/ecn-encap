@@ -34,7 +34,7 @@
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
 <rfc category="std" consensus="true"
-     docName="draft-ietf-tsvwg-rfc6040update-shim-18" ipr="pre5378Trust200902"
+     docName="draft-ietf-tsvwg-rfc6040update-shim-19" ipr="pre5378Trust200902"
      updates="6040, 2661, 2784, 3931, 4380, 7450">
   <front>
     <title abbrev="ECN over IP-shim-(L2)-IP Tunnels">Propagating Explicit
