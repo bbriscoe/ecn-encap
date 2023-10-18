@@ -329,13 +329,12 @@
       had not fragmented the packet.</t>
 
       <t>Section 5.3 of <xref target="RFC3168"/> specifies ECN requirements
-      for reassembly of sets of outer fragments <xref
-      target="I-D.ietf-intarea-tunnels"/> into packets (in outer
+      for reassembly of sets of outer fragments into packets (in outer
       fragmentation, the fragmentation is visible in the outer header so that
-      the tunnel egress can reassemble the fragments). The following two
+      the tunnel egress can reassemble the fragments <xref
+      target="I-D.ietf-intarea-tunnels"/>). The following two
       additional requirements apply at a tunnel egress:<list style="symbols">
-          <t>During reassembly of outer fragments <xref
-          target="I-D.ietf-intarea-tunnels"/>, if the ECN fields of the outer
+          <t>During reassembly of outer fragments, if the ECN fields of the outer
           headers being reassembled into a single packet consist of a mixture
           of Not-ECT and other ECN codepoints, the packet MUST be
           discarded.</t>
@@ -346,7 +345,7 @@
           defined ECT(0) and ECT(1) as equivalent, but RFC 3168 has been
           updated by <xref target="RFC8311"/> to make ECT(1) available for
           congestion marking differences. The rule is independent of the
-          current use of ECT(1) for L4S <xref target="RFC9331"/>. The rule is
+          current experimental use of ECT(1) for L4S <xref target="RFC9331"/>. The rule is
           compatible with PCN <xref target="RFC6660"/>, which uses 2 levels of
           congestion severity, with the ranking of severity from highest to
           lowest being CE, ECT(1), ECT(0)). The decapsulation rules in <xref
@@ -476,7 +475,7 @@
       <t>Section 3.1.11 of RFC 8085 already explains that a tunnel that
       encapsulates an IP header within a UDP/IP datagram needs to follow RFC
       6040 when propagating the ECN field between inner and outer IP headers.
-      <xref target="rfc6040up_scope"/> of the present specficiation updates
+      <xref target="rfc6040up_scope"/> of the present specification updates
       RFC 6040 to clarify that its scope includes cases with a shim header
       between the IP headers. So it indirectly updates the scope of RFC 8085
       to include cases with a shim header as well as a UDP header between the
@@ -916,6 +915,8 @@
 
       <?rfc include='reference.RFC.6660'?>
 
+      <?rfc include='reference.RFC.7450'?>
+
       <?rfc include='reference.I-D.ietf-tsvwg-ecn-encap-guidelines'?>
     </references>
 
@@ -945,8 +946,6 @@
       <?rfc include='reference.RFC.7059'?>
 
       <?rfc include='reference.RFC.7348'?>
-
-      <?rfc include='reference.RFC.7450'?>
 
       <?rfc include='reference.RFC.7637'?>
 
