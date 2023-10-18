@@ -1037,7 +1037,7 @@
       for ECN propagation in L2TP and its applicability. Thanks also to Carlos
       Pignataro, Tom Herbert, Ignacio Goyret, Alia Atlas, Praveen
       Balasubramanian, Joe Touch, Mohamed Boucadair, David Black, Jake
-      Holland, Sri Gundavelli and Gorry Fairhurst for helpful advice and
+      Holland, Sri Gundavelli, Gorry Fairhurst and Martin Duke for helpful advice and
       comments. "A Comparison of IPv6-over-IPv4 Tunnel Mechanisms" <xref
       target="RFC7059"/> helped to identify a number of tunnelling protocols
       to include within the scope of this document.</t>
