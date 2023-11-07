@@ -47,7 +47,7 @@
   <front>
     <title abbrev="ECN Encapsulation Guidelines">Guidelines for Adding
     Congestion Notification to Protocols that Encapsulate IP</title>
-    <seriesInfo name="Internet-Draft" value="draft-ietf-tsvwg-ecn-encap-guidelines-20"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-tsvwg-ecn-encap-guidelines-21"/>
     <seriesInfo name="BCP" value="89"/>
     <author fullname="Bob Briscoe" initials="B." surname="Briscoe">
       <organization>Independent</organization>
