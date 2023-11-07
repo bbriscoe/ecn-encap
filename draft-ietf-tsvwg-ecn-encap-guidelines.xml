@@ -438,9 +438,9 @@ experienced' status code to each layer interface.-->
         congestion indication. It is propagated from link to link across the
         subnet in the L2 header, then when the router removes the marked L2
         header, it propagates the marking up into the L3 (IP) header. The
-        router forwards the marked L3 header into subnet 2, and when it adds a
+        router forwards the marked L3 header into subnet B, and when it adds a
         new L2 header it copies the L3 marking into the L2 header as well, as
-        shown by the 'C's in both layers (assuming the technology of subnet 2
+        shown by the 'C's in both layers (assuming the technology of subnet B
         also supports explicit congestion marking).</t>
         <t>Note that there is no implication that each 'C' marking is encoded
         the same; a different encoding might be used for the 'C' marking in
