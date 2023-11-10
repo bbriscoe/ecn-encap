@@ -442,10 +442,9 @@ experienced' status code to each layer interface.-->
         congestion indication. It is propagated from link to link across the
         subnet in the L2 header, then when the router removes the marked L2
         header, it propagates the marking up into the L3 (IP) header. The
-        router forwards the marked L3 header into subnet B, and when it adds a
-        new L2 header it copies the L3 marking into the L2 header as well, as
-        shown by the 'C's in both layers (assuming the technology of subnet B
-        also supports explicit congestion marking).</t>
+        router forwards the marked L3 header into subnet B. The L2 protocol used
+        in subnet B does not support ECN, but the signal proceeds across it in
+        the L3 header.</t>
         <t>Note that there is no implication that each 'C' marking is encoded
         the same; a different encoding might be used for the 'C' marking in
         each protocol.</t>
@@ -467,7 +466,7 @@ experienced' status code to each layer interface.-->
  |___|_____|___|_____|___|_____|___|_____|___|_____|___|_____|___|
  source          subnet A      router       subnet B         dest
      __ _ _ _    __ _ _ _    __ _ _        __ _ _ _
-    |  | | | |  |  | | |C|  |  | |C|      |  | |C|C|  Data________\
+    |  | | | |  |  | | |C|  |  | |C|      |  | |C| |  Data________\
     |__|_|_|_|  |__|_|_|_|  |__|_|_|      |__|_|_|_|  Packet (U)  /
  layer: 4 3 2A      4 3 2A      4 3           4 3 2B
  header]]></artwork>
@@ -510,8 +509,8 @@ experienced' status code to each layer interface.-->
  |  <|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Packet V <<<<<<<<<<<<<|<< |L4
  |   |                         +---+                         | ^ |
  |   | . . .  >>>> Packet U >>>|>>>|>>> Packet U >>>>>>>>>>>>|>^ |L3
- |   |     +--^+     +---+     |   |     +---+     +---+     |   |
- |   |     |  *|     |   |     |   |     |   |     |   |     |   |L2
+ |   |     +--^+     +---+     |  v|     +---+     +---+     | ^ |
+ |   |     |  *|     |   |     |  >|>>>>>|>>>|>>>>>|>>>|>>>>>|>^ |L2
  |___|_____|___|_____|___|_____|___|_____|___|_____|___|_____|___|
  source          subnet E      router       subnet F         dest
      __ _ _ _    __ _ _ _    __ _ _        __ _ _ _
@@ -526,7 +525,8 @@ experienced' status code to each layer interface.-->
         the point of congestion, even though the congested switch does not
         otherwise act at L3. In this example, the technology in subnet F (e.g.
         MPLS) does support ECN natively, so when the router adds the layer-2
-        header it copies the ECN marking from L3 to L2 as well.</t>
+        header it copies the ECN marking from L3 to L2 as well, as shown by the
+        'C's in both layers.</t>
       </section>
       <section anchor="ecnencap_Backward" numbered="true" toc="default">
         <name>Feed-Backward Mode</name>
