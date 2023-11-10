@@ -117,7 +117,7 @@
       only partially deployed. If a lower layer header that contains ECN
       congestion indications is stripped off by a subnet egress that is not
       ECN-aware, or if the ultimate receiver or sender is not ECN-aware,
-      congestion needs to be indicated by dropping a packet, not marking
+      congestion needs to be indicated by dropping the packet, not marking
       it.</t>
       <t>The purpose of this document is to guide the addition of congestion
       notification to any subnet technology or tunnelling protocol, so that
@@ -374,10 +374,14 @@ experienced' status code to each layer interface.-->
           as well as at the IP layer.</dd>
         <dt>Not-ECN-PDU:</dt>
         <dd>A PDU at the IP layer or below that is
-          part of a congestion control feedback-loop within which at least one
-          node necessary to propagate any explicit congestion notification
-          signals back to the Load Regulator is not capable of doing that
-          propagation.</dd>
+          part of a congestion control feedback loop that is not capable of
+          propagating explicit congestion notification signals back to the Load
+          Regulator, because at least one of the nodes necessary to propagate
+          the signals is incapable of doing that propagation. Note that this
+          definition is a property of the feedback-loop, not necessarily of the
+          PDU itself, because in some protocols the PDU will self-describe the
+          property, but in others the property might be carried in a separate
+          control-plane context that is somehow bound to the PDU.</dd>
       </dl>
     </section>
     <section anchor="ecnencap_Modes" numbered="true" toc="default">
@@ -741,7 +745,8 @@ has to be fed back from destination to source.-->
         <t>In IP, if the ECN field in each PDU is cleared to the Not-ECT (not
         ECN-capable transport) codepoint, it indicates that the L4 transport
         will not understand congestion markings. A congested buffer must not
-        mark these Not-ECT PDUs, and therefore drops them instead.</t>
+        mark these Not-ECT PDUs, and therefore has to signal congestion by
+        increasingly applying drop instead.</t>
         <t>The mechanism a lower layer uses to distinguish the ECN-capability
         of PDUs need not mimic that of IP. The above guidelines merely say
         that the lower layer system, as a whole, should achieve the same
@@ -762,7 +767,7 @@ has to be fed back from destination to source.-->
         them. Nonetheless, this is made safe by requiring that the network
         operator upgrades all decapsulating edges of a whole domain at once,
         as soon as even one switch within the domain is configured to mark
-        rather than drop during congestion. Therefore, any edge node that
+        rather than drop some PDUs during congestion. Therefore, any edge node that
         might decapsulate a packet will be capable of checking whether the
         higher layer transport is ECN-capable. When decapsulating a CE-marked
         packet, if the decapsulator discovers that the higher layer (inner
@@ -788,12 +793,12 @@ has to be fed back from destination to source.-->
         different categories depending on whether logic to understand the
         extension is critical. The congestion experienced marking has been
         defined as a 'critical ingress-to-egress' flag. So if a transit
-        RBridge sets this flag and an egress RBridge does not have any logic
+        RBridge sets this flag on a frame and an egress RBridge does not have any logic
         to process it, it will drop it; which is the desired default action
         anyway. Therefore TRILL RBridges can be updated with support for ECN
         in no particular order and, at the egress of the TRILL campus,
         congestion notification will be propagated to IP as ECN whenever ECN
-        logic has been implemented, or as drop otherwise.</t>
+        logic has been implemented at the egress, or as drop otherwise.</t>
         <t>QCN <xref target="IEEE802.1Q" format="default"/> is not intended to extend beyond a
         single subnet, or to interoperate with ECN. Nonetheless, the way QCN
         indicates to lower layer devices that the end-points will not
@@ -811,8 +816,9 @@ has to be fed back from destination to source.-->
         experimentation with congestion markings that are not equivalent to drop,
         in particular for L4S <xref target="RFC9331" format="default"/>. ECN
         support in TRILL <xref target="I-D.ietf-trill-ecn-support" format="default"/>
-        specifies a way to defer drop to the egress of a subnet for both
-        RFC&nbsp;3168 and L4S marking. The ECN scheme for MPLS <xref target="RFC5129" format="default"/>
+        is a good example of a way to defer drop to the egress of a subnet both
+        when marks are equivalent to drops (as in RFC&nbsp;3168) and when they
+        are not (as in L4S). The ECN scheme for MPLS <xref target="RFC5129" format="default"/>
         was defined before L4S, so it only currently supports deferred drop that
         is equivalent to ECN-marking. Nonetheless, in principle, MPLS
         (and potentially future L2 protocols) could support L4S marking and copy TRILL's approach for determining the
@@ -866,8 +872,8 @@ has to be fed back from destination to source.-->
             <t>This ensures that
             bulk congestion monitoring of outer headers (e.g. by a network
             management node monitoring ECN in passing frames) will measure
-            congestion accumulated along the whole upstream path &mdash; since the
-            Load Regulator not just since the ingress of the subnet. A node
+            congestion accumulated along the whole upstream path &mdash; starting from the
+            Load Regulator not just starting from the ingress of the subnet. A node
             that is not the Load Regulator SHOULD NOT re-initialize the level
             of CE markings in the outer to zero. </t>
             <t>It
@@ -923,7 +929,7 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
             understand explicit congestion markings. Then:</t>
             <ul spacing="normal">
               <li>If the outer header carries an explicit congestion marking,
-                drop is the only indication of congestion that the L4
+                it is likely that a protocol error has occurred, so drop is the only indication of congestion that the L4
                 transport will understand. If the congestion marking is the
                 most severe possible, the packet MUST be dropped. However, if
                 congestion can be marked with multiple levels of severity and
@@ -2063,7 +2069,8 @@ start of its segment.-->
       Dan Romascanu and Gonzalo Camarillo for helping with the liaisons with
       the IEEE and 3GPP. And thanks to Georg Mayer and particularly to Erik
       Guttman for the extensive search and categorisation of any 3GPP
-      specifications that cite ECN specifications.</t>
+      specifications that cite ECN specifications. Thanks also to the Area
+      Reviewers Dan Harkins, Paul Kyzivat, Sue Hares and Dale Worley.</t>
       <t>Bob Briscoe was part-funded by the European Community under its
       Seventh Framework Programme through the Trilogy project (ICT-216372) for
       initial drafts then through the Reducing Internet Transport Latency
