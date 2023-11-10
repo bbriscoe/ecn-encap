@@ -465,10 +465,10 @@ experienced' status code to each layer interface.-->
  |   |     |  *|>>>>>|>>>|>>>>>|>^ |     |   |     |   |     |   |L2
  |___|_____|___|_____|___|_____|___|_____|___|_____|___|_____|___|
  source          subnet A      router       subnet B         dest
-     __ _ _ _    __ _ _ _    __ _ _        __ _ _ _
-    |  | | | |  |  | | |C|  |  | |C|      |  | |C| |  Data________\
-    |__|_|_|_|  |__|_|_|_|  |__|_|_|      |__|_|_|_|  Packet (U)  /
- layer: 4 3 2A      4 3 2A      4 3           4 3 2B
+    __ _ _ _|   __ _ _ _|  __ _ _|       __ _ _ _|
+   |  | | | |  |  | | |C| |  | |C|      |  | |C| |    Data________\
+   |__|_|_|_|  |__|_|_|_| |__|_|_|      |__|_|_|_|    Packet (U)  /
+ layer:4 3 2A      4 3 2A     4 3           4 3 2B
  header]]></artwork>
         </figure>
         <t>Of course, modern networks are rarely as simple as this text-book
@@ -513,10 +513,10 @@ experienced' status code to each layer interface.-->
  |   |     |  *|     |   |     |  >|>>>>>|>>>|>>>>>|>>>|>>>>>|>^ |L2
  |___|_____|___|_____|___|_____|___|_____|___|_____|___|_____|___|
  source          subnet E      router       subnet F         dest
-     __ _ _ _    __ _ _ _    __ _ _        __ _ _ _
-    |  | | | |  |  | |C| |  |  | |C|      |  | |C|C|  data________\
-    |__|_|_|_|  |__|_|_|_|  |__|_|_|      |__|_|_|_|  packet (U)  /
- layer: 4 3 2       4 3 2       4 3           4 3 2
+    __ _ _ _|   __ _ _ _|  __ _ _|       __ _ _ _|
+   |  | | | |  |  | |C| | |  | |C|      |  | |C|C|    Data________\
+   |__|_|_|_|  |__|_|_|_| |__|_|_|      |__|_|_|_|    Packet (U)  /
+ layer:4 3 2       4 3 2      4 3           4 3 2
  header]]></artwork>
         </figure>
         <t>By comparing <xref target="ecnencap_Fig_Feed-Up" format="default"/> with <xref target="ecnencap_Fig_Feed-Forward-and-Up" format="default"/>, it can be seen that
