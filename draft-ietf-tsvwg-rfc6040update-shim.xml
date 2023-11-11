@@ -34,7 +34,7 @@
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
 <rfc category="std" consensus="true"
-     docName="draft-ietf-tsvwg-rfc6040update-shim-19" ipr="pre5378Trust200902"
+     docName="draft-ietf-tsvwg-rfc6040update-shim-20" ipr="pre5378Trust200902"
      updates="6040, 2661, 2784, 3931, 4380, 7450">
   <front>
     <title abbrev="ECN over IP-shim-(L2)-IP Tunnels">Propagating Explicit
@@ -332,11 +332,11 @@
       for reassembly of sets of outer fragments into packets (in outer
       fragmentation, the fragmentation is visible in the outer header so that
       the tunnel egress can reassemble the fragments <xref
-      target="I-D.ietf-intarea-tunnels"/>). The following two
-      additional requirements apply at a tunnel egress:<list style="symbols">
-          <t>During reassembly of outer fragments, if the ECN fields of the outer
-          headers being reassembled into a single packet consist of a mixture
-          of Not-ECT and other ECN codepoints, the packet MUST be
+      target="I-D.ietf-intarea-tunnels"/>). The following two additional
+      requirements apply at a tunnel egress:<list style="symbols">
+          <t>During reassembly of outer fragments, if the ECN fields of the
+          outer headers being reassembled into a single packet consist of a
+          mixture of Not-ECT and other ECN codepoints, the packet MUST be
           discarded.</t>
 
           <t>If there is mix of ECT(0) and ECT(1) outer fragments, then the
@@ -345,11 +345,11 @@
           defined ECT(0) and ECT(1) as equivalent, but RFC 3168 has been
           updated by <xref target="RFC8311"/> to make ECT(1) available for
           congestion marking differences. The rule is independent of the
-          current experimental use of ECT(1) for L4S <xref target="RFC9331"/>. The rule is
-          compatible with PCN <xref target="RFC6660"/>, which uses 2 levels of
-          congestion severity, with the ranking of severity from highest to
-          lowest being CE, ECT(1), ECT(0)). The decapsulation rules in <xref
-          target="RFC6040"/> take a similar approach.</t>
+          current experimental use of ECT(1) for L4S <xref target="RFC9331"/>.
+          The rule is compatible with PCN <xref target="RFC6660"/>, which uses
+          2 levels of congestion severity, with the ranking of severity from
+          highest to lowest being CE, ECT(1), ECT(0)). The decapsulation rules
+          in <xref target="RFC6040"/> take a similar approach.</t>
         </list></t>
     </section>
 
@@ -1037,10 +1037,10 @@
       for ECN propagation in L2TP and its applicability. Thanks also to Carlos
       Pignataro, Tom Herbert, Ignacio Goyret, Alia Atlas, Praveen
       Balasubramanian, Joe Touch, Mohamed Boucadair, David Black, Jake
-      Holland, Sri Gundavelli, Gorry Fairhurst and Martin Duke for helpful advice and
-      comments. "A Comparison of IPv6-over-IPv4 Tunnel Mechanisms" <xref
-      target="RFC7059"/> helped to identify a number of tunnelling protocols
-      to include within the scope of this document.</t>
+      Holland, Sri Gundavelli, Gorry Fairhurst and Martin Duke for helpful
+      advice and comments. "A Comparison of IPv6-over-IPv4 Tunnel Mechanisms"
+      <xref target="RFC7059"/> helped to identify a number of tunnelling
+      protocols to include within the scope of this document.</t>
 
       <t>Bob Briscoe was part-funded by the Research Council of Norway through
       the TimeIn project for early drafts, and for final drafts (from -17) he
