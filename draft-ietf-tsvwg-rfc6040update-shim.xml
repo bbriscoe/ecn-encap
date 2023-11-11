@@ -567,9 +567,9 @@
 
             <t>An LCCE can determine the remote LCCE's support for ECN either
             statically (by configuration) or by dynamic discovery during setup
-            of each control connection between the LCCEs, using the Capability
-            AVP defined in <xref target="rfc6040up_L2TP_Capability_AVP"/>
-            below.</t>
+            of each control connection between the LCCEs, using the ECN
+            Capability AVP defined in <xref
+            target="rfc6040up_L2TP_ECN_Capability_AVP"/> below.</t>
 
             <t>Where the outer PSN header is some protocol other than IP that
             supports ECN, the appropriate ECN propagation specification will
@@ -580,59 +580,56 @@
             guidance on how to design ECN propagation into a protocol that
             encapsulates IP.</t>
 
-            <section anchor="rfc6040up_L2TP_Capability_AVP"
-                     title="LCCE Capability AVP for ECN Capability Negotiation">
-              <t>The LCCE Capability Attribute-Value Pair (AVP) defined here
-              has Attribute Type ZZ. The Attribute Value field for this AVP is
-              a bit-mask with the following 16-bit format:</t>
+            <section anchor="rfc6040up_L2TP_ECN_Capability_AVP"
+                     title="ECN Capability AVP for Negotiation between LCCEs">
+              <t>The ECN Capability Attribute-Value Pair (AVP) defined here
+              has Attribute Type ZZ {ToDo: Replace with IANA assignment}. The
+              AVP has the following format:</t>
 
-              <figure align="center" anchor="Fig_rfc6040up_LCCE_Capabiliy_AVP"
-                      title="Value Field for the LCCE Capability Attribute (E is the ECN Capability flag, the value of X is reserved)">
-                <artwork><![CDATA[       0                   1
-       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |X X X X X X X X X X X X X X X E|
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+]]></artwork>
+              <figure align="center"
+                      anchor="Fig_rfc6040up_LCCE_ECN_Capabiliy_AVP"
+                      title="ECN Capability Attribute Value Pair for L2TP (v2 or v3)">
+                <artwork><![CDATA[     0                   1                   2                   3
+     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |M|H|0|0|0|0|      Length       |          Vendor ID            |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |              ZZ               |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+]]></artwork>
               </figure>
 
               <t>This AVP MAY be present in the following message types: SCCRQ
               and SCCRP (Start-Control-Connection-Request and
               Start-Control-Connection-Reply). This AVP MAY be hidden (the
               H-bit set to 0 or 1) and is optional (M-bit not set). The length
-              (before hiding) of this AVP MUST be 8 octets. The Vendor ID is
-              the IETF Vendor ID of 0.</t>
+              (before hiding) of this AVP is 6 octets. The Vendor ID is the
+              IETF Vendor ID of 0.</t>
 
-              <t>Bit 15 of the Value field of the LCCE Capability AVP is
-              defined as the ECN Capability flag (E). When the ECN Capability
-              flag is set to 1, it indicates that the sender supports ECN
-              propagation. When the ECN Capability flag is cleared to zero, or
-              when no LCCE Capabiliy AVP is present, it indicates that the
-              sender does not support ECN propagation. All the other bits are
-              reserved. They MUST be cleared to zero when sent and ignored
-              when received or forwarded.</t>
+              <t>When an LCCE sends an ECN Capability AVP, it indicates that
+              it supports ECN propagation. When no ECN Capabiliy AVP is
+              present, it indicates that the sender does not support ECN
+              propagation. </t>
 
-              <t>An LCCE initiating a control connection will send a
-              Start-Control-Connection-Request (SCCRQ) containing an LCCE
-              Capability AVP with the ECN Capability flag set to 1. If the
-              tunnel terminator supports ECN, it will return a
-              Start-Control-Connection-Reply (SCCRP) that also includes an
-              LCCE Capability AVP with the ECN Capability flag set to 1. Then,
-              for any sessions created by that control connection, both ends
-              of the tunnel can use the normal mode of RFC 6040, i.e. it can
-              copy the IP ECN field from inner to outer when encapsulating
-              data packets.</t>
+              <t>If an LCCE initiating a control connection supports ECN
+              propagation, it will send a Start-Control-Connection-Request
+              (SCCRQ) containing an ECN Capability AVP. If the tunnel
+              terminator supports ECN, it will return a
+              Start-Control-Connection-Reply (SCCRP) that also includes an ECN
+              Capability AVP. Then, for any sessions created by that control
+              connection, both ends of the tunnel can use the normal mode of
+              RFC 6040, i.e. they can copy the IP ECN field from inner to
+              outer when encapsulating data packets.</t>
 
               <t>If, on the other hand, the tunnel terminator does not support
-              ECN it will ignore the ECN flag in the LCCE Capability AVP and
-              send an SCCRP to the tunnel initiator without a Capability AVP
-              (or with a Capability AVP but with the ECN Capability flag
-              cleared to zero). The tunnel initiator interprets the absence of
-              the ECN Capability flag in the SCCRP as an indication that the
-              tunnel terminator is incapable of supporting ECN. When
-              encapsulating data packets for any sessions created by that
-              control connection, the tunnel initiator will then use the
-              compatibility mode of RFC 6040 to clear the ECN field of the
-              outer IP header to 0b00.</t>
+              ECN it will ignore the ECN Capability AVP and send an SCCRP to
+              the tunnel initiator without an ECN Capability AVP. The tunnel
+              initiator interprets the absence of the ECN Capability flag in
+              the SCCRP as an indication that the tunnel terminator is
+              incapable of supporting ECN. When encapsulating data packets for
+              any sessions created by that control connection, the tunnel
+              initiator will then use the compatibility mode of RFC 6040 to
+              clear the ECN field of the outer IP header to 0b00.</t>
 
               <t>If the tunnel terminator does not support this ECN extension,
               the network operator is still expected to configure it to comply
