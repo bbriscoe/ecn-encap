@@ -177,7 +177,7 @@
 
       <t>However, an RFC has no jurisdiction over implementations that choose
       not to comply with it or cannot comply with it, including all those
-      implementations that pre-dated the RFC. Therefore it would have been
+      implementations that predated the RFC. Therefore it would have been
       unreasonable to add such a requirement to RFC 6040. Nonetheless, to
       ensure safe propagation of the ECN field over tunnels, it is reasonable
       to add requirements on operators, to ensure they configure their tunnels
@@ -607,7 +607,7 @@
               IETF Vendor ID of 0.</t>
 
               <t>When an LCCE sends an ECN Capability AVP, it indicates that
-              it supports ECN propagation. When no ECN Capabiliy AVP is
+              it supports ECN propagation. When no ECN Capability AVP is
               present, it indicates that the sender does not support ECN
               propagation. </t>
 
@@ -668,7 +668,7 @@
           functionality mode of RFC 3168). However, if they use a GRE
           encapsulation, this presumption is less sound.</t>
 
-          <t>Therefore, If the outer delivery protocol is IP (v4 or v6) the
+          <t>Therefore, if the outer delivery protocol is IP (v4 or v6) the
           operator is obliged to follow the safe configuration requirements in
           <xref target="rfc6040up_sec_safe"/> above. <xref
           target="rfc6040up_GRE_Safe"/> below updates the base GRE
