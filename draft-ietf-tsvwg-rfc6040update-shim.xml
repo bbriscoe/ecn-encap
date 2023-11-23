@@ -436,12 +436,12 @@
       below is also intended to update NVGRE.</t>
 
       <t>Although the definition of the various GTP shim headers is under the
-      control of the 3GPP, it is hard to determine whether the 3GPP or the
-      IETF controls standardization of the <spanx style="emph">process</spanx>
-      of adding both a GTP and an IP header to an inner IP header.
-      Nonetheless, the present specification is provided so that the 3GPP can
-      refer to it from any of its own specifications of GTP and IP header
-      processing.</t>
+      control of the 3rd Generation Partnership Project (3GPP), it is hard to
+      determine whether the 3GPP or the IETF controls standardization of the
+      <spanx style="emph">process</spanx> of adding both a GTP and an IP
+      header to an inner IP header. Nonetheless, the present specification is
+      provided so that the 3GPP can refer to it from any of its own
+      specifications of GTP and IP header processing.</t>
 
       <t>The specification of CAPWAP already specifies RFC 3168 ECN
       propagation and ECN capability negotiation. Without modification the
@@ -532,12 +532,11 @@
             an update to the base L2TPv2 and L2TPv3 specifications:<list
                 style="empty">
                 <t>The operator of an LCCE that does not support the ECN
-                Extension in <xref target="rfc6040up_L2TP_ECN"/> of RFCXXXX
-                MUST follow the configuration requirements in <xref
-                target="rfc6040up_sec_safe"/> of RFCXXXX to ensure it clears
-                the outer IP ECN field to 0b00 when the outer PSN header is IP
-                (v4 or v6). {RFCXXXX refers to the present document so it will
-                need to be inserted by the RFC Editor}</t>
+                Extension in <xref target="rfc6040up_L2TP_ECN"/> of [this
+                document] MUST follow the configuration requirements in <xref
+                target="rfc6040up_sec_safe"/> of [this document] to ensure it
+                clears the outer IP ECN field to 0b00 when the outer PSN
+                header is IP (v4 or v6).</t>
               </list></t>
 
             <t>In particular, for an L2TP Control Connection Endpoint (LCCE)
@@ -583,8 +582,7 @@
             <section anchor="rfc6040up_L2TP_ECN_Capability_AVP"
                      title="ECN Capability AVP for Negotiation between LCCEs">
               <t>The ECN Capability Attribute-Value Pair (AVP) defined here
-              has Attribute Type ZZ {ToDo: Replace with IANA assignment}. The
-              AVP has the following format:</t>
+              has Attribute Type TBD. The AVP has the following format:</t>
 
               <figure align="center"
                       anchor="Fig_rfc6040up_LCCE_ECN_Capabiliy_AVP"
@@ -594,7 +592,7 @@
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     |M|H|0|0|0|0|      Length       |          Vendor ID            |
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |              ZZ               |
+    |             TBD               |
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]></artwork>
               </figure>
@@ -691,10 +689,8 @@
             specification:<list style="empty">
                 <t>The operator of a GRE tunnel ingress MUST follow the
                 configuration requirements in <xref
-                target="rfc6040up_sec_safe"/> of RFCXXXX when the outer
-                delivery protocol is IP (v4 or v6). {RFCXXXX refers to the
-                present document so it will need to be inserted by the RFC
-                Editor}</t>
+                target="rfc6040up_sec_safe"/> of [this document] when the
+                outer delivery protocol is IP (v4 or v6).</t>
               </list></t>
           </section>
         </section>
@@ -776,10 +772,9 @@
                 <t>The operator of an AMT relay that does not support RFC 6040
                 or one of its compatible predecessors (RFC 4301 or the full
                 functionality mode of RFC 3168) MUST follow the configuration
-                requirements in <xref target="rfc6040up_sec_safe"/> of RFCXXXX
-                to ensure it clears the outer IP ECN field to zero. {RFCXXXX
-                refers to the present document so it will need to be inserted
-                by the RFC Editor}</t>
+                requirements in <xref target="rfc6040up_sec_safe"/> of [this
+                document] to ensure it clears the outer IP ECN field to
+                zero.</t>
               </list></t>
           </section>
 
@@ -863,11 +858,11 @@
 
         <ttcol>Reference</ttcol>
 
-        <c>ZZ</c>
+        <c>TBD</c>
 
         <c>ECN Capability</c>
 
-        <c>RFCXXXX</c>
+        <c>[this document]</c>
       </texttable>
 
       <t>[TO BE REMOVED: This registration should take place at the following
