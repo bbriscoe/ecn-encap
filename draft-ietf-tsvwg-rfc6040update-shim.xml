@@ -34,7 +34,7 @@
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
 <rfc category="std" consensus="true"
-     docName="draft-ietf-tsvwg-rfc6040update-shim-21" ipr="pre5378Trust200902"
+     docName="draft-ietf-tsvwg-rfc6040update-shim-22" ipr="pre5378Trust200902"
      updates="6040, 2661, 2784, 3931, 4380, 7450">
   <front>
     <title abbrev="ECN over IP-shim-(L2)-IP Tunnels">Propagating Explicit
@@ -260,13 +260,15 @@
           following cases:<list style="symbols">
               <t>if it is known that the tunnel egress does not support any of
               the RFCs that define propagation of the ECN field (RFC 6040, RFC
-              4301 or the full functionality mode of RFC 3168)</t>
+              4301 or the full functionality mode of RFC 3168);</t>
 
               <!--...from the outer to any forwarded IP header (which might be the forwarded header itself, or it might be encapsulated within a forwarded non-IP header).-->
 
               <t>or if the behaviour of the egress is not known or an egress
               with unknown behaviour might be dynamically paired with the
-              ingress.</t>
+              ingress (one way for an operator of a tunnel ingress to
+              determine the behaviour of an otherwise unknown egress is
+              decribed in <xref target="decap-test"/>);</t>
 
               <t>or if an IP header might be encapsulated within a non-IP
               header that the tunnel ingress is encapsulating, but the ingress
@@ -1010,6 +1012,22 @@
         </front>
 
         <seriesInfo name="Technical Specification" value="TS 29.274"/>
+      </reference>
+
+      <reference anchor="decap-test" target="https://arxiv.org/abs/2311.16825">
+        <front>
+          <title>A Test for IP-ECN Propagation over a Tunnel</title>
+
+          <author fullname="Bob" initials="B." surname="Briscoe">
+            <organization>Independent</organization>
+          </author>
+
+          <date month="November" year="2023"/>
+        </front>
+
+        <seriesInfo name="DOI" value="10.48550/arXiv.2311.16825"/>
+          <refcontent>Technical Report, TR-BB-2023-003</refcontent>
+        <format target="https://arxiv.org/pdf/2311.16825.pdf" type="PDF"/>
       </reference>
     </references>
 
