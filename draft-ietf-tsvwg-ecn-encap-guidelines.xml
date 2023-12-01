@@ -93,8 +93,9 @@
       non-IP-aware congested nodes up to the transport layer (L4). Following
       these guidelines should assure interworking among IP layer and lower
       layer congestion notification mechanisms, whether specified by the IETF
-      or other standards bodies. This document is included in BCP 89 and updates the advice to
-      subnetwork designers about ECN in RFC 3819.</t>
+      or other standards bodies. This document is included in BCP 89 and the
+      whole document updates the single paragraph of advice to subnetwork
+      designers about ECN in RFC 3819.</t>
     </abstract>
   </front>
   <!-- ================================================================ -->
@@ -171,7 +172,7 @@ experienced' status code to each layer interface.-->
       <t>Incremental deployment is the most delicate aspect when adding
       support for ECN. The original ECN protocol in IP <xref target="RFC3168" format="default"/> was carefully designed so that a congested buffer
       would not mark a packet (rather than drop it) unless both source and
-      destination hosts were ECN-capable. Otherwise its congestion markings
+      destination hosts were ECN-capable. Otherwise, its congestion markings
       would never be detected and congestion would just build up further.
       However, to support congestion marking below the IP layer or within
       tunnels, it is not sufficient to only check that the two layer 4
@@ -201,7 +202,7 @@ experienced' status code to each layer interface.-->
       given in the advice below, it MUST include a sound justification.</t>
       <t>It has not been possible to give common guidelines for all lower
       layer technologies, because they do not all fit a common pattern.
-      Instead they have been divided into a few distinct modes of operation:
+      Instead, they have been divided into a few distinct modes of operation:
       feed-forward-and-upward; feed-upward-and-forward; feed-backward; and
       null mode. These modes are described in <xref target="ecnencap_Modes" format="default"/>,
       then in the subsequent sections separate guidelines are given for each
@@ -230,7 +231,7 @@ experienced' status code to each layer interface.-->
         response, because algorithm issues should be independent of the layer
         the algorithm operates in.</t>
         <t>The default ECN semantics are described in <xref target="RFC3168" format="default"/>
-        and updated by <xref target="RFC8311" format="default"/>. Also the guidelines for AQM
+        and updated by <xref target="RFC8311" format="default"/>. Also, the guidelines for AQM
         designers <xref target="RFC7567" format="default"/> clarify the semantics of both drop
         and ECN signals from AQM algorithms. <xref target="RFC4774" format="default"/> is the
         appropriate best current practice specification of how algorithms with
@@ -252,13 +253,13 @@ experienced' status code to each layer interface.-->
         algorithms elsewhere are setting or interpreting the semantics of the
         ECN field. <xref target="RFC6040" format="default"/> updates RFC 4774 to allow
         alternative encapsulation and decapsulation behaviours to be defined
-        for alternative ECN semantics. However it reinforces the same point -
+        for alternative ECN semantics. However, it reinforces the same point -
         that it is far preferable to try to fit within the common ECN
         encapsulation and decapsulation behaviours, because expecting all
         lower layer technologies and tunnels to be updated is likely to be
         completely impractical.</t>
         <t>Alternative semantics for the ECN field can be defined to depend on
-        the traffic class indicated by the DSCP. Therefore correct propagation
+        the traffic class indicated by the DSCP. Therefore, correct propagation
         of congestion signals could depend on correct propagation of the DSCP
         between the layers and along the path. For instance, if the meaning of
         the ECN field depends on the DSCP (as in PCN or VoLTE) and if the
@@ -867,7 +868,7 @@ has to be fed back from destination to source.-->
             Baseline: Once the ingress to a subnet has established that the
             egress will correctly propagate ECN, on encapsulation it SHOULD
             encode the same level of congestion in outer headers as is
-            arriving in incoming headers. For example it might copy any
+            arriving in incoming headers. For example, it might copy any
             incoming congestion notification into the outer header of the
             lower layer protocol.</t>
             <t>This ensures that
@@ -1227,7 +1228,7 @@ start of its segment.-->
       <name>Security Considerations</name>
       <t>If a lower layer wire protocol is redesigned to include explicit
       congestion signalling in-band in the protocol header, care SHOULD be
-      take to ensure that the field used is specified as mutable during
+      taken to ensure that the field used is specified as mutable during
       transit. Otherwise interior nodes signalling congestion would invalidate
       any authentication protocol applied to the lower layer header &mdash; by
       altering a header field that had been assumed as immutable.</t>
@@ -1256,8 +1257,8 @@ start of its segment.-->
     <section anchor="ecnencap_Conclusions" numbered="true" toc="default">
       <name>Conclusions</name>
       <t>Following the guidance in this document enables ECN support to be
-      extended to numerous protocols that encapsulate IP (v4 &amp; v6) in a
-      consistent way, so that IP continues to fulfil its role as an end-to-end
+      extended consistently to numerous protocols that encapsulate IPv4 &amp;
+      IPv6, so that IP continues to fulfil its role as an end-to-end
       interoperability layer. This includes:</t>
       <ul spacing="normal">
         <li>A wide range of tunnelling protocols including those with various
