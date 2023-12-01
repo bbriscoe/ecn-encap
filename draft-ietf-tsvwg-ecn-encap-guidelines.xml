@@ -93,9 +93,10 @@
       non-IP-aware congested nodes up to the transport layer (L4). Following
       these guidelines should assure interworking among IP layer and lower
       layer congestion notification mechanisms, whether specified by the IETF
-      or other standards bodies. This document is included in BCP 89 and the
-      whole document updates the single paragraph of advice to subnetwork
-      designers about ECN in RFC 3819.</t>
+      or other standards bodies. This document is included in BCP 89 and updates
+      the single paragraph of advice to subnetwork designers about ECN in
+      Section 13 of RFC 3819, by replacing it with a reference to the whole of
+      this document.</t>
     </abstract>
   </front>
   <!-- ================================================================ -->
@@ -125,7 +126,7 @@
       lower layer AQM algorithms can signal congestion explicitly and it will
       propagate consistently into encapsulated (higher layer) headers,
       otherwise the signals will not reach their ultimate destination.</t>
-      <t>ECN is defined in the IP header (v4 and v6) <xref target="RFC3168" format="default"/>
+      <t>ECN is defined in the IP header (IPv4 and IPv6) <xref target="RFC3168" format="default"/>
       to allow a resource to notify the onset of queue build-up without having
       to drop packets, by explicitly marking a proportion of packets with the
       congestion experienced (CE) codepoint.<!--In the layered model of communication, each layer accepts requests to forward PDUs and eventually returns 
@@ -163,7 +164,7 @@ experienced' status code to each layer interface.-->
       protocols. <xref target="RFC6040" format="default"/> defines how ECN should be propagated
       for IP-in-IPv4 <xref target="RFC2003" format="default"/>, IP-in-IPv6 <xref target="RFC2473" format="default"/> and IPsec <xref target="RFC4301" format="default"/> tunnels, but there
       are numerous other tunnelling protocols with a shim and/or a layer 2
-      header between two IP headers (v4 or v6). Some address ECN propagation
+      header between two IP headers (IPv4 or IPv6). Some address ECN propagation
       between the IP headers, but many do not. This document gives guidance on
       how to address ECN propagation for future tunnelling protocols, and a
       companion standards track specification <xref target="I-D.ietf-tsvwg-rfc6040update-shim" format="default"/> updates those existing
@@ -289,7 +290,7 @@ experienced' status code to each layer interface.-->
         might be to use a parallel control plane protocol.</t>
         <t>This document focuses on the congestion notification interface
         between IP and lower layer or tunnel protocols that can encapsulate
-        IP, where the term 'IP' includes v4 or v6, unicast, multicast or
+        IP, where the term 'IP' includes IPv4 or IPv6, unicast, multicast or
         anycast. However, it is likely that the guidelines will also be useful
         when a lower layer protocol or tunnel encapsulates itself, e.g.
         Ethernet MAC in MAC (<xref target="IEEE802.1Q" format="default"/>; previously 802.1ah)
@@ -1138,7 +1139,7 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
           inaccessible</li>
         <li>Many Ethernet switches do not have 'layer-3 switch' capabilities
           so they cannot read or modify an IP payload</li>
-        <li>It might be costly to find an IP header (v4 or v6) when it may be
+        <li>It might be costly to find an IP header (IPv4 or IPv6) when it may be
           encapsulated by more than one lower layer header, e.g. Ethernet MAC
           in MAC (<xref target="IEEE802.1Q" format="default"/>; previously 802.1ah).</li>
       </ul>
@@ -1257,8 +1258,8 @@ start of its segment.-->
     <section anchor="ecnencap_Conclusions" numbered="true" toc="default">
       <name>Conclusions</name>
       <t>Following the guidance in this document enables ECN support to be
-      extended consistently to numerous protocols that encapsulate IPv4 &amp;
-      IPv6, so that IP continues to fulfil its role as an end-to-end
+      extended consistently to numerous protocols that encapsulate IP (IPv4 and
+      IPv6), so that IP continues to fulfil its role as an end-to-end
       interoperability layer. This includes:</t>
       <ul spacing="normal">
         <li>A wide range of tunnelling protocols including those with various
