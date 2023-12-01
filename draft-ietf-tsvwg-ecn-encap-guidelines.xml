@@ -9,7 +9,7 @@
   <!ENTITY mdash     "&#8212;">
 
 ]>
-<?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
+<?xml-stylesheet type='text/xsl' href='https://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!-- Alterations to I-D/RFC boilerplate -->
 <?rfc private="" ?>
 <!-- Default private="" Produce an internal memo 2.5pp shorter than an I-D or RFC -->
@@ -42,7 +42,7 @@
 <!-- HTML formatting control -->
 <?rfc emoticonic="yes" ?>
 <!-- Default emoticonic="no" Doesn't prettify HTML format -->
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="bcp" consensus="true" docName="draft-ietf-tsvwg-ecn-encap-guidelines-22" ipr="pre5378Trust200902" updates="3819" obsoletes="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
+<rfc xmlns:xi="https://www.w3.org/2001/XInclude" category="bcp" consensus="true" docName="draft-ietf-tsvwg-ecn-encap-guidelines-22" ipr="pre5378Trust200902" updates="3819" obsoletes="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 3.18.0 -->
   <front>
     <title abbrev="ECN Encapsulation Guidelines">Guidelines for Adding
@@ -57,7 +57,7 @@
           <country>UK</country>
         </postal>
         <email>ietf@bobbriscoe.net</email>
-        <uri>http://bobbriscoe.net/</uri>
+        <uri>https://bobbriscoe.net/</uri>
       </address>
     </author>
     <author fullname="John Kaippallimalil" initials="J." surname="Kaippallimalil">
@@ -303,10 +303,11 @@ experienced' status code to each layer interface.-->
     <section anchor="ecnencap_Reqs_Language" numbered="true" toc="default">
       <name>Terminology</name>
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-      document are to be interpreted as described in <xref target="RFC2119" format="default"/>
-        <xref target="RFC8174" format="default"/> when, and only when, they appear in all
-      capitals, as shown here.</t>
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in
+      BCP&nbsp;14 <xref target="RFC2119" format="default"/>
+      <xref target="RFC8174" format="default"/> when, and only when, they
+      appear in all capitals, as shown here.</t>
       <t>Further terminology used within this document:</t>
       <dl newline="false" spacing="normal">
         <dt>Protocol data unit (PDU):</dt>
@@ -1822,18 +1823,18 @@ start of its segment.-->
           </front>
           <seriesInfo name="Internet-Draft" value="draft-ietf-intarea-gue-09"/>
         </reference>
-        <reference anchor="I-D.ietf-tsvwg-rfc6040update-shim" target="https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-rfc6040update-shim-19" xml:base="https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-tsvwg-rfc6040update-shim.xml">
+        <reference anchor="I-D.ietf-tsvwg-rfc6040update-shim" target="https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-rfc6040update-shim-22" xml:base="https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-tsvwg-rfc6040update-shim.xml">
           <front>
             <title>Propagating Explicit Congestion Notification Across IP Tunnel Headers Separated by a Shim</title>
             <author fullname="Bob Briscoe" initials="B." surname="Briscoe">
               <organization>Independent</organization>
             </author>
-            <date day="19" month="October" year="2023"/>
+            <date day="29" month="October" year="2023"/>
             <abstract>
               <t>RFC 6040 on "Tunnelling of Explicit Congestion Notification" made the rules for propagation of ECN consistent for all forms of IP in IP tunnel. This specification updates RFC 6040 to clarify that its scope includes tunnels where two IP headers are separated by at least one shim header that is not sufficient on its own for wide area packet forwarding. It surveys widely deployed IP tunnelling protocols that use such shim header(s) and updates the specifications of those that do not mention ECN propagation (that is RFC 2661, RFC 3931, RFC 2784, RFC 4380 and RFC 7450, which respectively specify L2TPv2, L2TPv3, GRE, Teredo and AMT). This specification also updates RFC 6040 with configuration requirements needed to make any legacy tunnel ingress safe.</t>
             </abstract>
           </front>
-          <seriesInfo name="Internet-Draft" value="draft-ietf-tsvwg-rfc6040update-shim-19"/>
+          <seriesInfo name="Internet-Draft" value="draft-ietf-tsvwg-rfc6040update-shim-22"/>
         </reference>
         <reference anchor="IEEE802.1Q" target="https://ieeexplore.ieee.org/document/8403927">
           <front>
@@ -1848,7 +1849,7 @@ start of its segment.-->
           <seriesInfo name="IEEE Std" value="802.1Q-2018"/>
         </reference>
         <!-- <reference anchor="IEEE802.1ah"
-                 target="http://www.ieee802.org/1/pages/802.1ah.html">
+                 target="https://www.ieee802.org/1/pages/802.1ah.html">
         <front>
           <title>IEEE Standard for Local and Metropolitan Area
           Networks&mdash;Virtual Bridged Local Area Networks &mdash; Amendment
@@ -1863,14 +1864,14 @@ start of its segment.-->
 
         <seriesInfo name="IEEE Std" value="802.1ah-2008"/>
 
-        <format target="http://www.ieee802.org/1/pages/802.1ah.html"
+        <format target="https://www.ieee802.org/1/pages/802.1ah.html"
                 type="HTML"/>
 
         <annotation>(Access Controlled link within page)</annotation>
       </reference>
 
       <reference anchor="IEEE802.1Qau"
-                 target="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061">
+                 target="https://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061">
         <front>
           <title>IEEE Standard for Local and Metropolitan Area
           Networks&mdash;Virtual Bridged Local Area Networks&mdash;Amendment 13:
@@ -1886,13 +1887,13 @@ start of its segment.-->
 
         <seriesInfo name="IEEE Std" value="802.1Qau-2010"/>
 
-        <format target="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061"
+        <format target="https://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061"
                 type="PDF"/>
 
         <annotation>(Access Controlled link within page)</annotation>
       </reference> -->
 
-      <reference anchor="ITU-T.I.371" target="http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061">
+      <reference anchor="ITU-T.I.371" target="https://www.itu.int/rec/T-REC-I.371">
           <front>
             <title>Traffic Control and Congestion Control in B-ISDN</title>
             <author fullname="" initials="" surname="">
@@ -1901,54 +1902,8 @@ start of its segment.-->
             <date month="March" year="2004"/>
           </front>
           <seriesInfo name="ITU-T Rec." value="I.371 (03/04)"/>
-          <format target="http://www.itu.int/rec/recommendation.asp?type=folders&amp;lang=e&amp;parent=T-REC-I.371" type="PDF"/>
+          <format target="https://www.itu.int/rec/T-REC-I.371" type="PDF"/>
         </reference>
-        <!--      <reference anchor="DCTCP"
-                 target="http://portal.acm.org/citation.cfm?id=1851192">
-        <front>
-          <title>Data Center TCP (DCTCP)</title>
-
-          <author fullname="Mohammad Alizadeh" initials="M" surname="Alizadeh">
-            <organization/>
-          </author>
-
-          <author fullname="Albert Greenberg" initials="A" surname="Greenberg">
-            <organization/>
-          </author>
-
-          <author fullname="David A. Maltz" initials="D.A." surname="Maltz">
-            <organization/>
-          </author>
-
-          <author fullname="Jitendra Padhye" initials="J" surname="Padhye">
-            <organization/>
-          </author>
-
-          <author fullname="Parveen Patel" initials="P" surname="Patel">
-            <organization/>
-          </author>
-
-          <author fullname="Balaji Prabhakar" initials="B" surname="Prabhakar">
-            <organization/>
-          </author>
-
-          <author fullname="Sudipta Sengupta" initials="S" surname="Sengupta">
-            <organization/>
-          </author>
-
-          <author fullname="Murari Sridharan" initials="M" surname="Sridharan">
-            <organization/>
-          </author>
-
-          <date month="October" year="2010"/>
-        </front>
-
-        <seriesInfo name="ACM SIGCOMM CCR" value="40(4)63-74"/>
-
-        <format target="http://portal.acm.org/citation.cfm?id=1851192"
-                type="PDF"/>
-      </reference>
--->
 
       <reference anchor="Buck00">
           <front>
@@ -2015,7 +1970,7 @@ start of its segment.-->
           </front>
           <seriesInfo name="Technical Specification" value="TS 29.274"/>
         </reference>
-        <reference anchor="ATM-TM-ABR" target="http://www.cisco.com/en/US/tech/tk39/tk51/technologies_tech_note09186a00800fbc76.shtml">
+        <reference anchor="ATM-TM-ABR" target="https://www.cisco.com/c/en/us/support/docs/asynchronous-transfer-mode-atm/atm-traffic-management/10415-atmabr.html">
           <front>
             <title>Understanding the Available Bit Rate (ABR) Service Category
           for ATM VCs</title>
