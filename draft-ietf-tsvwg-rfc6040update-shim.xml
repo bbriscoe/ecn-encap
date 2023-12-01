@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
+<?xml-stylesheet type='text/xsl' href='https://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!-- Alterations to I-D/RFC boilerplate -->
 <?rfc private="" ?>
 <!-- Default private="" Produce an internal memo 2.5pp shorter than an I-D or RFC -->
@@ -53,7 +53,7 @@
 
         <email>ietf@bobbriscoe.net</email>
 
-        <uri>http://bobbriscoe.net/</uri>
+        <uri>https://bobbriscoe.net/</uri>
       </address>
     </author>
 
@@ -109,7 +109,7 @@
       inner IP header (v4 or v6) with shim header(s) then an outer IP header
       (v4 or v6). Some of these shim headers are designed as generic
       encapsulations, so they do not necessarily directly encapsulate an inner
-      IP header. Instead they can encapsulate headers such as link-layer (L2)
+      IP header. Instead, they can encapsulate headers such as link-layer (L2)
       protocols that in turn often encapsulate IP.</t>
 
       <t>To clear up confusion, this specification clarifies that the scope of
@@ -127,10 +127,10 @@
 
     <section anchor="rfc6040up_Reqs_Language" title="Terminology">
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-      document are to be interpreted as described in RFC 2119 <xref
-      target="RFC2119"/> when, and only when, they appear in all capitals, as
-      shown here.</t>
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in
+      BCP&nbsp;14 <xref target="RFC2119"/> <xref target="RFC8174"/> when, and
+      only when, they appear in all capitals, as shown here.</t>
 
       <t>This specification uses the terminology defined in RFC 6040 <xref
       target="RFC6040"/>.</t>
@@ -177,7 +177,7 @@
 
       <t>However, an RFC has no jurisdiction over implementations that choose
       not to comply with it or cannot comply with it, including all those
-      implementations that predated the RFC. Therefore it would have been
+      implementations that predated the RFC. Therefore, it would have been
       unreasonable to add such a requirement to RFC 6040. Nonetheless, to
       ensure safe propagation of the ECN field over tunnels, it is reasonable
       to add requirements on operators, to ensure they configure their tunnels
@@ -246,7 +246,7 @@
       safety concern is to disable (clear to zero) the ECN capability in the
       outer IP header at the ingress if the egress of the tunnel does not
       implement ECN logic to propagate any ECN markings into the packet
-      forwarded beyond the tunnel. Otherwise the non-ECN egress could discard
+      forwarded beyond the tunnel. Otherwise, the non-ECN egress could discard
       any ECN marking introduced within the tunnel, which would break all the
       ECN-based control loops that regulate the traffic load over the
       tunnel.</t>
@@ -268,7 +268,7 @@
               with unknown behaviour might be dynamically paired with the
               ingress (one way for an operator of a tunnel ingress to
               determine the behaviour of an otherwise unknown egress is
-              decribed in <xref target="decap-test"/>);</t>
+              described in <xref target="decap-test"/>);</t>
 
               <t>or if an IP header might be encapsulated within a non-IP
               header that the tunnel ingress is encapsulating, but the ingress
@@ -297,9 +297,10 @@
 
       <t>For instance, if a tunnel ingress with no ECN-specific logic had a
       configuration capability to refer to the last 2 bits of the old ToS Byte
-      of the outer (e.g. with a 0x3 mask) and set them to zero, while also
-      being able to allow the DSCP to be re-mapped independently, that would
-      be sufficient to satisfy both the above implementation requirements.</t>
+      of the outer (e.g.&nbsp;with a 0x3 mask) and set them to zero, while
+      also being able to allow the DSCP to be re-mapped independently, that
+      would be sufficient to satisfy both the above implementation
+      requirements.</t>
 
       <t>There might be concern that the above "MUST NOT" makes compliant
       implementations non-compliant at a stroke. However, by definition it
@@ -309,7 +310,7 @@
       field must have always been non-compliant with the definition of the
       6-bit Diffserv field in <xref target="RFC2474"/> and <xref
       target="RFC3260"/>. If a tunnel ingress does not have any ECN logic,
-      copying the ECN field as a side-effect of copying the DSCP is a
+      copying the ECN field as a side effect of copying the DSCP is a
       seriously unsafe bug that risks breaking the feedback loops that
       regulate load on a tunnel.</t>
 
@@ -399,9 +400,6 @@
 
           <t>Geneve <xref target="RFC8926"/>;</t>
 
-          <t>GUE (Generic UDP Encapsulation) <xref
-          target="I-D.ietf-intarea-gue"/>;</t>
-
           <t>Direct tunnelling of an IP packet within a UDP/IP datagram (see
           Section 3.1.11 of <xref target="RFC8085"/>);</t>
 
@@ -471,8 +469,8 @@
       when handling transport encapsulation <xref
       target="I-D.ietf-sfc-nsh-ecn-support"/>.</t>
 
-      <t>The specifications of Geneve and GUE already refer to RFC 6040 for
-      ECN encapsulation.</t>
+      <t>The specification of Geneve already refers to RFC 6040 for ECN
+      encapsulation.</t>
 
       <t>Section 3.1.11 of RFC 8085 already explains that a tunnel that
       encapsulates an IP header within a UDP/IP datagram needs to follow RFC
@@ -487,7 +485,7 @@
       6040, and hence indirectly update the UDP usage guidelines in RFC 8085
       to add the important but previously unstated requirement that, if the
       UDP tunnel egress does not, or might not, support ECN propagation, a UDP
-      tunnel ingress has to clear the outer IP ECN field to 0b00, e.g. by
+      tunnel ingress has to clear the outer IP ECN field to 0b00, e.g.&nbsp;by
       configuration.</t>
 
       <t>Section 9.5 of TCP Encapsulation of IKE and IPsec Packets <xref
@@ -503,8 +501,8 @@
           target="RFC2661"/> and <xref target="RFC3931"/>.</t>
 
           <t>L2TPv3 <xref target="RFC3931"/> is used as a shim header between
-          any packet-switched network (PSN) header (e.g. IPv4, IPv6, MPLS) and
-          many types of layer 2 (L2) header. The L2TPv3 shim header
+          any packet-switched network (PSN) header (e.g.&nbsp;IPv4, IPv6,
+          MPLS) and many types of layer 2 (L2) header. The L2TPv3 shim header
           encapsulates an L2-specific sub-layer then an L2 header that is
           likely to contain an inner IP header (v4 or v6). Then this whole
           stack of headers can be encapsulated optionally within an outer UDP
@@ -521,11 +519,11 @@
           and L2TPv3 are therefore within the scope of RFC 6040, as updated by
           <xref target="rfc6040up_scope"/> above.</t>
 
-          <t>L2TP maintainers are RECOMMENDED to implement the ECN extension
-          to L2TPv2 and L2TPv3 defined in <xref target="rfc6040up_L2TP_ECN"/>
-          below, in order to provide the benefits of ECN <xref
-          target="RFC8087"/>, whenever a node within an L2TP tunnel becomes
-          the bottleneck for an end-to-end traffic flow.</t>
+          <t>Implementation of the ECN extension to L2TPv2 and L2TPv3 defined
+          in <xref target="rfc6040up_L2TP_ECN"/> below is RECOMMENDED, in
+          order to provide the benefits of ECN <xref target="RFC8087"/>,
+          whenever a node within an L2TP tunnel becomes the bottleneck for an
+          end-to-end traffic flow.</t>
 
           <section anchor="rfc6040up_L2TP_Safe"
                    title="Safe Configuration of a 'Non-ECN' Ingress LCCE">
@@ -574,9 +572,9 @@
 
             <t>Where the outer PSN header is some protocol other than IP that
             supports ECN, the appropriate ECN propagation specification will
-            need to be followed, e.g. "Explicit Congestion Marking in MPLS"
-            <xref target="RFC5129"/>. Where no specification exists for ECN
-            propagation by a particular PSN, <xref
+            need to be followed, e.g.&nbsp;"Explicit Congestion Marking in
+            MPLS" <xref target="RFC5129"/>. Where no specification exists for
+            ECN propagation by a particular PSN, <xref
             target="I-D.ietf-tsvwg-ecn-encap-guidelines"/> gives general
             guidance on how to design ECN propagation into a protocol that
             encapsulates IP.</t>
@@ -618,7 +616,7 @@
               Start-Control-Connection-Reply (SCCRP) that also includes an ECN
               Capability AVP. Then, for any sessions created by that control
               connection, both ends of the tunnel can use the normal mode of
-              RFC 6040, i.e. they can copy the IP ECN field from inner to
+              RFC 6040, i.e.&nbsp;they can copy the IP ECN field from inner to
               outer when encapsulating data packets.</t>
 
               <t>If, on the other hand, the tunnel terminator does not support
@@ -648,12 +646,12 @@
           header. Therefore GRE is within the scope of RFC 6040 as updated by
           <xref target="rfc6040up_scope"/> above.</t>
 
-          <t>GRE tunnel endpoint maintainers are RECOMMENDED to support <xref
-          target="RFC6040"/> as updated by the present specification, in order
-          to provide the benefits of ECN <xref target="RFC8087"/> whenever a
-          node within a GRE tunnel becomes the bottleneck for an end-to-end IP
-          traffic flow tunnelled over GRE using IP as the delivery protocol
-          (outer header).</t>
+          <t>Implementation of support for <xref target="RFC6040"/> as updated
+          by the present specification is RECOMMENDED for GRE tunnel
+          endpoints, in order to provide the benefits of ECN <xref
+          target="RFC8087"/> whenever a node within a GRE tunnel becomes the
+          bottleneck for an end-to-end IP traffic flow tunnelled over GRE
+          using IP as the delivery protocol (outer header).</t>
 
           <t>GRE itself does not support dynamic set-up and configuration of
           tunnels. However, control plane protocols such as Mobile IPv4 (MIP4)
@@ -663,10 +661,10 @@
           tunnels dynamically.</t>
 
           <t>When these control protocols set up IP-in-IP or IPSec tunnels, it
-          is likely that they propagate the ECN field as defined in RFC 6040
-          or one of its compatible predecessors (RFC 4301 or the full
-          functionality mode of RFC 3168). However, if they use a GRE
-          encapsulation, this presumption is less sound.</t>
+          is likely that the resulting tunnels will propagate the ECN field as
+          defined in RFC 6040 or one of its compatible predecessors (RFC 4301
+          or the full functionality mode of RFC 3168). However, if they use a
+          GRE encapsulation, this presumption is less sound.</t>
 
           <t>Therefore, if the outer delivery protocol is IP (v4 or v6) the
           operator is obliged to follow the safe configuration requirements in
@@ -677,8 +675,8 @@
 
           <t>Where the delivery protocol is some protocol other than IP that
           supports ECN, the appropriate ECN propagation specification will
-          need to be followed, e.g Explicit Congestion Marking in MPLS <xref
-          target="RFC5129"/>. Where no specification exists for ECN
+          need to be followed, e.g.&nbsp;Explicit Congestion Marking in MPLS
+          <xref target="RFC5129"/>. Where no specification exists for ECN
           propagation by a particular PSN, <xref
           target="I-D.ietf-tsvwg-ecn-encap-guidelines"/> gives more general
           guidance on how to propagate ECN to and from protocols that
@@ -710,7 +708,7 @@
 
           <t>Those implementations known to the authors at the time of writing
           do not support propagation of ECN, but that they do safely zero the
-          ECN field in the outer IPv6 header. However the specification does
+          ECN field in the outer IPv6 header. However, the specification does
           not mention anything about this.</t>
 
           <t>To make existing Teredo deployments safe, it would be possible to
@@ -740,11 +738,11 @@
           within the scope of RFC 6040 as updated by <xref
           target="rfc6040up_scope"/> above.</t>
 
-          <t>AMT tunnel endpoint maintainers are RECOMMENDED to support <xref
-          target="RFC6040"/> as updated by the present specification, in order
-          to provide the benefits of ECN <xref target="RFC8087"/> whenever a
-          node within an AMT tunnel becomes the bottleneck for an IP traffic
-          flow tunnelled over AMT.</t>
+          <t>Implementation of support for <xref target="RFC6040"/> as updated
+          by the present specification is RECOMMENDED for AMT tunnel
+          endpoints, in order to provide the benefits of ECN <xref
+          target="RFC8087"/> whenever a node within an AMT tunnel becomes the
+          bottleneck for an IP traffic flow tunnelled over AMT.</t>
 
           <t>To comply with RFC 6040, an AMT relay and gateway will follow the
           rules for propagation of the ECN field at ingress and egress
@@ -830,8 +828,8 @@
                 store the ECN capability of the gateway along with its
                 address. Then whenever it tunnels datagrams towards this
                 gateway, it MUST use the normal mode of RFC 6040 to propagate
-                the ECN field when encapsulating datagrams (i.e. it copies the
-                IP ECN field from inner to outer).</t>
+                the ECN field when encapsulating datagrams (i.e.&nbsp;it
+                copies the IP ECN field from inner to outer).</t>
 
                 <t>If the discovered AMT relay does not support RFC 6040 ECN
                 propagation, it will ignore the E flag in the Reserved field,
@@ -951,6 +949,8 @@
 
       <?rfc include='reference.RFC.8159'?>
 
+      <?rfc include='reference.RFC.8174'?>
+
       <?rfc include='reference.RFC.8300'?>
 
       <?rfc include='reference.RFC.8311'?>
@@ -958,8 +958,6 @@
       <?rfc include='reference.RFC.8926'?>
 
       <?rfc include='reference.I-D.ietf-nvo3-vxlan-gpe'?>
-
-      <?rfc include='reference.I-D.ietf-intarea-gue'?>
 
       <?rfc include='reference.I-D.ietf-sfc-nsh-ecn-support'?>
 
