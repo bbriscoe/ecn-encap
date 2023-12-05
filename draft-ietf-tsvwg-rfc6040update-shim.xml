@@ -233,7 +233,7 @@
 
             <t>If the tunnel endpoints would have to search within an L2
             header to find an encapsulated IP header, it might not be worth
-            the potential performance hit</t>
+            the potential performance hit.</t>
           </list></t>
       </section>
     </section>
@@ -255,9 +255,9 @@
       following text at the end of section 4.3:<list style="empty">
           <t>"<vspace blankLines="0"/>Whether or not an ingress implementation
           claims compliance with RFC 6040, RFC 4301 or RFC3168, when the outer
-          tunnel header is IP (v4 or v6), if possible, the operator MUST
-          configure the ingress to zero the outer ECN field in any of the
-          following cases:<list style="symbols">
+          tunnel header is IP (v4 or v6), if possible, the ingress MUST be
+          configured to zero the outer ECN field in any of the following
+          cases:<list style="symbols">
               <t>if it is known that the tunnel egress does not support any of
               the RFCs that define propagation of the ECN field (RFC 6040, RFC
               4301 or the full functionality mode of RFC 3168);</t>
@@ -654,8 +654,9 @@
           using IP as the delivery protocol (outer header).</t>
 
           <t>GRE itself does not support dynamic set-up and configuration of
-          tunnels. However, control plane protocols such as Mobile IPv4 (MIP4)
-          <xref target="RFC5944"/>, Mobile IPv6 (MIP6) <xref
+          tunnels. However, control plane protocols such as Next Hop
+          Resolution Protocol (NHRP) <xref target="RFC2332"/>, Mobile IPv4
+          (MIP4) <xref target="RFC5944"/>, Mobile IPv6 (MIP6) <xref
           target="RFC6275"/>, Proxy Mobile IP (PMIP) <xref target="RFC5845"/>
           and IKEv2 <xref target="RFC7296"/> are sometimes used to set up GRE
           tunnels dynamically.</t>
@@ -914,6 +915,8 @@
 
     <references title="Informative References">
       <?rfc include='reference.RFC.1701'?>
+
+      <?rfc include='reference.RFC.2332'?>
 
       <?rfc include='reference.RFC.2637'?>
 
