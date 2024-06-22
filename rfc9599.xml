@@ -100,7 +100,7 @@ Current:
    transport layer (L4).
 -->
 Then, the IP internetwork layer can act as a portability layer to carry
-congestion notifications from non-IP-aware congested nodes up to the transport
+congestion notification from non-IP-aware congested nodes up to the transport
 layer (L4). Following these guidelines should assure interworking among IP
 layer and lower-layer congestion notification mechanisms specified by the IETF
 or other standards bodies. This document is included in BCP 89 and updates the
@@ -145,7 +145,7 @@ Perhaps:
    headers. Otherwise, the signals will not reach their ultimate destination.
 -->
 <t>The purpose of this document is to guide the addition of congestion
-      notifications to any subnet technology or tunnelling protocol so that
+      notification to any subnet technology or tunnelling protocol so that
       lower-layer AQM algorithms can signal congestion explicitly and it will
       propagate consistently into encapsulated (higher-layer) headers;
       otherwise, the signals will not reach their ultimate destination.</t>
@@ -227,7 +227,7 @@ This document gives guidance on
       tunnels, it is not sufficient to only check that the two layer 4 
       transport endpoints support ECN; correct operation also depends on the
       decapsulator at each subnet or tunnel egress faithfully propagating
-      congestion notifications to the higher layer. 
+      congestion notification to the higher layer. 
 <!-- [rfced] Should "outer" read as "outer header" here for clarity?
 
 Original: 
@@ -246,11 +246,11 @@ and suggest various safe approaches for different circumstances.</t>
  <t>Of
 course, the IETF does not have standards authority over every link-layer
 protocol; thus, this document gives guidelines for designing propagation of
-congestion notifications across the interface between IP and protocols that may
+congestion notification across the interface between IP and protocols that may
 encapsulate IP (i.e., that can be layered beneath IP). Each lower-layer
 technology will exhibit different issues and compromises, so the IETF or the
 relevant standards body must be free to define the specifics of each lower-layer congestion notification scheme.  Nonetheless, if the guidelines are
-followed, congestion notifications should interwork between different
+followed, congestion notification should interwork between different
 technologies using IP in its role as a 'portability layer'.</t>
       <t>Therefore, the capitalized terms '<bcp14>SHOULD</bcp14>' or '<bcp14>SHOULD NOT</bcp14>' are often
       used in preference to '<bcp14>MUST</bcp14>' or '<bcp14>MUST NOT</bcp14>' because it is difficult to
@@ -365,9 +365,9 @@ This document only concerns wire protocol processing of ECN.
         all cases.</t>
         <t>Note that the guidelines in this document do not necessarily
         require the subnet wire protocol to be changed to add support for
-        congestion notifications. For instance, the feed-up-and-forward mode
+        congestion notification. For instance, the feed-up-and-forward mode
         (<xref target="ecnencap_Up" format="default"/>) and the null mode (<xref target="ecnencap_Null" format="default"/>) do not. Another way to add congestion
-        notifications without consuming header space in the subnet protocol
+        notification without consuming header space in the subnet protocol
         might be to use a parallel control plane protocol.</t>
         <t>This document focuses on the congestion notification interface
         between IP and lower-layer or tunnel protocols that can encapsulate
@@ -508,7 +508,7 @@ Perhaps:
         <dt>Feed-Forward-and-Up:</dt>
         <dd>
           <t>Nodes feed forward congestion
-          notifications towards the egress within the lower layer, then up and
+          notification towards the egress within the lower layer, then up and
           along the layers towards the end-to-end destination at the transport
           layer. The following local optimization is possible:</t>
 <!--[rfced] This original document contained a mix of British and American
@@ -523,7 +523,7 @@ update as it will make the diff file more noisy for review.
 <dl newline="false" spacing="normal">
             <dt>Feed-Up-and-Forward:</dt>
             <dd>A lower-layer switch feeds up
-              congestion notifications directly into the higher layer (e.g.,
+              congestion notification directly into the higher layer (e.g.,
               into the ECN field in the IP header), irrespective of whether
               the node is at the egress of a subnet.</dd>
           </dl>
@@ -601,7 +601,7 @@ header
         IP-in-IP (GTP) <xref target="GTPv1" format="default"/> tunnels in
         series and an MPLS backhaul between the base station and the first
         router. Nonetheless, the example illustrates the general idea of
-        feeding congestion notifications forward then upward whenever a header
+        feeding congestion notification forward then upward whenever a header
         is removed at the egress of a subnet.</t>
         <t>Note that the Forward Explicit Congestion Notification (FECN) bit in Frame Relay <xref target="Buck00" format="default"/> and the Explicit Forward Congestion Indication (EFCI)
         <xref target="ITU-T.I.371" format="default"/> bit in ATM user data cells follow a
@@ -803,7 +803,7 @@ has to be fed back from destination to source.-->
       <section anchor="ecnencap_Null" numbered="true" toc="default">
         <name>Null Mode</name>
         <t>Link and physical-layer resources are often 'non-blocking' by
-        design. Congestion notifications may be implemented in these cases, but
+        design. Congestion notification may be implemented in these cases, but
         it does not need to be deployed at the lower layer; ECN in IP would be
         sufficient.</t>
         <t>A degenerate example is a point-to-point Ethernet link. Excess
@@ -940,14 +940,14 @@ Perhaps:
             will not understand ECN; and</li>
           <li anchor="ecnencap_Egress_Check">
             <t><bcp14>SHOULD NOT</bcp14> apply ECNs to PDUs if the egress of the subnet might
-            not propagate congestion notifications onward into the higher
+            not propagate congestion notification onward into the higher
             layer.</t>
             <t>We use the term ECN-PDUs for a PDU
-            on a feedback loop that will propagate congestion notifications
+            on a feedback loop that will propagate congestion notification
             properly because it meets both the above criteria. Additionally, a
             Not-ECN-PDU is a PDU on a feedback loop that does not meet at
             least one of the criteria, and therefore will not propagate
-            congestion notifications properly. A corollary of the above is that
+            congestion notification properly. A corollary of the above is that
             a lower-layer congestion notification protocol:</t>
           </li>
           <li><bcp14>SHOULD</bcp14> be able to distinguish ECN-PDUs from Not-ECN-PDUs.</li>
@@ -1015,7 +1015,7 @@ When decapsulating a CE-marked
         matter how inconsistently a system is put together. 
 
 Alternatively,
-        congestion notifications relying on correct system configuration could
+        congestion notification relying on correct system configuration could
         be confined to flavours of Ethernet intended only for professional
         network operators, such as Provider Backbone Bridges (PBB) (<xref target="IEEE802.1Q" format="default"/>; previously 802.1ah).</t>
         <t>ECN support in TRansparent Interconnection of Lots of Links (TRILL) <xref target="RFC9600" format="default"/>
@@ -1044,7 +1044,7 @@ So if a transit
         to process it, it will drop it; which is the desired default action
         anyway. Therefore, TRILL RBridges can be updated with support for congestion notification
         in no particular order and, at the egress of the TRILL campus,
-        congestion notifications will be propagated to IP as ECN whenever ECN
+        congestion notification will be propagated to IP as ECN whenever ECN
         logic has been implemented at the egress, or as drop otherwise.</t>
         <t>QCN <xref target="IEEE802.1Q" format="default"/> is not intended to extend beyond a
         single subnet or interoperate with ECN. Nonetheless, the way QCN
@@ -1105,7 +1105,7 @@ An operator can
 <ol spacing="normal" type="1"><li>
             <t>Egress Capability Check: A subnet ingress needs to be sure that
             the corresponding egress of a subnet will propagate any congestion
-            notifications added to the outer header across the subnet. This is
+            notification added to the outer header across the subnet. This is
             necessary in addition to checking that an incoming PDU indicates
             an ECN-capable (L4) transport. Examples of how this guarantee
             might be provided include:</t>
@@ -1125,7 +1125,7 @@ An operator can
             </ul>
 	  </li>
           <li>Egress Fails Capability Check: If the ingress cannot guarantee
-            that the egress will propagate congestion notifications, the
+            that the egress will propagate congestion notification, the
             ingress <bcp14>SHOULD</bcp14> disable congestion notification at the lower layer when it forwards the
             PDU. An example of how the ingress might disable congestion notification at the lower
             layer would be by setting the outer header of the PDU to identify
@@ -1542,14 +1542,14 @@ For instance, if ECN-marking
     <section anchor="ecnencap_Guidelines_Backward" numbered="true" toc="default">
       <name>Feed-Backward Mode: Guidelines for Adding Congestion Notification</name>
       <t>It can be seen from <xref target="ecnencap_Backward" format="default"/> that
-      congestion notifications in a subnet using feed-backward mode have
+      congestion notification in a subnet using feed-backward mode have
       generally not been designed to be directly coupled with IP-layer
-      congestion notifications. The subnet attempts to minimize congestion
+      congestion notification. The subnet attempts to minimize congestion
       internally, and if the incoming load at the ingress exceeds the capacity
       somewhere through the subnet, the Layer 3 buffer into the ingress backs
       up. Thus, a feed-backward mode subnet is in some sense similar to a null
       mode subnet, in that there is no need for any direct interaction between
-      the subnet and higher-layer congestion notifications. Therefore, no
+      the subnet and higher-layer congestion notification. Therefore, no
       detailed protocol design guidelines are appropriate. Nonetheless, a more
       general guideline is appropriate: </t>
         <blockquote>A subnetwork technology intended to eventually interface
