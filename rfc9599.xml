@@ -637,8 +637,8 @@ Perhaps:
    where more capacity should be provisioned.
 -->
 To our knowledge,
-        Frame Relay FECN is solely used to detect where more capacity should
-        be provisioned.</t>
+        Frame Relay FECN is solely used by network operators to detect where they 
+        should provision more capacity.</t>
       </section>
       <section anchor="ecnencap_Up" numbered="true" toc="default">
         <name>Feed-Up-and-Forward Mode</name>
