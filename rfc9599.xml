@@ -146,7 +146,7 @@ Perhaps:
 -->
 <t>The purpose of this document is to guide the addition of congestion
       notification to any subnet technology or tunnelling protocol so that
-      lower-layer AQM algorithms can signal congestion explicitly and it will
+      lower-layer AQM algorithms can signal congestion explicitly and that signal will
       propagate consistently into encapsulated (higher-layer) headers;
       otherwise, the signals will not reach their ultimate destination.</t>
       <t>ECN is defined in the IP header (IPv4 and IPv6) <xref target="RFC3168" format="default"/>
