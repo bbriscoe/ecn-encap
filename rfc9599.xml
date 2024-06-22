@@ -1265,8 +1265,8 @@ Perhaps:
 Alternatively, as an optimization, a node that
         decapsulates a packet and immediately re-encapsulates it for the next
         tunnel <bcp14>MAY</bcp14> copy the incoming outer ECN field directly
-        to the outgoing outer and the incoming inner ECN field directly to the
-        outgoing inner. Then, the overall behavior across the sequence of
+        to the outgoing outer header and the incoming inner ECN field directly to the
+        outgoing inner header. Then, the overall behavior across the sequence of
         tunnel segments would still be consistent with <xref target="RFC6040"/>.</t>
         <t><xref target="RFC6040" sectionFormat="of" section="C"/> describes how a tunnel egress can monitor how
         much congestion has been introduced within a tunnel. A network
