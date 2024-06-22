@@ -593,7 +593,7 @@ header
         <t>Of course, modern networks are rarely as simple as this textbook
         example, often involving multiple nested layers. For example, a Third
         Generation Partnership Project (3GPP) mobile network may have two
-        IP-in-IP (GTP) <xref target="GTPv1" format="default"/> tunnels in
+        IP-in-IP GTP <xref target="GTPv1" format="default"/> tunnels in
         series and an MPLS backhaul between the base station and the first
         router. Nonetheless, the example illustrates the general idea of
         feeding congestion notification forward then upward whenever a header
