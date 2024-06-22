@@ -935,11 +935,11 @@ Perhaps:
         or MPLS-in-MPLS encapsulations that already comply with <xref target="RFC6040" format="default"/> or <xref target="RFC5129" format="default"/> will already satisfy
         this guidance.</t>
         <t>A lower-layer (or subnet) congestion notification system:</t>
-        <ol spacing="normal" type="1"><li><bcp14>SHOULD NOT</bcp14> apply ECNs to PDUs that
+        <ol spacing="normal" type="1"><li><bcp14>SHOULD NOT</bcp14> apply explicit congestion notifications to PDUs that
             are destined for legacy layer-4 transport implementations that
             will not understand ECN; and</li>
           <li anchor="ecnencap_Egress_Check">
-            <t><bcp14>SHOULD NOT</bcp14> apply ECNs to PDUs if the egress of the subnet might
+            <t><bcp14>SHOULD NOT</bcp14> apply explicit congestion notifications to PDUs if the egress of the subnet might
             not propagate congestion notification onward into the higher
             layer.</t>
             <t>We use the term ECN-PDUs for a PDU
