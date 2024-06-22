@@ -211,7 +211,7 @@ shim headers or L2 protocols" or otherwise.
 This document gives guidance on
       how to address ECN propagation for future tunnelling protocols, and a
       companion Standards Track specification <xref target="RFC9601" format="default"/> updates existing
-      IP-shim-(L2)-IP protocols that are under IETF change control and still
+      tunnelling protocols with a shim between IP headers that are under IETF change control and still
       widely used.</t>
       <t>Incremental deployment is the most delicate aspect when adding
       support for ECN. The original ECN protocol in IP <xref target="RFC3168" format="default"/> was carefully designed so that a congested buffer
