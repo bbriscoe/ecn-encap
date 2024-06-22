@@ -1030,7 +1030,7 @@ frame, which is the desired default action anyway.
 -->
 So if a transit
         RBridge sets this flag on a frame and an egress RBridge does not have any logic
-        to process it, it will drop it; which is the desired default action
+        to process it, then the egress RBridge will drop the frame, which is the desired default action
         anyway. Therefore, TRILL RBridges can be updated with support for congestion notification
         in no particular order and, at the egress of the TRILL campus,
         congestion notification will be propagated to IP as ECN whenever ECN
