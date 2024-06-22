@@ -1064,8 +1064,8 @@ Or (two independent clauses; added "each"):
 -->
 An operator can
         define certain Priority Code Points (PCPs) (<xref target="IEEE802.1Q" format="default"/>;
-        previously 802.1p) to indicate non-QCN frames and an ingress bridge is
-        required to map arriving not-QCN-capable IP packets to one of these
+        previously 802.1p) to indicate non-QCN frames. Then an ingress bridge has to map
+   each arriving not-QCN-capable IP packets to one of these
         non-QCN PCPs.</t>
 
         <t>When drop for non-ECN traffic is deferred to the egress of a subnet,
