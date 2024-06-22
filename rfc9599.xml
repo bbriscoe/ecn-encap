@@ -157,11 +157,6 @@ Perhaps:
 no updates related to these comments are outstanding. Note that the
 comments will be deleted prior to publication.
 -->
-
-<!--In the layered model of communication, each layer accepts requests to forward PDUs and eventually returns 
-a status code to the higher layer. Without ECN, each layer returns either a 'delivered' status code or an 
-implicit 'not delivered'. Explicit notification of congestion adds a useful 'delivered but congestion 
-experienced' status code to each layer interface.-->
       </t>
       <t>Given a suitable marking scheme, ECN removes nearly all congestion
       loss and it cuts delays for two main reasons: </t>
@@ -766,8 +761,7 @@ header
         </figure>
         <t>ATM's feed-backward approach does not fit well when layered beneath
         IP's feed-forward approach unless the initial data source is
-        the same node as the ATM ingress. <!--(which would be the case if ATM had achieved its aspiration of becoming the global internetwork standard, 
-rather than just a subnetwork technology)-->
+        the same node as the ATM ingress.
           <xref target="ecnencap_Fig_Feed-Backward" format="default"/> shows the feed-backward approach
         being used in subnet H. 
 If the final switch on the path is congested
@@ -794,11 +788,6 @@ The resulting rate mismatch causes the
         would suffer from similar problems if extended to multiple subnets.
         However, QCN was clearly characterized as solely
         applicable to a single subnet from the start (see <xref target="ecnencap_Guidelines_Backward" format="default"/>).</t>
-        <!--To summarise so far, feeding congestion notification backwards can reach the source faster, but only 
-if the congested subnet is directly connected to the original data source. In a more general case, 
-feedback takes a tortuous path part-way backwards, which can lead to queuing at the higher layer in 
-the middle of the network, which can in turn trigger a much-delayed feed-forward signal, which then 
-has to be fed back from destination to source.-->
       </section>
       <section anchor="ecnencap_Null" numbered="true" toc="default">
         <name>Null Mode</name>
@@ -1169,10 +1158,7 @@ A node
             <t>As long as subnet and tunnel technologies use the
             standard congestion monitoring baseline in this guideline,
             monitoring systems will know to use the former approach rather
-            than having to "somehow know" which approach to use.<!--{If required, an example can be given of where it would be appropriate to contradict this SHOULD
-It may be safe to assume a subnetwork technology will not span a trust boundary. 
-Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS scheme.}
--->
+            than having to "somehow know" which approach to use.
             </t>
           </li>
         </ol>
@@ -1583,12 +1569,6 @@ For instance, if ECN-marking
       connected into a wider IP-based internetwork (e.g., when attempting to
       interconnect multiple data centres) it would suffer the inefficiency
       shown in <xref target="ecnencap_Fig_Feed-Backward" format="default"/>.</t>
-      <!--{ToDo - either make this a separate case, move it to modes, or delete it} 
-In some circumstances (e.g. pseudowire emulations with link-local flow control), the whole 
-path is divided into segments, each with its own congestion notification and feedback loop. 
-In these cases, the function that regulates load at the start of each segment will need to 
-reset congestion notification (i.e. clear any accumulated congestion notifications) at the 
-start of its segment.-->
     </section>
     <section anchor="ecnencap_IANA_Considerations" numbered="true" toc="default">
       <name>IANA Considerations</name>
@@ -1742,51 +1722,6 @@ Propagating Explicit Congestion Notification Across IP Tunnel Headers Separated 
           <seriesInfo name="IEEE Std" value="802.1Q-2018"/>
 	  <seriesInfo name="DOI" value="10.1109/IEEESTD.2018.8403927"/>
         </reference>
-
-        <!-- <reference anchor="IEEE802.1ah"
-                 target="https://www.ieee802.org/1/pages/802.1ah.html">
-        <front>
-          <title>IEEE Standard for Local and Metropolitan Area
-          Networks&mdash;Virtual Bridged Local Area Networks &mdash; Amendment
-          6: Provider Backbone Bridges</title>
-
-          <author>
-            <organization>IEEE</organization>
-          </author>
-
-          <date month="August" year="2008"/>
-        </front>
-
-        <seriesInfo name="IEEE Std" value="802.1ah-2008"/>
-
-        <format target="https://www.ieee802.org/1/pages/802.1ah.html"
-                type="HTML"/>
-
-        <annotation>(Access Controlled link within page)</annotation>
-      </reference>
-
-      <reference anchor="IEEE802.1Qau"
-                 target="https://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061">
-        <front>
-          <title>IEEE Standard for Local and Metropolitan Area
-          Networks&mdash;Virtual Bridged Local Area Networks&mdash;Amendment 13:
-          Congestion Notification</title>
-
-          <author fullname="Norm Finn" initials="N" role="editor"
-                  surname="Finn">
-            <organization>Cisco</organization>
-          </author>
-
-          <date month="March" year="2010"/>
-        </front>
-
-        <seriesInfo name="IEEE Std" value="802.1Qau-2010"/>
-
-        <format target="https://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5454061"
-                type="PDF"/>
-
-        <annotation>(Access Controlled link within page)</annotation>
-      </reference> -->
 
       <reference anchor="ITU-T.I.371" target="https://www.itu.int/rec/T-REC-I.371-200403-I/en">
           <front>
