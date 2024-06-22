@@ -114,15 +114,15 @@ to this document.</t>
       <name>Introduction</name>
       <t>The benefits of Explicit Congestion Notification (ECN) described in
       <xref target="RFC8087" format="default"/> and summarized below can only be fully realized
-      if support for ECN is added to the relevant subnetwork technology, as
+      if support for congestion notification is added to the relevant subnetwork technology, as
       well as to IP. When a lower-layer buffer drops a packet, it obviously 
       does not just drop at that layer; the packet disappears from all layers.
-      In contrast, when active queue management (AQM) at a lower layer marks a
-      packet with ECN, the marking needs to be explicitly propagated up the
+      In contrast, when active queue management (AQM) at a lower layer notifies congestion by marking a
+      packet, the marking needs to be explicitly propagated up the
       layers. The same is true if AQM marks the outer header of a packet that
       encapsulates inner tunnelled headers. Forwarding ECN is not as
       straightforward as other headers because it has to be assumed ECN may be
-      only partially deployed. If a lower-layer header that contains ECN
+      only partially deployed. If a lower-layer header that contains
       congestion indications is stripped off by a subnet egress that is not
       ECN-aware, or if the ultimate receiver or sender is not ECN-aware,
       congestion needs to be indicated by dropping the packet, not marking
@@ -238,7 +238,7 @@ Perhaps:
 Otherwise, a legacy decapsulator might silently fail to propagate any
 ECN signals from the outer header to the forwarded header.
 -->
-Otherwise, a legacy decapsulator might silently fail to propagate any ECN
+Otherwise, a legacy decapsulator might silently fail to propagate any congestion
 signals from the outer to the forwarded header. Then, the lost signals would
 never be detected and congestion would build up further. The guidelines given
 later require protocol designers to carefully consider incremental deployment
@@ -565,7 +565,7 @@ update as it will make the diff file more noisy for review.
         subnet in the L2 header. Then, when the router removes the marked L2
         header, it propagates the marking up into the L3 (IP) header. The
         router forwards the marked L3 header into subnet B. The L2 protocol used
-        in subnet B does not support ECN, but the signal proceeds across it in
+        in subnet B does not support congestion notification, but the signal proceeds across it in
         the L3 header.</t>
         <t>Note that there is no implication that each 'C' marking is encoded
         the same; a different encoding might be used for the 'C' marking in
@@ -707,7 +707,7 @@ from L3 to L2 as well, as shown by the 'C's in both layers.</t>
       </section>
       <section anchor="ecnencap_Backward" numbered="true" toc="default">
         <name>Feed-Backward Mode</name>
-        <t>In some Layer 2 technologies, ECN has
+        <t>In some Layer 2 technologies, congestion notification has
         been defined for use internally within the subnet with its own
         feedback and load regulation; typically, the interface with IP for
         ECN has not been defined.</t>
@@ -859,7 +859,7 @@ Perhaps:
           IP-in-IP tunnels, but with a shim header(s) between the IP
           headers.</li>
         <li>
-          <t>The subsequent sections give guidelines for adding ECN to a
+          <t>The subsequent sections give guidelines for adding congestion notification to a
           subnet technology that uses feed-forward-and-up mode like IP, but it
           is not so similar to IP that <xref target="RFC6040" format="default"/> rules can be
           applied directly. Specifically:</t>
@@ -929,7 +929,7 @@ Perhaps:
       <section anchor="ecnencap_WireProtocolECNSupport" numbered="true" toc="default">
         <name>Wire Protocol Design: Indication of ECN Support</name>
         <t>This section is intended to guide the redesign of any lower-layer
-        protocol that encapsulates IP to add native ECN support at the lower
+        protocol that encapsulates IP to add native congestion notification support at the lower
         layer. It reflects the approaches used in <xref target="RFC6040" format="default"/> and
         in <xref target="RFC5129" format="default"/>. Therefore, IP-in-IP tunnels or IP-in-MPLS
         or MPLS-in-MPLS encapsulations that already comply with <xref target="RFC6040" format="default"/> or <xref target="RFC5129" format="default"/> will already satisfy
@@ -953,9 +953,9 @@ Perhaps:
           <li><bcp14>SHOULD</bcp14> be able to distinguish ECN-PDUs from Not-ECN-PDUs.</li>
         </ol>
         <t>Note that there is no need for all interior nodes within a subnet
-        to be able to mark congestion explicitly. A mix of ECN and drop
+        to be able to mark congestion explicitly. A mix of drop and explicit congestion
         signals from different nodes is fine. However, if <em>any</em>
-        interior nodes might generate ECN markings, Guideline <xref format="counter" target="ecnencap_Egress_Check"/> above says that all
+        interior nodes might generate congestion markings, Guideline <xref format="counter" target="ecnencap_Egress_Check"/> above says that all
         relevant egress nodes <bcp14>SHOULD</bcp14> be able to propagate those markings up
         to the higher layer.</t>
         <t>In IP, if the ECN field in each PDU is cleared to the Not ECN-Capable Transport (Not-ECT) codepoint, it indicates that the L4 transport
@@ -1019,7 +1019,7 @@ Alternatively,
         be confined to flavours of Ethernet intended only for professional
         network operators, such as Provider Backbone Bridges (PBB) (<xref target="IEEE802.1Q" format="default"/>; previously 802.1ah).</t>
         <t>ECN support in TRansparent Interconnection of Lots of Links (TRILL) <xref target="RFC9600" format="default"/>
-        provides a good example of how to add ECN to a lower-layer protocol
+        provides a good example of how to add congestion notification to a lower-layer protocol
         without relying on careful and consistent operator configuration.
         TRILL provides an extension header word with space for flags of
         different categories depending on whether logic to understand the
@@ -1042,7 +1042,7 @@ frame, which is the desired default action anyway.
 So if a transit
         RBridge sets this flag on a frame and an egress RBridge does not have any logic
         to process it, it will drop it; which is the desired default action
-        anyway. Therefore, TRILL RBridges can be updated with support for ECN
+        anyway. Therefore, TRILL RBridges can be updated with support for congestion notification
         in no particular order and, at the egress of the TRILL campus,
         congestion notifications will be propagated to IP as ECN whenever ECN
         logic has been implemented at the egress, or as drop otherwise.</t>
@@ -1080,7 +1080,7 @@ An operator can
         non-QCN PCPs.</t>
 
         <t>When drop for non-ECN traffic is deferred to the egress of a subnet,
-        it cannot necessarily be assumed that one ECN mark is equivalent to one
+        it cannot necessarily be assumed that one congestion mark is equivalent to one
         drop, as was originally required by <xref target="RFC3168" format="default"/>.
         <xref target="RFC8311" format="default"/> updated <xref target="RFC3168"/> to allow
         experimentation with congestion markings that are not equivalent to drop,
@@ -1097,7 +1097,7 @@ An operator can
       <section anchor="ecnencap_EncapGuidelines" numbered="true" toc="default">
         <name>Encapsulation Guidelines</name>
         <t>This section is intended to guide the redesign of any node that
-        encapsulates IP with a lower-layer header when adding native ECN
+        encapsulates IP with a lower-layer header when adding native congestion notification
         support to the lower-layer protocol. It reflects the approaches used
         in <xref target="RFC6040" format="default"/> and <xref target="RFC5129" format="default"/>. Therefore,
         IP-in-IP tunnels or IP-in-MPLS or MPLS-in-MPLS encapsulations that
@@ -1111,13 +1111,13 @@ An operator can
             might be provided include:</t>
             <ul spacing="normal">
               <li>by configuration (e.g., if any label switches in a domain
-                supports ECN marking, <xref target="RFC5129" format="default"/> requires all
+                supports congestion marking, <xref target="RFC5129" format="default"/> requires all
                 egress nodes to have been configured to propagate ECN).</li>
               <li>by the ingress explicitly checking that the egress
                 propagates ECN (e.g., an early attempt to add ECN support to
                 TRILL used IS-IS to check path capabilities before adding ECN
                 extension flags to each frame <xref target="RFC7780" format="default"/>).</li>
-              <li>by inherent design of the protocol (e.g., by encoding ECN
+              <li>by inherent design of the protocol (e.g., by encoding congestion
                 marking on the outer header in such a way that a legacy egress
                 that does not understand ECN will consider the PDU corrupt or
                 invalid and discard it; thus, at least propagating a form of
@@ -1126,8 +1126,8 @@ An operator can
 	  </li>
           <li>Egress Fails Capability Check: If the ingress cannot guarantee
             that the egress will propagate congestion notifications, the
-            ingress <bcp14>SHOULD</bcp14> disable ECN at the lower layer when it forwards the
-            PDU. An example of how the ingress might disable ECN at the lower
+            ingress <bcp14>SHOULD</bcp14> disable congestion notification at the lower layer when it forwards the
+            PDU. An example of how the ingress might disable congestion notification at the lower
             layer would be by setting the outer header of the PDU to identify
             it as a Not-ECN-PDU, assuming the subnet technology supports such
             a concept.</li>
@@ -1141,7 +1141,7 @@ An operator can
             lower-layer protocol.</t>
             <t>This ensures that
             bulk congestion monitoring of outer headers (e.g., by a network
-            management node monitoring ECN in passing frames) will measure
+            management node monitoring congestion markings in passing frames) will measure
             congestion accumulated along the whole upstream path, starting from the
             Load Regulator and not just starting from the ingress of the subnet. 
 A node
@@ -1181,7 +1181,7 @@ Especially if copy on encap is not desirable, e.g. if using Floyd's 1-bit MPLS s
         <name>Decapsulation Guidelines</name>
         <t>This section is intended to guide the redesign of any node that
         decapsulates IP from within a lower-layer header when adding native
-        ECN support to the lower-layer protocol. It reflects the approaches
+        congestion notification support to the lower-layer protocol. It reflects the approaches
         used in <xref target="RFC6040" format="default"/> and in <xref target="RFC5129" format="default"/>.
         Therefore, IP-in-IP tunnels or IP-in-MPLS or MPLS-in-MPLS
         encapsulations that already comply with <xref target="RFC6040" format="default"/> or
@@ -1292,7 +1292,7 @@ Alternatively, as an optimization, a node that
         as a single tunnel. Therefore, tunnel endpoint implementations <bcp14>SHOULD</bcp14>
         allow the operator to configure whether this optimization is
         enabled.</t>
-        <t>When ECN support is added to a subnet technology, consideration
+        <t>When congestion notification support is added to a subnet technology, consideration
         <bcp14>SHOULD</bcp14> be given to a similar optimization between subnets in sequence
         if they all use the same technology.</t>
       </section>
@@ -1304,13 +1304,13 @@ Alternatively, as an optimization, a node that
         <t>Where an AQM marks the ECN field of IP packets as they queue into a
         Layer 2 link, there will be no problem with framing boundaries
         because the ECN markings would be applied directly to IP packets. The
-        guidance in this section is only applicable where an ECN capability is
+        guidance in this section is only applicable where a congestion notification capability is
         being added to a Layer 2 protocol so that Layer 2 frames can be
-        ECN-marked by an AQM at layer 2. This would only be necessary where
+        marked by an AQM at layer 2. This would only be necessary where
         AQM will be applied at pure Layer 2 nodes (without IP awareness).</t>
-        <t>Where ECN marking has had to be applied at non-IP-aware nodes and
+        <t>Where congestion marking has had to be applied at non-IP-aware nodes and
         framing boundaries do not necessarily align with packet boundaries,
-        the decapsulating IP forwarding node <bcp14>SHOULD</bcp14> propagate ECN markings
+        the decapsulating IP forwarding node <bcp14>SHOULD</bcp14> propagate congestion markings
         from Layer 2 frame headers to IP packets that may have different
         boundaries as a consequence of reframing.</t>
 <!-- [rfced] For the design goals below, may we rephrase and format the list
@@ -1489,14 +1489,14 @@ For instance, if ECN-marking
       packets:</t>
       <ul spacing="normal">
         <li>are encapsulated in Ethernet headers, which have no support for
-          ECN;</li>
+          congestion notification;</li>
         <li>are forwarded by the eNode-B (base station) of a 3GPP radio access
         network, which is required to apply ECN marking during congestion
         <xref target="LTE-RA" format="default"/> <xref target="UTRAN"
         format="default"/>, but the Packet Data Convergence Protocol (PDCP)
         that encapsulates the IP header over the radio access has no support
         for ECN.</li> </ul> <t>This guidance also generalizes to encapsulation
-        by other subnet technologies with no native support for ECN at the
+        by other subnet technologies with no native support for congestion notification at the
         lower layer, but with support for finding and processing an IP
         header. It is unlikely to be applicable or necessary for IP-in-IP
         encapsulation, where feed-forward-and-up mode based on <xref
@@ -1641,7 +1641,7 @@ start of its segment.-->
       'feed-up-and-forward' mode. This approach could enable other subnet
       technologies to pass ECN signals into the IP layer, even if they do not
       support ECN natively.</t>
-      <t>Finally, attempting to add ECN to a subnet technology in
+      <t>Finally, attempting to add congestion notification to a subnet technology in
       feed-backward mode is deprecated except in special cases due to its
       likely sluggish response to congestion.</t>
     </section>
