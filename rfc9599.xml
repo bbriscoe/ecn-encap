@@ -696,8 +696,8 @@ Perhaps:
    copies the ECN marking from L3 to L2 as well, as shown by the 'C's in
    both layers.
 -->
-In this example, the technology in subnet F (e.g., MPLS) does support ECN
-natively, so when the router adds the Layer 2 header it copies the ECN marking
+In this example, the technology in subnet F (e.g., MPLS) does support ECN.
+   So, when  the router adds the Layer 2 header it copies the ECN marking
 from L3 to L2 as well, as shown by the 'C's in both layers.</t>
       </section>
       <section anchor="ecnencap_Backward" numbered="true" toc="default">
