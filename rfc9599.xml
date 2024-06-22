@@ -618,7 +618,7 @@ Perhaps:
 However, in ATM, this arrangement is only part
         of a feed-forward-and-backward pattern at the lower layer, not
         feed-forward-and-up out of the lower layer -- the intention was
-        never to interface to IP ECN at the subnet egress. 
+        never to interface with IP ECN at the subnet egress.
 <!-- [rfced] The first sentence of paragraph 6 in Section 3.1 refers to "FECN"
 as a bit in Frame Relay. Should the following sentence be updated to
 reflect this?
