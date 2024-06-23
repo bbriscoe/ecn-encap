@@ -1338,7 +1338,6 @@ Perhaps:
         <ol spacing="normal" type="1"><li anchor="ecnencap_reframing_goal_presence">approximate
             preservation of the presence (and therefore timing) of congestion
             marks on the L2 frames used to construct an IP packet;</li>
-            <li/>
           <li anchor="ecnencap_reframing_goal_proportion"><t>...</t>
             <ol spacing="normal" type="a"><li>at high frequency of congestion marking, approximate
                 preservation of the proportion of congestion marks arriving
