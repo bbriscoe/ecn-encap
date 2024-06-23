@@ -101,8 +101,8 @@ Current:
 -->
 Then, the IP internetwork layer can act as a portability layer to carry
 congestion notification from non-IP-aware congested nodes up to the transport
-layer (L4). Following these guidelines should assure interworking among IP
-layer and lower-layer congestion notification mechanisms specified by the IETF
+layer (L4). Following these guidelines should assure interworking among IP-layer
+and lower-layer congestion notification mechanisms, whether specified by the IETF
 or other standards bodies. This document is included in BCP 89 and updates the
 single paragraph of advice to subnetwork designers about Explicit Congestion
 Notification (ECN) in Section 13 of RFC 3819 by replacing it with a reference
@@ -177,8 +177,8 @@ This is
       subnetworks with IP-aware nodes only at the edges. These networks are
       often sized so that it is rare for interior queues to overflow. However,
       until recently, this was more due to the inability of TCP to saturate the
-      links. For many years, fixes such as window scaling <xref target="RFC7323" format="default"/> proved hard to deploy. The Reno variant of TCP
-      has remained in widespread use despite its inability to scale to high
+      links. For many years, fixes such as window scaling <xref target="RFC7323" format="default"/> proved hard to deploy and the Reno variant of TCP
+      remained in widespread use despite its inability to scale to high
       flow rates. However, now that modern operating systems are finally
       capable of saturating interior links, even the buffers of
       well-provisioned interior switches will need to signal episodes of
@@ -487,9 +487,9 @@ Perhaps:
           Regulator because at least one of the nodes necessary to propagate
           the signals is incapable of doing that propagation. Note that this
           definition is a property of the feedback loop, not necessarily of the
-          PDU itself; the PDU will self-describe the
+          PDU itself; certainly the PDU will self-describe the
           property in some protocols, but in others, the property might be carried in a separate
-          control plane context that is somehow bound to the PDU.</dd>
+          control plane context (which is somehow bound to the PDU).</dd>
       </dl>
     </section>
     <section anchor="ecnencap_Modes" numbered="true" toc="default">
@@ -497,7 +497,7 @@ Perhaps:
       <t>This section sets down the different modes by which congestion
       information is passed between the lower layer and the higher one. It
       acts as a reference framework for the following sections that give
-      normative guidelines for designers of ECN protocols, taking each mode in
+      normative guidelines for designers of congestion notification protocols, taking each mode in
       turn:</t>
       <dl newline="false" spacing="normal">
         <dt>Feed-Forward-and-Up:</dt>
@@ -643,7 +643,7 @@ To our knowledge,
       <section anchor="ecnencap_Up" numbered="true" toc="default">
         <name>Feed-Up-and-Forward Mode</name>
         <t>Ethernet is particularly difficult to extend incrementally to
-        support ECN. One way to support ECN in such cases is to use so-called
+        support congestion notification. One way is to use so-called
         'Layer 3 switches'. These are Ethernet switches that dig into the
         Ethernet payload to find an IP header and manipulate or act on certain
         IP fields (specifically Diffserv and ECN). For instance, in Data
@@ -704,7 +704,7 @@ from L3 to L2 as well, as shown by the 'C's in both layers.</t>
         <name>Feed-Backward Mode</name>
         <t>In some Layer 2 technologies, congestion notification has
         been defined for use internally within the subnet with its own
-        feedback and load regulation; typically, the interface with IP for
+        feedback and load regulation but the interface with IP for
         ECN has not been defined.</t>
 <!-- [rfced] To improve readability, may we rephrase this 
 sentence as follows and update "tending" to past tense (to match "was")?
@@ -726,9 +726,9 @@ and it tended to supersede earlier designs.
         both the forward and backward directions to control the ingress rate
         of user data into a virtual circuit. If a switch buffer is approaching
         congestion or is congested, it sends an RM cell back towards the
-        ingress with the No Increase (NI) or Congestion
-        Indication (CI) bit set in its message type field <xref target="ATM-TM-ABR" format="default"/>, respectively. The ingress then holds or decreases its sending
-        bit-rate accordingly.</t>
+        ingress with respectively the No Increase (NI) or Congestion
+        Indication (CI) bit set in its message type field <xref target="ATM-TM-ABR" format="default"/>.
+        The ingress then holds or decreases its sending bit-rate accordingly.</t>
         <figure anchor="ecnencap_Fig_Feed-Backward">
           <name>Feed-Backward Mode</name>
           <artwork name="" type="" align="left" alt=""><![CDATA[
@@ -791,7 +791,7 @@ The resulting rate mismatch causes the
       </section>
       <section anchor="ecnencap_Null" numbered="true" toc="default">
         <name>Null Mode</name>
-        <t>Link and physical-layer resources are often 'non-blocking' by
+        <t>Link- and physical-layer resources are often 'non-blocking' by
         design. Congestion notification may be implemented in these cases, but
         it does not need to be deployed at the lower layer; ECN in IP would be
         sufficient.</t>
@@ -878,7 +878,7 @@ Perhaps:
         packet as an outer header. Another common pattern is for a shim to
         encapsulate an L2 header, which in turn encapsulates (or
         might encapsulate) an IP header. <xref target="RFC9601" format="default"/> clarifies that <xref target="RFC6040"/>
-        is just as applicable when there is a shim(s) and possibly an L2 header
+        is just as applicable when there are shims and even an L2 header
         between two IP headers.</t>
         <t>However, it is not always feasible or necessary to propagate ECN
         between IP headers when separated by a shim. For instance, it might be
@@ -891,10 +891,10 @@ Perhaps:
         operators to configure the ingress of a tunnel that does not support
         ECN so that it zeros the ECN field in the outer IP header.</t>
         <t>Nonetheless, in many cases it is feasible to propagate the ECN
-        field between IP headers separated by a shim header(s) and/or an L2
+        field between IP headers separated by shim headers and/or an L2
         header. Particularly in the typical case when the outer IP header and
-        the shim(s) is added (or removed) as part of the same procedure. Even
-        if the shim(s) encapsulates an L2 header, it is often possible to find
+        the shim(s) are added (or removed) as part of the same procedure. Even
+        if a shim encapsulates an L2 header, it is often possible to find
         an inner IP header within the L2 PDU and propagate ECN between that
         and the outer IP header. This can be thought of as a special case of
         the feed-up-and-forward mode (<xref target="ecnencap_Up" format="default"/>), so the
@@ -906,7 +906,7 @@ Perhaps:
         which is compatible with <xref target="RFC6040"/>.</t>
         <t>However, as <xref section="9.3" target="RFC3168" format="default"/> pointed out, ECN
         support needs to be defined for many earlier shim-based tunnelling
-        protocols, e.g., L2TPv2 <xref target="RFC2661" format="default"/>, L2TPv3 <xref target="RFC3931" format="default"/>, GRE <xref target="RFC2784" format="default"/>, PPTP <xref target="RFC2637" format="default"/>, GTP <xref target="GTPv1" format="default"/> <xref target="GTPv1-U" format="default"/>, <xref target="GTPv2-C" format="default"/>, and Teredo <xref target="RFC4380" format="default"/>, as well as some recent ones, e.g., VXLAN <xref target="RFC7348" format="default"/>, NVGRE <xref target="RFC7637" format="default"/>, and NSH <xref target="RFC8300" format="default"/>.</t>
+        protocols, e.g., L2TPv2 <xref target="RFC2661" format="default"/>, L2TPv3 <xref target="RFC3931" format="default"/>, GRE <xref target="RFC2784" format="default"/>, PPTP <xref target="RFC2637" format="default"/>, GTP <xref target="GTPv1" format="default"/>, <xref target="GTPv1-U" format="default"/>, <xref target="GTPv2-C" format="default"/>, and Teredo <xref target="RFC4380" format="default"/>, as well as some recent ones, e.g., VXLAN <xref target="RFC7348" format="default"/>, NVGRE <xref target="RFC7637" format="default"/>, and NSH <xref target="RFC8300" format="default"/>.</t>
         <t>All these IP-based encapsulations can be updated in one shot by
         simple reference to <xref target="RFC6040"/>. However, it would not be appropriate to
         update all these protocols from within the present guidance document.
@@ -1065,7 +1065,7 @@ Or (two independent clauses; added "each"):
 An operator can
         define certain Priority Code Points (PCPs) (<xref target="IEEE802.1Q" format="default"/>;
         previously 802.1p) to indicate non-QCN frames. Then an ingress bridge has to map
-   each arriving not-QCN-capable IP packets to one of these
+   each arriving not-QCN-capable IP packet to one of these
         non-QCN PCPs.</t>
 
         <t>When drop for non-ECN traffic is deferred to the egress of a subnet,
@@ -1099,7 +1099,7 @@ An operator can
             an ECN-capable (L4) transport. Examples of how this guarantee
             might be provided include:</t>
             <ul spacing="normal">
-              <li>by configuration (e.g., if any label switches in a domain
+              <li>by configuration (e.g., if any label switch in a domain
                 supports congestion marking, <xref target="RFC5129" format="default"/> requires all
                 egress nodes to have been configured to propagate ECN).</li>
               <li>by the ingress explicitly checking that the egress
@@ -1123,9 +1123,9 @@ An operator can
 	    <li anchor="ecnencap_Encap_Copy">
             <t>Standard Congestion Monitoring
             Baseline: Once the ingress to a subnet has established that the
-            egress will correctly propagate ECN, it <bcp14>SHOULD</bcp14>
+            egress will correctly propagate ECN, on encapsulation, it <bcp14>SHOULD</bcp14>
             encode the same level of congestion in outer headers as is
-            arriving in incoming headers on encapsulation. For example, it might copy any
+            arriving in incoming headers. For example, it might copy any
             incoming congestion notifications into the outer header of the
             lower-layer protocol.</t>
             <t>This ensures that
@@ -1197,7 +1197,7 @@ the packet <bcp14>SHOULD</bcp14> be dropped.</li>
                 still as a Not-ECN-PDU.</li>
             </ul>
           </li>
-          <li>If the outer header does not support ENC (a Not-ECN-PDU), but the inner header does (an
+          <li>If the outer header does not support congestion notification (a Not-ECN-PDU), but the inner header does (an
             ECN-PDU), the inner header <bcp14>SHOULD</bcp14> be forwarded unchanged.</li>
           <li>In some lower-layer protocols, congestion may be signalled as a
             numerical level, such as in the control frames of QCN <xref target="IEEE802.1Q" format="default"/>. If such
@@ -1240,7 +1240,7 @@ the packet <bcp14>SHOULD</bcp14> be dropped.</li>
       <section anchor="ecnencap_Sequences" numbered="true" toc="default">
         <name>Sequences of Similar Tunnels or Subnets</name>
         <t>In some deployments, particularly in 3GPP networks, an IP packet
-        may traverse (in sequence) two or more IP-in-IP tunnels that all use
+        may traverse two or more IP-in-IP tunnels in sequence that all use
         identical technology (e.g., GTP).</t>
         <t>In such cases, it would be sufficient for every encapsulation and
         decapsulation in the chain to comply with <xref
@@ -1338,7 +1338,8 @@ Perhaps:
         <ol spacing="normal" type="1"><li anchor="ecnencap_reframing_goal_presence">approximate
             preservation of the presence (and therefore timing) of congestion
             marks on the L2 frames used to construct an IP packet;</li>
-          <li anchor="ecnencap_reframing_goal_proportion">
+            <li/>
+          <li anchor="ecnencap_reframing_goal_proportion"><t>...</t>
             <ol spacing="normal" type="a"><li>at high frequency of congestion marking, approximate
                 preservation of the proportion of congestion marks arriving
                 and departing;</li>
@@ -1349,13 +1350,14 @@ Perhaps:
           </li>
         </ol>
         <t>In either case, an implementation <bcp14>SHOULD</bcp14> ensure that any new
-        incoming congestion indication is propagated immediately and not held
+        incoming congestion indication is propagated immediately; not held
         awaiting the possibility of further congestion indications to be
         sufficient to indicate congestion on an outgoing PDU <xref target="RFC7141" format="default"/>. Nonetheless, to facilitate pipelined
         implementation, it would be acceptable for congestion marks to
         propagate to a slightly later IP packet.</t>
         <t>
-   At decapsulation in either case, ECN-marking propagation logically occurs
+   At decapsulation in either case:</t>
+   <ul><li>ECN-marking propagation logically occurs
    before application of Decapsulation Guideline <xref format="counter"
    target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref
    target="ecnencap_DecapGuidelines" format="default"/>.
@@ -1418,8 +1420,7 @@ Current:
 For instance, if ECN-marking
             propagation would cause an ECN congestion indication to be applied
             to an IP packet that is a Not-ECN-PDU, then that IP packet is
-            dropped in accordance with Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/>:</t>
-<ul>
+            dropped in accordance with Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/>:</li>
           <li>where a mix of ECN-PDUs and non-ECN-PDUs arrives to construct the same
             IP packet, the decapsulation specification <bcp14>SHOULD</bcp14> require that packet to
             be discarded.</li>
@@ -1430,9 +1431,9 @@ For instance, if ECN-marking
             require the resulting IP packet to be set to either ECT(0) or ECT(1).
             In this case, it <bcp14>SHOULD</bcp14> take into account that the RFC Series has so
             far allowed ECT(0) and ECT(1) to be considered
-            equivalent <xref target="RFC3168" format="default"/>; otherwise, ECT(1) can
+            equivalent <xref target="RFC3168" format="default"/>; or ECT(1) can
             provide a less severe congestion marking
-            than CE <xref target="RFC6040" format="default"/> or ECT(1) can
+            than CE <xref target="RFC6040" format="default"/>; or ECT(1) can
             indicate an unmarked but ECN-capable packet that is subject to a
             different marking algorithm to ECT(0) packets, e.g., L4S
             <xref target="RFC8311" format="default"/> <xref target="RFC9331" format="default"/>.</li></ul>
@@ -1463,10 +1464,9 @@ For instance, if ECN-marking
             would have been marked, but had to be dropped because they were
             Not-ECN-PDUs (by Decapsulation Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/> in <xref target="ecnencap_DecapGuidelines" format="default"/>).</li>
         </ul>
-        <t>Generally, the number of L2 frames may be higher (e.g., ATM) than,
-        similar to, or lower (e.g., 802.11 aggregation at an L2-only station)
-        than the number of IP PDUs; this distinction may influence the
-        choice of mechanism.</t>
+        <t>Generally, relative to the number of IP PDUs, the number of L2 frames may be higher (e.g., ATM),
+        roughly the same, or lower (e.g., 802.11 aggregation at an L2-only station).
+        This distinction may influence the choice of mechanism.</t>
       </section>
     </section>
     <section anchor="ecnencap_Guidelines_Up" numbered="true" toc="default">
@@ -1587,11 +1587,15 @@ For instance, if ECN-marking
       concerns. Experimental or proposed approaches exist for assuring the
       end-to-end integrity of in-band congestion signals, such as:</t>
       <ul spacing="normal">
-        <li>Congestion exposure (ConEx) for networks to audit that their
+        <li><t>Congestion exposure (ConEx) for networks:</t>
+          <ul><li>to audit that their
           congestion signals are not being suppressed by other networks or by
-          receivers, and to police that senders are responding
+          receivers; and</li>
+          <li>to police that senders are responding
           sufficiently to the signals, irrespective of the L4 transport
           protocol used <xref target="RFC7713" format="default"/>.</li>
+          </ul>
+        </li>
         <li>A test for a sender to detect whether a network or the receiver
           is suppressing congestion signals (for example, see the second paragraph of <xref section="20.2" target="RFC3168" format="default"/>).</li>
       </ul>
@@ -1610,7 +1614,7 @@ For instance, if ECN-marking
       interoperability layer. This includes:</t>
       <ul spacing="normal">
         <li>A wide range of tunnelling protocols, including those with various
-          forms of a shim header between two IP headers, possibly also separated
+          forms of shim header between two IP headers, possibly also separated
           by an L2 header;</li>
         <li>A wide range of subnet technologies, particularly those that work
           in the same 'feed-forward-and-up' mode that is used to support ECN
@@ -1868,9 +1872,8 @@ Propagating Explicit Congestion Notification Across IP Tunnel Headers Separated 
       Hares"/>, and <contact fullname="Dale Worley"/>.</t>
       <t><contact fullname="Bob Briscoe"/> was part-funded by the European
       Community under its Seventh Framework Programme through the Trilogy
-      project (ICT-216372) and the Reducing Internet Transport Latency (RITE)
-      project (ICT-317700) for earlier draft versions of this document. For
-      later draft versions of this document, he was funded by Apple Inc. The
+      project (ICT-216372) for initial drafts then through the Reducing Internet Transport Latency (RITE)
+      project (ICT-317700), and for final drafts (from -18) he was funded by Apple Inc. The
       views expressed here are solely those of the authors.</t>
     </section>
     <section numbered="false" toc="default">
