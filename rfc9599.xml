@@ -59,7 +59,7 @@ Protocols That Encapsulate IP
     <keyword>Information Security</keyword>
     <keyword>Tunnelling</keyword>
     <keyword>Encapsulation</keyword>
-    <keyword>ECNDecapsulation</keyword>
+    <keyword>Decapsulation</keyword>
     <keyword>Protocol</keyword>
     <keyword>ECN</keyword>
     <keyword>Layering</keyword>
@@ -112,13 +112,14 @@ to this document.</t>
   <middle>
     <section anchor="ecnencap_Introduction" numbered="true" toc="default">
       <name>Introduction</name>
-      <t>The benefits of Explicit Congestion Notification (ECN) described in
+      <t>In certain networks, it might be possible for traffic to congest non-IP-aware nodes.
+      In such networks, the benefits of Explicit Congestion Notification (ECN) described in
       <xref target="RFC8087" format="default"/> and summarized below can only be fully realized
       if support for congestion notification is added to the relevant subnetwork technology, as
-      well as to IP. When a lower-layer buffer drops a packet, it obviously 
+      well as to IP. When a lower-layer buffer implicitly notifies congestion by dropping a packet, it obviously 
       does not just drop at that layer; the packet disappears from all layers.
-      In contrast, when active queue management (AQM) at a lower layer notifies congestion by marking a
-      packet, the marking needs to be explicitly propagated up the
+      In contrast, when active queue management (AQM) at a lower layer buffer explicitly notifies congestion
+      by marking a frame header, the marking needs to be explicitly propagated up the
       layers. The same is true if AQM marks the outer header of a packet that
       encapsulates inner tunnelled headers. Forwarding ECN is not as
       straightforward as other headers because it has to be assumed ECN may be
@@ -321,7 +322,7 @@ This document only concerns wire protocol processing of ECN.
             over 3G <xref target="UTRAN" format="default"/>, or Voice over LTE (VoLTE) <xref target="LTE-RA" format="default"/>.</li>
           <li><xref target="RFC8311"/> suggests using the ECT(1) codepoint of the ECN field
             to indicate alternative semantics, such as for the experimental Low
-            Latency, Low Loss, and Scalable throughput (L4S) service <xref target="RFC9331" format="default"/>).</li>
+            Latency, Low Loss, and Scalable throughput (L4S) service <xref target="RFC9331" format="default"/>.</li>
         </ul>
 
         <t>The aim is that the default rules for encapsulating and
@@ -357,7 +358,7 @@ This document only concerns wire protocol processing of ECN.
         <xref target="RFC6660" format="default"/>) rather than the default of two. All these
         different semantics for the ECN field work because it has been
         possible to define common default decapsulation rules that allow for
-        all cases.</t>
+        all cases <xref target="RFC6040" format="default"/>.</t>
         <t>Note that the guidelines in this document do not necessarily
         require the subnet wire protocol to be changed to add support for
         congestion notification. For instance, the feed-up-and-forward mode
@@ -496,7 +497,7 @@ Perhaps:
       <name>Modes of Operation</name>
       <t>This section sets down the different modes by which congestion
       information is passed between the lower layer and the higher one. It
-      acts as a reference framework for the following sections that give
+      acts as a reference framework for the subsequent sections that give
       normative guidelines for designers of congestion notification protocols, taking each mode in
       turn:</t>
       <dl newline="false" spacing="normal">
@@ -529,7 +530,7 @@ update as it will make the diff file more noisy for review.
           control congestion within their own layer.</dd>
         <dt>Null:</dt>
         <dd>Nodes cannot experience congestion at the lower
-          layer except at ingress nodes (which are IP-aware or equivalently
+          layer except at the ingress nodes of the subnet (which are IP-aware or equivalently
           higher-layer-aware).</dd>
       </dl>
       <section anchor="ecnencap_Forward" numbered="true" toc="default">
@@ -618,7 +619,7 @@ Perhaps:
 However, in ATM, this arrangement is only part
         of a feed-forward-and-backward pattern at the lower layer, not
         feed-forward-and-up out of the lower layer -- the intention was
-        never to interface with IP ECN at the subnet egress.
+        never to interface with IP-ECN at the subnet egress.
 <!-- [rfced] The first sentence of paragraph 6 in Section 3.1 refers to "FECN"
 as a bit in Frame Relay. Should the following sentence be updated to
 reflect this?
@@ -728,7 +729,7 @@ and it tended to supersede earlier designs.
         congestion or is congested, it sends an RM cell back towards the
         ingress with respectively the No Increase (NI) or Congestion
         Indication (CI) bit set in its message type field <xref target="ATM-TM-ABR" format="default"/>.
-        The ingress then holds or decreases its sending bit-rate accordingly.</t>
+        The ingress then holds or decreases its sending bit rate accordingly.</t>
         <figure anchor="ecnencap_Fig_Feed-Backward">
           <name>Feed-Backward Mode</name>
           <artwork name="" type="" align="left" alt=""><![CDATA[
@@ -919,7 +920,7 @@ Perhaps:
         <name>Wire Protocol Design: Indication of ECN Support</name>
         <t>This section is intended to guide the redesign of any lower-layer
         protocol that encapsulates IP to add native congestion notification support at the lower
-        layer. It reflects the approaches used in <xref target="RFC6040" format="default"/> and
+        layer using feed-forward-and-up mode. It reflects the approaches used in <xref target="RFC6040" format="default"/> and
         in <xref target="RFC5129" format="default"/>. Therefore, IP-in-IP tunnels or IP-in-MPLS
         or MPLS-in-MPLS encapsulations that already comply with <xref target="RFC6040" format="default"/> or <xref target="RFC5129" format="default"/> will already satisfy
         this guidance.</t>
@@ -1036,7 +1037,7 @@ So if a transit
         congestion notification will be propagated to IP as ECN whenever ECN
         logic has been implemented at the egress, or as drop otherwise.</t>
         <t>QCN <xref target="IEEE802.1Q" format="default"/> is not intended to extend beyond a
-        single subnet or interoperate with ECN. Nonetheless, the way QCN
+        single subnet or interoperate with IP-ECN. Nonetheless, the way QCN
         indicates to lower-layer devices that the endpoints will not
         understand QCN provides another example that a lower-layer protocol
         designer might be able to mimic for their scenario. 
@@ -1080,14 +1081,14 @@ An operator can
         are not (as in L4S). The ECN scheme for MPLS <xref target="RFC5129" format="default"/>
         was defined before L4S, so it only currently supports deferred drop that
         is equivalent to ECN marking. Nonetheless, in principle, MPLS
-        (and potentially future L2 protocols) could support L4S marking and copy TRILL's approach for determining the
+        (and potentially future L2 protocols) could support L4S marking by copying TRILL's approach for determining the
         drop level of any non-ECN traffic at the subnet egress.</t>
       </section>
       <section anchor="ecnencap_EncapGuidelines" numbered="true" toc="default">
         <name>Encapsulation Guidelines</name>
         <t>This section is intended to guide the redesign of any node that
         encapsulates IP with a lower-layer header when adding native congestion notification
-        support to the lower-layer protocol. It reflects the approaches used
+        support to the lower-layer protocol using feed-forward-and-up mode. It reflects the approaches used
         in <xref target="RFC6040" format="default"/> and <xref target="RFC5129" format="default"/>. Therefore,
         IP-in-IP tunnels or IP-in-MPLS or MPLS-in-MPLS encapsulations that
         already comply with <xref target="RFC6040" format="default"/> or <xref target="RFC5129" format="default"/> will already satisfy this guidance.</t>
@@ -1167,7 +1168,7 @@ A node
         <name>Decapsulation Guidelines</name>
         <t>This section is intended to guide the redesign of any node that
         decapsulates IP from within a lower-layer header when adding native
-        congestion notification support to the lower-layer protocol. It reflects the approaches
+        congestion notification support to the lower-layer protocol using feed-forward-and-up mode. It reflects the approaches
         used in <xref target="RFC6040" format="default"/> and in <xref target="RFC5129" format="default"/>.
         Therefore, IP-in-IP tunnels or IP-in-MPLS or MPLS-in-MPLS
         encapsulations that already comply with <xref target="RFC6040" format="default"/> or
@@ -1186,11 +1187,11 @@ A node
               <li>If the outer header carries an explicit congestion marking,
                 it is likely that a protocol error has occurred, so drop is the only indication of congestion that the L4
                 transport will understand. 
-If the congestion marking is the
+If the outer congestion marking is the
                 most severe possible, the packet <bcp14>MUST</bcp14> be dropped. 
 
 However, if congestion can be marked with multiple levels of severity and the
-packet's marking is not the most severe, this requirement can be relaxed to:
+packet's outer marking is not the most severe, this requirement can be relaxed to:
 the packet <bcp14>SHOULD</bcp14> be dropped.</li>
               <li>If the outer is an ECN-PDU that carries no indication of
                 congestion or a Not-ECN-PDU the PDU <bcp14>SHOULD</bcp14> be forwarded, but
@@ -1498,7 +1499,7 @@ For instance, if ECN-marking
         <li>Link-layer encryption might be in use, making the Layer 2 payload
           inaccessible.</li>
         <li>Many Ethernet switches do not have 'Layer 3 switch' capabilities,
-          so they cannot read or modify an IP payload.</li>
+          so the ability to read or modify an IP payload cannot be assumed.</li>
         <li>It might be costly to find an IP header (IPv4 or IPv6) when it may be
           encapsulated by more than one lower-layer header, e.g., Ethernet MAC
           in MAC (<xref target="IEEE802.1Q" format="default"/>; previously 802.1ah).</li>
@@ -1507,7 +1508,7 @@ For instance, if ECN-marking
       field in an encapsulated IP header is a useful optimization. If the
       implementation follows the guidelines below, this optimization does not
       have to be confined to a controlled environment, e.g., within a data
-      centre; it could usefully be applied on any network -- even if the
+      centre; it could usefully be applied in any network -- even if the
       operator is not sure whether the above issues will never apply:</t>
       <ol spacing="normal" type="1"><li>If a native lower-layer congestion notification mechanism exists
           for a subnet technology, it is safe to mix feed-up-and-forward with
@@ -1720,10 +1721,10 @@ Propagating Explicit Congestion Notification Across IP Tunnel Headers Separated 
             <author>
               <organization>IEEE</organization>
             </author>
-            <date month="July" year="2018"/>
+            <date month="December" year="2022"/>
           </front>
-          <seriesInfo name="IEEE Std" value="802.1Q-2018"/>
-	  <seriesInfo name="DOI" value="10.1109/IEEESTD.2018.8403927"/>
+          <seriesInfo name="IEEE Std" value="802.1Q-2022"/>
+	  <seriesInfo name="DOI" value="10.1109/IEEESTD.2022.10004498"/>
         </reference>
 
       <reference anchor="ITU-T.I.371" target="https://www.itu.int/rec/T-REC-I.371-200403-I/en">
