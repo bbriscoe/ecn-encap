@@ -330,10 +330,10 @@ This document only concerns wire protocol processing of ECN.
         subnets will encapsulate and decapsulate packets without regard to how
         algorithms elsewhere are setting or interpreting the semantics of the
         ECN field. <xref target="RFC6040" format="default"/> updates <xref target="RFC4774"/> to allow
-        alternative encapsulation and decapsulation behaviors to be defined
+        alternative encapsulation and decapsulation behaviours to be defined
         for alternative ECN semantics. However, it reinforces the same point --
         it is far preferable to try to fit within the common ECN
-        encapsulation and decapsulation behaviors because expecting all
+        encapsulation and decapsulation behaviours because expecting all
         lower-layer technologies and tunnels to be updated is likely to be
         completely impractical.</t>
         <t>Alternative semantics for the ECN field can be defined to depend on
@@ -932,7 +932,7 @@ Perhaps:
             <t><bcp14>SHOULD NOT</bcp14> apply explicit congestion notifications to PDUs if the egress of the subnet might
             not propagate congestion notification onward into the higher
             layer.</t>
-            <t>We use the term ECN-PDUs for a PDU
+            <t>We use the term ECN-PDU for a PDU
             on a feedback loop that will propagate congestion notification
             properly because it meets both the above criteria. Additionally, a
             Not-ECN-PDU is a PDU on a feedback loop that does not meet at
@@ -958,7 +958,7 @@ Perhaps:
         outcome. For instance, ECN-capable feedback loops might use PDUs that
         are identified by a particular set of labels or tags. Alternatively,
         logical-link protocols that use flow state might determine whether a
-        PDU can be congestion marked by checking for ECN-support in the flow
+        PDU can be congestion marked by checking for ECN support in the flow
         state. Other protocols might depend on out-of-band control
         signals.</t>
         <t>The per-domain checking of ECN support in MPLS <xref target="RFC5129" format="default"/> is a good example of a way to avoid sending
@@ -1267,7 +1267,7 @@ Alternatively, as an optimization, a node that
         decapsulates a packet and immediately re-encapsulates it for the next
         tunnel <bcp14>MAY</bcp14> copy the incoming outer ECN field directly
         to the outgoing outer header and the incoming inner ECN field directly to the
-        outgoing inner header. Then, the overall behavior across the sequence of
+        outgoing inner header. Then, the overall behaviour across the sequence of
         tunnel segments would still be consistent with <xref target="RFC6040"/>.</t>
         <t><xref target="RFC6040" sectionFormat="of" section="C"/> describes how a tunnel egress can monitor how
         much congestion has been introduced within a tunnel. A network
@@ -1866,7 +1866,7 @@ Propagating Explicit Congestion Notification Across IP Tunnel Headers Separated 
       fullname="Gonzalo Camarillo"/> for helping with the liaisons with the
       IEEE and 3GPP. And thanks to <contact fullname="Georg Mayer"/> and
       particularly to <contact fullname="Erik Guttman"/> for the extensive
-      search and categorisation of any 3GPP specifications that cite ECN
+      search and categorization of any 3GPP specifications that cite ECN
       specifications. Thanks also to the Area Reviewers <contact fullname="Dan
       Harkins"/>, <contact fullname="Paul Kyzivat"/>, <contact fullname="Sue
       Hares"/>, and <contact fullname="Dale Worley"/>.</t>
