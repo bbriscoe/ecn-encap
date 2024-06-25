@@ -442,7 +442,7 @@ format="default"/> and is not limited to this list.</t>
           <t>Point-to-Point Tunneling Protocol (PPTP) <xref target="RFC2637" format="default"/></t>
         </li>
         <li>
-          <t>Layer 2 Tunnelling Protocol (L2TP), specifically L2TPv2 <xref target="RFC2661" format="default"/> and L2TPv3 <xref target="RFC3931" format="default"/>, which not
+          <t>Layer Two Tunneling Protocol (L2TP), specifically L2TPv2 <xref target="RFC2661" format="default"/> and L2TPv3 <xref target="RFC3931" format="default"/>, which not
           only includes all the L2-specific specializations of L2TP, but also
           derivatives such as the Keyed IPv6 Tunnel <xref target="RFC8159" format="default"/></t>
         </li>
