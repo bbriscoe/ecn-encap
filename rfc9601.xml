@@ -335,7 +335,7 @@ rules, even if an implementation of a tunnel ingress does not claim to support
 <t>The network operator <bcp14>MUST NOT</bcp14> treat the former Type of Service (ToS) octet (IPv4) or the former
               Traffic Class octet (IPv6) as a single 8-bit field, as the
               resulting linkage of ECN and Diffserv field propagation between
-              inner and outer is not consistent with the definition of the
+              inner and outer headers is not consistent with the definition of the
               6-bit Diffserv field in <xref target="RFC2474" format="default"/> and <xref target="RFC3260" format="default"/>.</t>
             </li>
             <li>
@@ -847,7 +847,7 @@ The operator of a GRE tunnel ingress <bcp14>MUST</bcp14> follow the configuratio
                 address. Then, whenever it tunnels datagrams towards this
                 gateway, it <bcp14>MUST</bcp14> use the normal mode of <xref target="RFC6040"/> to propagate
                 the ECN field when encapsulating datagrams (i.e., it
-                copies the IP ECN field from inner to outer).</t>
+                copies the IP ECN field from inner to outer header).</t>
               </li>
               <li>
                 <t>If the discovered AMT relay does not support <xref target="RFC6040"/> ECN
