@@ -580,8 +580,8 @@ Or:
    optionally within an outer UDP header, which is then encapsulated 
    by an outer PSN header that is typically IP (v4 or v6).
 -->
-Then this whole stack of headers can be encapsulated optionally within an
-outer UDP header then an outer PSN header that is typically IP (v4 or v6).
+Then this whole stack of headers can be encapsulated within an optional
+outer UDP header and an outer PSN header that is typically IP (v4 or v6).
 </t>
           <t>L2TPv2 is used as a shim header between any PSN header and a PPP
           header that is likely to encapsulate an IP header.</t>
