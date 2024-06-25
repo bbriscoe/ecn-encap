@@ -224,7 +224,7 @@ Processing a
         tightly coupled shim over an encapsulating header.</t>
         <t>Digging to arbitrary depths to find an inner IP header within an
         encapsulation is strictly a layering violation, so it cannot be a
-        required behavior. 
+        required behaviour. 
 
 Nonetheless, some tunnel endpoints already look
         within a Layer 2 (L2) header for an IP header, for instance, to map the Diffserv
@@ -709,7 +709,7 @@ Then, for any sessions created by that control
           (MIP4) <xref target="RFC5944" format="default"/>, Mobile IPv6 (MIP6) <xref target="RFC6275" format="default"/>, Proxy Mobile IP (PMIP) <xref target="RFC5845" format="default"/>,
           and IKEv2 <xref target="RFC7296" format="default"/>, are sometimes used to set up GRE
           tunnels dynamically.</t>
-          <t>When these control protocols set up IP-in-IP or IPSec tunnels, it
+          <t>When these control protocols set up IP-in-IP or IPsec tunnels, it
           is likely that the resulting tunnels will propagate the ECN field as
           defined in <xref target="RFC6040"/> or one of its compatible predecessors (<xref target="RFC4301"/>
           or the full functionality mode of <xref target="RFC3168"/>). However, if they use a
