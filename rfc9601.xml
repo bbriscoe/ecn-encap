@@ -162,7 +162,7 @@ implementations that predated the RFC.
         <name>Feasibility of ECN Propagation between Tunnel Headers</name>
         <t>In many cases, one or more shim headers and an outer IP header are always
         added to (or removed from) an inner IP packet as part of the same
-        procedure. We call this a tightly coupled shim header. 
+        procedure. We call these tightly coupled shim headers. 
 
 <!-- [rfced] We note several instances where the terms "inner"
 and "outer" appear on their own without context. We suggest that adding the 
@@ -210,8 +210,8 @@ when encapsulating datagrams (i.e. it copies the IP ECN field from inner to
 outer).
 -->
 
-Processing the
-        shim and outer together is often necessary because a shim is not
+Processing a
+        shim and outer header together is often necessary because a shim is not
         sufficient for packet forwarding in its own right; not unless
         complemented by an outer header. In these cases, it will often be
         feasible for an implementation to propagate the ECN field between the
@@ -372,7 +372,7 @@ Or ("zero" as a verb):
       6-bit Diffserv field in <xref target="RFC2474" format="default"/> and <xref target="RFC3260" format="default"/>. If a tunnel ingress does not have any ECN logic,
       copying the ECN field as a side effect of copying the DSCP is a
       seriously unsafe bug that risks breaking the feedback loops that
-      regulate load on a tunnel.</t>
+      regulate load on a tunnel, because it omits to check the ECN capability of the tunnel egress.</t>
       <t>Zeroing the outer ECN field of all packets in all circumstances would
       be safe, but it would not be sufficient to claim compliance with <xref target="RFC6040"/> because it would not meet the aim of introducing ECN support to
       tunnels (see <xref target="RFC6040" section="4.3" sectionFormat="of"/>).</t>
@@ -388,8 +388,8 @@ Or ("zero" as a verb):
       field of all the fragments to the same value as it would have set if it
       had not fragmented the packet.</t>
       <t><xref target="RFC3168" section="5.3" sectionFormat="of"/> specifies ECN requirements
-      for reassembly of sets of outer fragments into packets (in outer
-      fragmentation, the fragmentation is visible in the outer header so that
+      for reassembly of sets of 'outer fragments' into packets (in 'outer
+      fragmentation', the fragmentation is visible in the outer header so that
       the tunnel egress can reassemble the fragments <xref target="I-D.ietf-intarea-tunnels" format="default"/>). Additionally, the following 
       requirements apply at a tunnel egress:</t>
       <ul spacing="normal">
@@ -466,7 +466,7 @@ format="default"/> and is not limited to this list.</t>
           <t>Automatic Multicast Tunneling (AMT) <xref target="RFC7450" format="default"/></t>
         </li>
         <li>
-          <t>Virtual eXtensible Local Area Network (VXLAN) <xref target="RFC7348" format="default"/> and VXLAN-GPE <xref target="I-D.ietf-nvo3-vxlan-gpe" format="default"/></t>
+          <t>Virtual eXtensible Local Area Network (VXLAN) <xref target="RFC7348" format="default"/> and Generic Protocol Extensions for VXLAN (VXLAN-GPE) <xref target="I-D.ietf-nvo3-vxlan-gpe" format="default"/></t>
         </li>
         <li>
           <t>The Network Service Header (NSH) <xref target="RFC8300" format="default"/> for
@@ -526,8 +526,8 @@ format="default"/> and is not limited to this list.</t>
       when the VXLAN header is inserted between (or removed from between)
       IP headers. The authors of any future update of the VXLAN spec are also 
       encouraged to add a requirement to comply with <xref target="RFC6040"/> as updated by
-      the present specification. In contrast, Generic Protocol Extension for
-      VXLAN (VXLAN-GPE) is being documented under IETF change control and it does
+      the present specification. In contrast,
+      VXLAN-GPE is being documented under IETF change control and it does
       require compliance with <xref target="RFC6040"/>.
       </t>
       <t>The Network Service Header (NSH) <xref target="RFC8300" format="default"/> has been
@@ -1062,7 +1062,7 @@ Explicit Congestion Notification (ECN) and Congestion Feedback Using the Network
       advice and comments. <xref target="RFC7059" format="default"/> helped to identify a number of tunnelling
       protocols to include within the scope of this document.</t>
 
-      <t><contact fullname="Bob Briscoe"/>    Bob Briscoe was part-funded by the Research Council of Norway through                                 
+      <t><contact fullname="Bob Briscoe"/>    was part-funded by the Research Council of Norway through                                 
    the TimeIn project for early drafts, and he was funded by Apple Inc. for later draft versions (from -17). The views expressed here are solely those of
       the authors.</t>
     </section>
