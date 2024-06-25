@@ -101,7 +101,8 @@ turn, often encapsulate IP. Thus, the abbreviation 'IP-shim-(L2)-IP' can be used
           inner or outer headers.
       </blockquote>
  
-      <t>This was intended to include cases where one or more shim headers sits between
+      <t>There are two problems with the above scoping statement:</t>
+      <t>Problem 1: It was intended to include cases where one or more shim headers sits between
       the IP headers. Many tunnelling implementers have interpreted the scope
       of <xref target="RFC6040"/> as it was intended, but it is ambiguous. Therefore, this
       specification updates <xref target="RFC6040"/> by adding the following scoping text
@@ -114,7 +115,7 @@ turn, often encapsulate IP. Thus, the abbreviation 'IP-shim-(L2)-IP' can be used
           header.  
 	</blockquote>
 	
-      <t>There is another problem with the scope of <xref target="RFC6040"/>. Like many IETF
+      <t>Problem 2: Like many IETF
       specifications, <xref target="RFC6040"/> is written as a specification that
       implementations can choose to claim compliance with. This means it does
       not cover two important cases:</t>
@@ -153,8 +154,8 @@ implementations that predated the RFC.
       unreasonable to add such a requirement to <xref target="RFC6040"/>. Nonetheless, to
       ensure safe propagation of the ECN field over tunnels, it is reasonable
       to add requirements on operators to ensure they configure their tunnels
-      safely (where possible). Before stating these configuration requirements
-      in <xref target="rfc6040up_sec_safe" format="default"/>, the factors that determine
+      safely (where possible). Before resolving 'Problem 2' by stating these configuration requirements
+      (in <xref target="rfc6040up_sec_safe" format="default"/>), the factors that determine
       whether propagating ECN is feasible or desirable will be briefly
       introduced.</t>
       <section anchor="rfc6040up_feasibility" numbered="true" toc="default">
@@ -322,12 +323,10 @@ rules, even if an implementation of a tunnel ingress does not claim to support
 [RFC6040], [RFC4301], or the full functionality mode of [RFC3168]:
 -->
          <t>In order that the network operator can comply with the above
-          safety rules, even if an implementation of a tunnel ingress does not
-          claim to support <xref target="RFC6040"/>, <xref target="RFC4301"/>, or the full functionality mode
-          of <xref target="RFC3168"/>:</t>
+          safety rules, an implementation of a tunnel ingress:</t>
           <ul spacing="normal">
             <li>
-<t>The network operator <bcp14>MUST NOT</bcp14> treat the former Type of Service (ToS) octet (IPv4) or the former
+              <t><bcp14>MUST NOT</bcp14> treat the former Type of Service (ToS) octet (IPv4) or the former
               Traffic Class octet (IPv6) as a single 8-bit field, as the
               resulting linkage of ECN and Diffserv field propagation between
               inner and outer headers is not consistent with the definition of the
@@ -349,11 +348,15 @@ Or ("zero" as a verb):
      *  The network operator SHOULD be able to zero the ECN field of
         the outer header.
 -->
-              <t>The network operator <bcp14>SHOULD</bcp14> be able to be configured to zero the ECN field of
+              <t><bcp14>SHOULD</bcp14> be able to be configured to zero the ECN field of
               the outer header.</t>
             </li>
           </ul>
+          <t>These last two rules apply even if an implementation of a tunnel ingress does not
+          claim to support <xref target="RFC6040"/>, <xref target="RFC4301"/>, or the full functionality mode
+          of <xref target="RFC3168"/></t>
       </blockquote>
+
 <t>For instance, if a tunnel ingress with no ECN-specific logic had a
       configuration capability to refer to the last 2 bits of the old ToS Byte
       of the outer (e.g., with a 0x3 mask) and set them to zero, while
