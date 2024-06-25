@@ -53,7 +53,7 @@ ECN over IP-in-IP Tunnels with Shim
       forwarding. It surveys widely deployed IP tunnelling protocols that use
       such shim headers and updates the specifications of those that do not
       mention ECN propagation (including RFCs 2661, 3931, 2784, 4380
-      and 7450; these RFCs specify L2TPv2, L2TPv3, Generic Routing Encapsulation (GRE), Teredo, and
+      and 7450, which specify L2TPv2, L2TPv3, Generic Routing Encapsulation (GRE), Teredo, and
       Automatic Multicast Tunneling (AMT), respectively). This specification also updates RFC 6040 with configuration
       requirements needed to make any legacy tunnel ingress safe.</t>
     </abstract>
@@ -102,7 +102,7 @@ turn, often encapsulate IP. Thus, the abbreviation 'IP-shim-(L2)-IP' can be used
       </blockquote>
  
       <t>There are two problems with the above scoping statement:</t>
-      <t>Problem 1: It was intended to include cases where one or more shim headers sits between
+      <t>Problem 1: It was intended to include cases where one or more shim headers sit between
       the IP headers. Many tunnelling implementers have interpreted the scope
       of <xref target="RFC6040"/> as it was intended, but it is ambiguous. Therefore, this
       specification updates <xref target="RFC6040"/> by adding the following scoping text
@@ -118,14 +118,14 @@ turn, often encapsulate IP. Thus, the abbreviation 'IP-shim-(L2)-IP' can be used
       <t>Problem 2: Like many IETF
       specifications, <xref target="RFC6040"/> is written as a specification that
       implementations can choose to claim compliance with. This means it does
-      not cover two important cases:</t>
+      not cover two important situations:</t>
       <ol spacing="normal" type="1"><li>
           <t>Cases where it is infeasible for an implementation to
           access an inner IP header when adding or removing an outer IP
           header</t>
         </li>
         <li>
-          <t>Implementations that choose not to propagate ECN between IP
+          <t>Cases where implementations choose not to propagate ECN between IP
           headers</t>
         </li>
       </ol>
@@ -211,7 +211,7 @@ outer).
 -->
 
 Processing the
-        shim and outer together is often necessary because the shim(s) is not
+        shim and outer together is often necessary because a shim is not
         sufficient for packet forwarding in its own right; not unless
         complemented by an outer header. In these cases, it will often be
         feasible for an implementation to propagate the ECN field between the
@@ -281,7 +281,7 @@ Nonetheless, some tunnel endpoints already look
 <t>Whether or not an ingress implementation
           claims compliance with <xref target="RFC6040"/>, <xref target="RFC4301"/>, or <xref target="RFC3168"/>, when the outer
           tunnel header is IP (v4 or v6), if possible, the ingress <bcp14>MUST</bcp14> be
-          configured to zero the outer ECN field in any of the following
+          configured to zero the outer ECN field in all of the following
           cases:</t>	  
           <ul spacing="normal">
             <li>
@@ -297,7 +297,7 @@ comments will be deleted prior to publication.
               with unknown behaviour might be dynamically paired with the
               ingress (one way for an operator of a tunnel ingress to
               determine the behaviour of an otherwise unknown egress is
-              described in <xref target="decap-test" format="default"/>); or</t>
+              described in <xref target="decap-test" format="default"/>);</t>
             </li>
             <li>
             <t>if an IP header might be encapsulated within a non-IP
@@ -533,7 +533,7 @@ format="default"/> and is not limited to this list.</t>
       <t>The Network Service Header (NSH) <xref target="RFC8300" format="default"/> has been
       defined as a shim-based encapsulation to identify the Service Function
       Path (SFP) in the Service Function Chaining (SFC) architecture <xref target="RFC7665" format="default"/>. A proposal has been made for the processing of ECN
-      when handling transport encapsulation <xref target="RFC9600" format="default"/>.</t>
+      when handling transport encapsulation <xref target="I-D.ietf-sfc-nsh-ecn-support" format="default"/>.</t>
       <t>The specification of Geneve already refers to <xref target="RFC6040"/> for ECN
       encapsulation.</t>
       <t><xref target="RFC8085" section="3.1.11" sectionFormat="of"/> already explains that a tunnel that
@@ -551,7 +551,7 @@ format="default"/> and is not limited to this list.</t>
       configuration.</t>
       <t><xref target="RFC9329" sectionFormat="of" section="9.5"/> already recommends the compatibility mode of <xref target="RFC6040"/>
       in this case because there is not a one-to-one mapping between inner
-      and outer packets.</t>
+      and outer packets when TCP encapsulates IKE or IPsec.</t>
       <section anchor="rfc6040up_rfc-updates" numbered="true" toc="default">
         <name>Specific Updates to Protocols under IETF Change Control</name>
         <section anchor="rfc6040up_L2TPv3" numbered="true" toc="default">
@@ -584,7 +584,7 @@ Then this whole stack of headers can be encapsulated within an optional
 outer UDP header and an outer PSN header that is typically IP (v4 or v6).
 </t>
           <t>L2TPv2 is used as a shim header between any PSN header and a PPP
-          header that is likely to encapsulate an IP header.</t>
+          header, which is in turn likely to encapsulate an IP header.</t>
           <t>Even though these shims are rather fat (particularly in the case
           of L2TPv3), they still fit the definition of a tightly coupled shim
           header over an encapsulating header (<xref target="rfc6040up_feasibility" format="default"/>) because all the headers
@@ -617,9 +617,9 @@ v6).
           <section anchor="rfc6040up_L2TP_ECN" numbered="true" toc="default">
             <name>ECN Extension for L2TP (v2 or v3)</name>
             <t>When the outer PSN header and the payload inside the L2 header
-            are both IP (v4 or v6), an LCCE will
-            follow the rules for propagation of the ECN field at ingress and
-            egress in <xref target="RFC6040" section="4" sectionFormat="of"/> to comply with <xref target="RFC6040"/>.</t>
+            are both IP (v4 or v6), an LCCE will propagate
+            the ECN field at ingress and egress by following the rules in
+            <xref target="RFC6040" section="4" sectionFormat="of"/>.</t>
             <t>Before encapsulating any data packets, <xref target="RFC6040"/>
             requires an ingress LCCE to check that the egress LCCE supports
             ECN propagation as defined in <xref target="RFC6040"/> or one of
@@ -638,7 +638,7 @@ If the egress supports ECN
             Capability Attribute-Value Pair (AVP) defined in <xref target="rfc6040up_L2TP_ECN_Capability_AVP" format="default"/>.</t>
             <t>Where the outer PSN header is some protocol other than IP that
             supports ECN, the appropriate ECN propagation specification will
-            need to be followed, e.g., <xref target="RFC5129" format="default"/>. Where no specification exists for
+            need to be followed, e.g., <xref target="RFC5129" format="default"/> for MPLS. Where no specification exists for
             ECN propagation by a particular PSN, <xref target="RFC9599" format="default"/> gives general
             guidance on how to design ECN propagation into a protocol that
             encapsulates IP.</t>
@@ -721,7 +721,7 @@ Then, for any sessions created by that control
           importance.</t>
           <t>Where the delivery protocol is some protocol other than IP that
           supports ECN, the appropriate ECN propagation specification will
-          need to be followed, e.g., <xref target="RFC5129" format="default"/>. Where no specification exists for ECN
+          need to be followed, e.g., <xref target="RFC5129" format="default"/> for MPLS. Where no specification exists for ECN
           propagation by a particular PSN, <xref target="RFC9599" format="default"/> gives more general
           guidance on how to propagate ECN to and from protocols that
           encapsulate IP.</t>
@@ -894,6 +894,8 @@ The operator of a GRE tunnel ingress <bcp14>MUST</bcp14> follow the configuratio
 
 <displayreference target="I-D.ietf-nvo3-vxlan-gpe" to="NVO3-VXLAN-GPE"/>
 <displayreference target="I-D.ietf-intarea-tunnels" to="INTAREA-TUNNELS"/>
+<!-- Line below added by Bob Briscoe to correct ERRONEOUS numbering as RFC9600-->
+<displayreference target="I-D.ietf-sfc-nsh-ecn-support" to="SFC-NSH-ECN"/>
 
 
     <references>
@@ -963,7 +965,9 @@ The operator of a GRE tunnel ingress <bcp14>MUST</bcp14> follow the configuratio
 
 <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-nvo3-vxlan-gpe.xml"/>
 
-<!-- [I-D.ietf-sfc-nsh-ecn-support] in REF state as of 4/29/2024; companion doc RFC 9600 -->
+<!-- [I-D.ietf-sfc-nsh-ecn-support] in REF state as of 4/29/2024; companion doc RFC 9600
+Bob Briscoe adds: The above line is an ERROR. I have commented out the whole errored reference, and added the correct one below itas an xi:include
+
 <reference anchor="RFC9600" target="https://www.rfc-editor.org/info/rfc9600">
 <front>
 <title>
@@ -989,6 +993,8 @@ Explicit Congestion Notification (ECN) and Congestion Feedback Using the Network
 <seriesInfo name="RFC" value="9600"/>
 <seriesInfo name="DOI" value="10.17487/RFC9600"/>
 </reference>
+-->
+<xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-sfc-nsh-ecn-support.xml"/>
 
 <!-- [I-D.ietf-intarea-tunnels] IESG state Expired -->
 
