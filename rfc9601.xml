@@ -434,10 +434,9 @@ Current:
 -->
 <t>Below is a list of specifications of encapsulations with tightly coupled
 shim header(s) in rough chronological order. This list is confined to
-Standards Track or widely deployed protocols and is not necessarily
-exhaustive, so for the avoidance of doubt, the scope of <xref
-target="RFC6040"/> is defined in <xref target="rfc6040up_scope"
-format="default"/>.</t>
+Standards Track or widely deployed protocols. So, for the avoidance of doubt,
+the updated scope of <xref target="RFC6040"/> is defined in <xref target="rfc6040up_scope"
+format="default"/> and is not limited to this list.</t>
       <ul spacing="normal">
         <li>
           <t>Point-to-Point Tunneling Protocol (PPTP) <xref target="RFC2637" format="default"/></t>
