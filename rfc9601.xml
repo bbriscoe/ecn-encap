@@ -70,7 +70,8 @@ ECN over IP-in-IP Tunnels with Shim
       (v4 or v6). Some of these shim headers are designed as generic
       encapsulations, so they do not necessarily directly encapsulate an inner
       IP header. Instead, they can encapsulate headers such as link-layer (L2) protocols that, in
-turn, often encapsulate IP.</t>
+turn, often encapsulate IP. Thus, the abbreviation 'IP-shim-(L2)-IP' can be used
+      for tunnels that are in scope of this document.</t>
       <t>To clear up confusion, this specification clarifies that the scope of
       <xref target="RFC6040"/> includes any IP-in-IP tunnel, including those with one or more shim
       headers and other encapsulations between the IP headers. Where
