@@ -148,8 +148,8 @@ not to comply or cannot comply with the ECN field, including all
 implementations that predated the RFC.
 -->
       <t>However, an RFC has no jurisdiction over implementations that choose
-      not to comply with it or cannot comply with it, including all those
-      implementations that predated the RFC. Therefore, it would have been
+      not to comply or cannot comply with the RFC, including all
+      implementations that predated it. Therefore, it would have been
       unreasonable to add such a requirement to <xref target="RFC6040"/>. Nonetheless, to
       ensure safe propagation of the ECN field over tunnels, it is reasonable
       to add requirements on operators to ensure they configure their tunnels
