@@ -291,9 +291,6 @@ Nonetheless, some tunnel endpoints already look
 that no updates related to these comments are outstanding. Note that the
 comments will be deleted prior to publication.
 -->
-
-            <!--...from the outer to any forwarded IP header (which might be the forwarded header itself, or it might be encapsulated within a forwarded non-IP header).-->
-
               <li>
              <t>if the behaviour of the egress is not known or an egress
               with unknown behaviour might be dynamically paired with the
@@ -306,8 +303,6 @@ comments will be deleted prior to publication.
               header that the tunnel ingress is encapsulating, but the ingress
               does not inspect within the encapsulation.</t>
             </li>
-
-            <!--Not sure this last bullet is needed. The above commented addition to the first bullet would be better.-->
             </ul>
          <t>For the avoidance of doubt, the above only concerns the
           outer IP header. The ingress <bcp14>MUST NOT</bcp14> alter the ECN field of the
@@ -524,11 +519,14 @@ format="default"/>.</t>
       are backwards compatible, so there is still no need for LISP tunnel
       endpoints to negotiate their ECN capabilities.</t>
       <t>VXLAN is not under the change control of the IETF, but it has been
-      documented in an Informational RFC. In contrast, Generic Protocol Extension for VXLAN (VXLAN-GPE) is being documented under IETF change control. It is
-      <bcp14>RECOMMENDED</bcp14> that VXLAN and VXLAN-GPE implementations comply with <xref target="RFC6040"/> when the VXLAN header is inserted between (or removed from between)
-      IP headers. The authors of any future update to these specifications are
+      documented in an Informational RFC. It is
+      <bcp14>RECOMMENDED</bcp14> that VXLAN implementations comply with <xref target="RFC6040"/>
+      when the VXLAN header is inserted between (or removed from between)
+      IP headers. The authors of any future update of the VXLAN spec are also 
       encouraged to add a requirement to comply with <xref target="RFC6040"/> as updated by
-      the present specification.<!--{ToDo: Update this text if the VXLAN-GPE draft gets updated before the present draft reaches the RFC Editor.}-->
+      the present specification. In contrast, Generic Protocol Extension for
+      VXLAN (VXLAN-GPE) is being documented under IETF change control and it does
+      require compliance with <xref target="RFC6040"/>.
       </t>
       <t>The Network Service Header (NSH) <xref target="RFC8300" format="default"/> has been
       defined as a shim-based encapsulation to identify the Service Function
