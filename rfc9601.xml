@@ -418,7 +418,7 @@ format="default"/> and is not limited to this list.</t>
       encapsulation.</t>
       <t><xref target="RFC8085" section="3.1.11" sectionFormat="of"/> already explains that a tunnel that
       encapsulates an IP header within a UDP/IP datagram needs to follow <xref target="RFC6040"/> when propagating the ECN field between inner and outer IP headers.
-      <xref target="rfc6040up_scope" format="default"/> updates
+      <xref target="rfc6040up_scope" format="default"/> of the present specification updates
       <xref target="RFC6040"/> to clarify that its scope includes cases with a shim header
       between the IP headers. So it indirectly updates the scope of <xref target="RFC8085"/>
       to include cases with a shim header as well as a UDP header between the
@@ -426,7 +426,7 @@ format="default"/> and is not limited to this list.</t>
 
       <t>The requirements in <xref target="rfc6040up_sec_safe" format="default"/> update <xref target="RFC6040"/>, and hence indirectly update the UDP usage guidelines in <xref target="RFC8085"/>
       to add the important but previously unstated requirement that, if the
-      UDP tunnel egress does not (or might not) support ECN propagation, a UDP
+      UDP tunnel egress does not, or might not, support ECN propagation, a UDP
       tunnel ingress has to clear the outer IP ECN field to 0b00, e.g., by
       configuration.</t>
       <t><xref target="RFC9329" sectionFormat="of" section="9.5"/> already recommends the compatibility mode of <xref target="RFC6040"/>
