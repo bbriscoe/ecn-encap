@@ -10,15 +10,6 @@
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude" submissionType="IETF" category="std" consensus="true" docName="draft-ietf-tsvwg-rfc6040update-shim-23" number="9601" ipr="pre5378Trust200902" updates="6040, 2661, 2784, 3931, 4380, 7450" obsoletes="" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
 
   <front>
-<!-- [rfced] For clarity, may the short title be updated as follows or 
-otherwise? This appears in the running header of the PDF.
-
-Original:
-ECN over IP-shim-(L2)-IP Tunnels
-
-Perhaps:
-ECN over IP-in-IP Tunnels with Shim
--->
     <title abbrev="ECN over IP-shim-(L2)-IP Tunnels">Propagating Explicit
     Congestion Notification across IP Tunnel Headers Separated by a
     Shim</title>
@@ -33,7 +24,7 @@ ECN over IP-in-IP Tunnels with Shim
         <uri>https://bobbriscoe.net/</uri>
       </address>
     </author>
-    <date year="2024" month="June"/>
+    <date year="2024" month="July"/>
     <area>tsv</area>
     <workgroup>tsvwg</workgroup>
     <keyword>Congestion Control and Management</keyword>
@@ -135,19 +126,7 @@ turn, often encapsulate IP. Thus, the abbreviation 'IP-shim-(L2)-IP' can be used
       ingress can use if it does not know whether the egress supports
       propagation of the ECN field; it has to clear the ECN field in any outer
       IP header to 0b00.</t>
-<!-- [rfced] Please clarify; what does "it" refer to here - the ECN field
-or the RFC itself?
 
-Original: 
-However, an RFC has no jurisdiction over implementations that choose
-not to comply with it or cannot comply with it, including all those
-implementations that predated the RFC.
-
-Perhaps (if the former): 
-However, an RFC has no jurisdiction over implementations that choose
-not to comply or cannot comply with the ECN field, including all
-implementations that predated the RFC.
--->
       <t>However, an RFC has no jurisdiction over implementations that choose
       not to comply or cannot comply with the RFC, including all
       implementations that predated it. Therefore, it would have been
@@ -160,62 +139,14 @@ implementations that predated the RFC.
       introduced.</t>
       <section anchor="rfc6040up_feasibility" numbered="true" toc="default">
         <name>Feasibility of ECN Propagation between Tunnel Headers</name>
-        <t>In many cases, one or more shim headers and an outer IP header are always
-        added to (or removed from) an inner IP packet as part of the same
-        procedure. We call these tightly coupled shim headers. 
-
-<!-- [rfced] We note several instances where the terms "inner"
-and "outer" appear on their own without context. We suggest that adding the 
-word "header" (or otherwise) will make it more clear to the reader what
-is intended (e.g., inner header, outer IP header, etc.).
-Please review the following occurrences and let us know if/how they
-should be updated by providing OLD/NEW text (or by editing the XML file).
-
-Original (Section 3.1): 
-Processing the shim and outer together is often
-necessary because the shim(s) are not sufficient for packet forwarding in
-their own right; not unless complemented by an outer header.
-
-Original (Section 4): 
-- it MUST NOT treat the former ToS octet (IPv4) or the
-former Traffic Class octet (IPv6) as a single 8-bit field, as the resulting
-linkage of ECN and Diffserv field propagation between inner and outer is not
-consistent with the definition of the 6-bit Diffserv field in [RFC2474] and
-[RFC3260];
-
-Original (Section 4): 
-For instance, if a tunnel ingress with no ECN-specific
-logic had a configuration capability to refer to the last 2 bits of the old
-ToS Byte of the outer (e.g. with a 0x3 mask) and set them to zero
-
-Original (Section 6): 
-Some of the listed protocols enable encapsulation of a
-variety of network layer protocols as inner and/or outer.
-
-Original (Section 6.1.1.2): 
-If the egress supports ECN propagation, the
-ingress LCCE can use the normal mode of encapsulation (copying the ECN field
-from inner to outer).
-
-Original (Section 6.1.1.2.1): 
-Then, for any sessions created by that control
-connection, both ends of the tunnel can use the normal mode of RFC 6040,
-i.e. they can copy the IP ECN field from inner to outer when encapsulating
-data packets.
-
-Original (Section 6.1.4.2): 
-Then whenever it tunnels datagrams towards this
-gateway, it MUST use the normal mode of RFC 6040 to propagate the ECN field
-when encapsulating datagrams (i.e. it copies the IP ECN field from inner to
-outer).
--->
-
-Processing a
-        shim and outer header together is often necessary because a shim is not
-        sufficient for packet forwarding in its own right; not unless
-        complemented by an outer header. In these cases, it will often be
-        feasible for an implementation to propagate the ECN field between the
-        IP headers.</t>
+        <t>In many cases, one or more shim headers and an outer IP header are
+        always added to (or removed from) an inner IP packet as part of the
+        same procedure. We call these tightly coupled shim headers.
+        Processing a shim and outer header together is often necessary because
+        a shim is not sufficient for packet forwarding in its own right; not
+        unless complemented by an outer header. In these cases, it will often
+        be feasible for an implementation to propagate the ECN field between
+        the IP headers.</t>
         <t>In some cases, a tunnel adds an outer IP header and a tightly
         coupled shim header to an inner header that is not an IP header, but
         that, in turn, encapsulates an IP header (or might encapsulate an IP
@@ -288,10 +219,6 @@ Nonetheless, some tunnel endpoints already look
 	      <t>if it is known that the tunnel egress does not support any of
               the RFCs that define propagation of the ECN field (<xref target="RFC6040"/>, <xref target="RFC4301"/>, or the full functionality mode of <xref target="RFC3168"/>);</t>
             </li>
-<!-- [rfced] Some author comments are present in the XML. Please confirm 
-that no updates related to these comments are outstanding. Note that the
-comments will be deleted prior to publication.
--->
               <li>
              <t>if the behaviour of the egress is not known or an egress
               with unknown behaviour might be dynamically paired with the
@@ -308,20 +235,6 @@ comments will be deleted prior to publication.
          <t>For the avoidance of doubt, the above only concerns the
           outer IP header. The ingress <bcp14>MUST NOT</bcp14> alter the ECN field of the
           arriving IP header that will become the inner IP header.</t>
-<!-- [rfced] We are having trouble parsing the following text. Specifically,
-the phrase "in order that the network operator" seems awkwardly
-phrased. Does the suggested text convey the intended meaning?
-
-Original: 
-In order that the network operator can comply with the above safety
-rules, even if an implementation of a tunnel ingress does not claim to support
-RFC 6040, RFC 4301 or the full functionality mode of RFC 3168:
-
-Perhaps: 
-In order for the network operator to comply with the above safety
-rules, even if an implementation of a tunnel ingress does not claim to support
-[RFC6040], [RFC4301], or the full functionality mode of [RFC3168]:
--->
          <t>In order that the network operator can comply with the above
           safety rules, an implementation of a tunnel ingress:</t>
           <ul spacing="normal">
@@ -333,21 +246,6 @@ rules, even if an implementation of a tunnel ingress does not claim to support
               6-bit Diffserv field in <xref target="RFC2474" format="default"/> and <xref target="RFC3260" format="default"/>.</t>
             </li>
             <li>
-<!-- [rfced] We are having difficulty parsing the following text. May we
-rephrase the following list item for readability?
-
-Original: 
-      -  it SHOULD be able to be configured to zero the ECN field of the
-         outer header. 
-
-Perhaps: 
-     *  The network operator SHOULD be able to configure the ECN field of
-        the outer header to zero.
-
-Or ("zero" as a verb):
-     *  The network operator SHOULD be able to zero the ECN field of
-        the outer header.
--->
               <t><bcp14>SHOULD</bcp14> be able to be configured to zero the ECN field of
               the outer header.</t>
             </li>
@@ -414,24 +312,6 @@ Or ("zero" as a verb):
     </section>
     <section anchor="rfc6040up_IP-IP_Coupled_Shim_Tunnels" numbered="true" toc="default">
       <name>IP-in-IP Tunnels with Tightly Coupled Shim Headers</name>
-<!-- [rfced] FYI, we have rephrased the following paragraph to limit
-redundancy. Please let us know if this conveys the intended meaning.
-
-Original:
-   There follows a list of specifications of encapsulations with tightly
-   coupled shim header(s), in rough chronological order.  The list is
-   confined to standards track or widely deployed protocols.  The list
-   is not necessarily exhaustive so, for the avoidance of doubt, the
-   scope of RFC 6040 is defined in Section 3 and is not limited to this
-   list.
-
-Current:
-   Below is a list of specifications of encapsulations with tightly
-   coupled shim header(s) in rough chronological order.  This list is
-   confined to Standards Track or widely deployed protocols and
-   is not necessarily exhaustive, so for the avoidance of doubt, the
-   scope of [RFC6040] is defined in Section 3.
--->
 <t>Below is a list of specifications of encapsulations with tightly coupled
 shim header(s) in rough chronological order. This list is confined to
 Standards Track or widely deployed protocols. So, for the avoidance of doubt,
@@ -540,7 +420,7 @@ format="default"/> and is not limited to this list.</t>
       encapsulates an IP header within a UDP/IP datagram needs to follow <xref target="RFC6040"/> when propagating the ECN field between inner and outer IP headers.
       <xref target="rfc6040up_scope" format="default"/> updates
       <xref target="RFC6040"/> to clarify that its scope includes cases with a shim header
-      between the IP headers. It indirectly updates the scope of <xref target="RFC8085"/>
+      between the IP headers. So it indirectly updates the scope of <xref target="RFC8085"/>
       to include cases with a shim header as well as a UDP header between the
       IP headers.</t>
 
@@ -562,24 +442,6 @@ format="default"/> and is not limited to this list.</t>
           IPv4, IPv6, and MPLS) and many types of L2 headers. The L2TPv3 shim
           header encapsulates an L2-specific sub-layer, then an L2 header that
           is likely to contain an inner IP header (v4 or v6). 
-<!-- [rfced] May we rephrase the following sentence to avoid repetition of
-"then" and clarify the text? 
-
-Original: 
-   Then this whole stack of headers can be
-   encapsulated optionally within an outer UDP header then an outer PSN
-   header that is typically IP (v4 or v6).
-
-Perhaps: 
-   Afterwards, this whole stack of headers can be encapsulated
-   optionally within an outer UDP header, then an outer PSN header that is
-   typically IP (v4 or v6).
-
-Or: 
-   Afterwards, this whole stack of headers can be encapsulated 
-   optionally within an outer UDP header, which is then encapsulated 
-   by an outer PSN header that is typically IP (v4 or v6).
--->
 Then this whole stack of headers can be encapsulated within an optional
 outer UDP header and an outer PSN header that is typically IP (v4 or v6).
 </t>
@@ -894,7 +756,6 @@ The operator of a GRE tunnel ingress <bcp14>MUST</bcp14> follow the configuratio
 
 <displayreference target="I-D.ietf-nvo3-vxlan-gpe" to="NVO3-VXLAN-GPE"/>
 <displayreference target="I-D.ietf-intarea-tunnels" to="INTAREA-TUNNELS"/>
-<!-- Line below added by Bob Briscoe to correct ERRONEOUS numbering as RFC9600-->
 <displayreference target="I-D.ietf-sfc-nsh-ecn-support" to="SFC-NSH-ECN"/>
 
 
@@ -965,19 +826,15 @@ The operator of a GRE tunnel ingress <bcp14>MUST</bcp14> follow the configuratio
 
 <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-nvo3-vxlan-gpe.xml"/>
 
-<!-- [I-D.ietf-sfc-nsh-ecn-support] in REF state as of 4/29/2024; companion doc RFC 9600
-Bob Briscoe adds: The above line is an ERROR. I have commented out the whole errored reference, and added the correct one below itas an xi:include
-
-<reference anchor="RFC9600" target="https://www.rfc-editor.org/info/rfc9600">
+<reference anchor="I-D.ietf-sfc-nsh-ecn-support" target="https://datatracker.ietf.org/doc/html/draft-ietf-sfc-nsh-ecn-support-13">
 <front>
 <title>
 Explicit Congestion Notification (ECN) and Congestion Feedback Using the Network Service Header (NSH) and IPFIX
 </title>
-<author initials="D." surname="Eastlake" fullname="Donald E. Eastlake 3rd">
-<organization>Futurewei Technologies</organization>
+<author initials="D." surname="Eastlake 3rd" fullname="Donald E. Eastlake 3rd">
+<organization>Independent</organization>
 </author>
 <author initials="B." surname="Briscoe" fullname="Bob Briscoe">
-<organization>Independent</organization>
 </author>
 <author initials="S." surname="Zhuang" fullname="Shunwan Zhuang">
 <organization>Huawei Technologies</organization>
@@ -988,13 +845,10 @@ Explicit Congestion Notification (ECN) and Congestion Feedback Using the Network
 <author initials="X." surname="Wei" fullname="Xinpeng Wei">
 <organization>Huawei Technologies</organization>
 </author>
-<date month="June" year="2024"/>
+<date month="April" day="15" year="2024"/>
 </front>
-<seriesInfo name="RFC" value="9600"/>
-<seriesInfo name="DOI" value="10.17487/RFC9600"/>
+<seriesInfo name="Internet-Draft" value="draft-ietf-sfc-nsh-ecn-support-13"/>
 </reference>
--->
-<xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-sfc-nsh-ecn-support.xml"/>
 
 <!-- [I-D.ietf-intarea-tunnels] IESG state Expired -->
 
@@ -1066,28 +920,5 @@ Explicit Congestion Notification (ECN) and Congestion Feedback Using the Network
    the TimeIn project for early drafts, and he was funded by Apple Inc. for later draft versions (from -17). The views expressed here are solely those of
       the authors.</t>
     </section>
-<!-- [rfced] We note that "tunnelling" was used consistently in the original
-with the exception of a few expanded abbreviations, for example,
-"Automatic Multicast Tunneling (AMT)". We suggest updating instances of
-"tunnelling" to "tunneling" except where it appears in the title of 
-another document; please let us know if this is acceptable.
-
-For example, we suggest updating to the form on the right: 
-Layer 2 Tunnelling Protocol (L2TP) vs. Layer 2 Tunneling Protocol (L2TP)
-GPRS Tunnelling Protocol (GTP) vs. GPRS Tunneling Protocol (GTP)
--->
-
-<!-- [rfced] FYI - We have added expansions for abbreviations upon first use
-per Section 3.6 of RFC 7322 ("RFC Style Guide"). Please review each
-expansion in the document carefully to ensure correctness. 
--->
-
-<!-- [rfced] Please review the "Inclusive Language" portion of the online
-Style Guide
-<https://www.rfc-editor.org/styleguide/part2/#inclusive_language> and let
-us know if any changes are needed. Note that our script did not flag any
-words in particular, but this should still be reviewed as a best
-practice.
--->
   </back>
 </rfc>
