@@ -10,18 +10,6 @@
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="bcp" consensus="true" docName="draft-ietf-tsvwg-ecn-encap-guidelines-22" number="9599" ipr="trust200902" updates="3819" obsoletes="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
 
   <front>
-<!-- [rfced] We note that the short title of this document is "ECN
-Encapsulation Guidelines". To match the short title, should we update the
-title of the document as follows to include "ECN"?
-
-Original: 
-Guidelines for Adding Congestion Notification to Protocols that
-Encapsulate IP
-
-Perhaps: 
-Guidelines for Adding Explicit Congestion Notification (ECN) to
-Protocols That Encapsulate IP
--->
 <title abbrev="ECN Encapsulation Guidelines">Guidelines for Adding
     Congestion Notification to Protocols That Encapsulate IP</title>
     <seriesInfo name="RFC" value="9599"/>
@@ -50,7 +38,7 @@ Protocols That Encapsulate IP
       </address>
     </author>
 
-    <date month="June" year="2024"/>
+    <date month="July" year="2024"/>
 
     <area>WIT</area>
     <workgroup>tsvwg</workgroup>
@@ -65,40 +53,10 @@ Protocols That Encapsulate IP
     <keyword>Layering</keyword>
 
     <abstract>
-<!-- [rfced] May we rephrase the following sentence to match what appears in
-the short title and proposed document title?
-
-Original:
-   The purpose of this document is to guide the design of congestion
-   notification in any lower layer or tunnelling protocol that
-   encapsulates IP.
-
-Perhaps: 
-   The purpose of this document is to guide the design of Explicit
-   Congestion Notification (ECN) in any lower-layer or tunneling protocol 
-   that encapsulates IP.
--->
       <t>The purpose of this document is to guide the design of congestion
       notification in any lower-layer or tunnelling protocol that encapsulates
       IP. The aim is for explicit congestion signals to propagate consistently
       from lower-layer protocols into IP. 
-
-<!-- [rfced] FYI, "congestion notification" has been made plural in 
-instances where it seems to refer to notifications rather than the 
-mechanism; here is an example. Please review. (We note there were 
-4 instances of plural in the original.)
-
-Original: 
-   Then the
-   IP internetwork layer can act as a portability layer to carry
-   congestion notification from non-IP-aware congested nodes up to the
-   transport layer (L4)
-
-Current:
-   Then, the IP internetwork layer can act as a portability layer to
-   carry congestion notifications from non-IP-aware congested nodes up to the
-   transport layer (L4).
--->
 Then, the IP internetwork layer can act as a portability layer to carry
 congestion notification from non-IP-aware congested nodes up to the transport
 layer (L4). Specifications that follow these guidelines, whether produced by the
@@ -129,36 +87,15 @@ to this document.</t>
       ECN-aware, or if the ultimate receiver or sender is not ECN-aware,
       congestion needs to be indicated by dropping the packet, not marking
       it.</t>
-<!-- [rfced] How may this sentence be rephrased for clarity?
-Specifically, what does "it" refer to in "it will propagate"?
-
-Original:
-   The purpose of this document is to guide the addition of congestion
-   notification to any subnet technology or tunnelling protocol, so that
-   lower layer AQM algorithms can signal congestion explicitly and it
-   will propagate consistently into encapsulated (higher layer) headers,
-   otherwise the signals will not reach their ultimate destination.
-
-Perhaps:
-   The purpose of this document is to guide the addition of congestion
-   notifications to any subnet technology or tunnelling protocol so that
-   lower-layer AQM algorithms can signal congestion explicitly and that signal
-   can be propagated consistently into encapsulated (higher-layer)
-   headers. Otherwise, the signals will not reach their ultimate destination.
--->
 <t>The purpose of this document is to guide the addition of congestion
       notification to any subnet technology or tunnelling protocol so that
       lower-layer AQM algorithms can signal congestion explicitly and that signal will
-      propagate consistently into encapsulated (higher-layer) headers;
-      otherwise, the signals will not reach their ultimate destination.</t>
+      propagate consistently into encapsulated (higher-layer) headers.
+      Otherwise, the signals will not reach their ultimate destination.</t>
       <t>ECN is defined in the IP header (IPv4 and IPv6) <xref target="RFC3168" format="default"/>
       to allow a resource to notify the onset of queue buildup without having
       to drop packets by explicitly marking a proportion of packets with the
       congestion experienced (CE) codepoint.
-<!-- [rfced] Some author comments are present in the XML. Please confirm that
-no updates related to these comments are outstanding. Note that the
-comments will be deleted prior to publication.
--->
       </t>
       <t>Given a suitable marking scheme, ECN removes nearly all congestion
       loss and it cuts delays for two main reasons: </t>
@@ -188,33 +125,18 @@ This is
       <t>Propagation of ECN is defined for MPLS <xref target="RFC5129" format="default"/> and TRILL <xref target="RFC7780" format="default"/> <xref target="RFC9600" format="default"/>, but it has yet to be defined for
       a number of other subnetwork technologies.</t>
       <t>Similarly, ECN propagation is yet to be defined for many tunnelling
-      protocols. <xref target="RFC6040" format="default"/> defines how ECN should be propagated
-      for IP-in-IPv4 <xref target="RFC2003" format="default"/>, IP-in-IPv6 <xref target="RFC2473" format="default"/>, and IPsec <xref target="RFC4301" format="default"/> tunnels, but there
-      are numerous other tunnelling protocols with a shim and/or a Layer 2 (L2)
-      header between two IP headers (IPv4 or IPv6). Some address ECN propagation
-      between the IP headers, but many do not. 
-<!--[rfced] Please clarify "IP-shim-(L2)-IP protocols".
-How may it be written out? Based on the preceding text, 
-perhaps L2 is in parentheses to indicate that it is an option.
-
-Current:
-   This document gives guidance on how to address ECN propagation for
-   future tunnelling protocols, and a companion Standards Track
-   specification [RFC9601] updates existing IP-shim-(L2)-IP protocols
-   that are under IETF change control and still widely used.
-
-We note that RFC-to-be 9601 only used the term "IP-shim-(L2)-IP"
-in the abbreviated title. Perhaps this shorthand means 
-"IP-shim-IP or IP-L2-IP" or "IP-in-IP tunnels that rely on 
-shim headers or L2 protocols" or otherwise.
--->
-
-
-This document gives guidance on
-      how to address ECN propagation for future tunnelling protocols, and a
-      companion Standards Track specification <xref target="RFC9601" format="default"/> updates existing
-      tunnelling protocols with a shim between IP headers that are under IETF change control and still
-      widely used.</t>
+      protocols. <xref target="RFC6040" format="default"/> defines how ECN
+      should be propagated for IP-in-IPv4 <xref target="RFC2003"
+      format="default"/>, IP-in-IPv6 <xref target="RFC2473"
+      format="default"/>, and IPsec <xref target="RFC4301" format="default"/>
+      tunnels, but there are numerous other tunnelling protocols with a shim
+      and/or a Layer 2 (L2) header between two IP headers (IPv4 or IPv6). Some
+      address ECN propagation between the IP headers, but many do not. This
+      document gives guidance on how to address ECN propagation for future
+      tunnelling protocols, and a companion Standards Track specification
+      <xref target="RFC9601" format="default"/> updates existing tunnelling
+      protocols with a shim between IP headers that are under IETF change
+      control and still widely used.</t>
       <t>Incremental deployment is the most delicate aspect when adding
       support for ECN. The original ECN protocol in IP <xref target="RFC3168" format="default"/> was carefully designed so that a congested buffer
       would not mark a packet (rather than drop it) unless both source and
@@ -225,18 +147,8 @@ This document gives guidance on
       transport endpoints support ECN; correct operation also depends on the
       decapsulator at each subnet or tunnel egress faithfully propagating
       congestion notification to the higher layer. 
-<!-- [rfced] Should "outer" read as "outer header" here for clarity?
-
-Original: 
-Otherwise, a legacy decapsulator might silently fail to propagate
-any ECN signals from the outer to the forwarded header.
-
-Perhaps: 
-Otherwise, a legacy decapsulator might silently fail to propagate any
-ECN signals from the outer header to the forwarded header.
--->
 Otherwise, a legacy decapsulator might silently fail to propagate any congestion
-signals from the outer to the forwarded header. Then, the lost signals would
+signals from the outer header to the forwarded header. Then, the lost signals would
 never be detected and congestion would build up further. The guidelines given
 later require protocol designers to carefully consider incremental deployment
 and suggest various safe approaches for different circumstances.</t>
@@ -256,24 +168,6 @@ technologies using IP in its role as a 'portability layer'.</t>
       given in the advice below, it <bcp14>MUST</bcp14> include a sound justification.</t>
       <t>It has not been possible to give common guidelines for all
       lower-layer technologies because they do not all fit a common pattern.
-
-<!-- [rfced] We note that the "feed-forward-and-upward" and
-"feed-upward-and-forward" modes of operation in this sentence are
-otherwise consistently referred to as "feed-forward-and-up" and
-"feed-up-and-forward" in the document. FYI, we have updated this sentence 
-for consistency. Please let us know if that is not accurate.
-
-Original: 
-Instead, they have been divided into a few distinct modes of
-operation: feed-forward-and-upward; feed-upward-and-forward; feed-backward;
-and null mode.
-
-Current: 
-Instead, they have been divided into a few distinct modes of
-operation: feed-forward-and-up, feed-up-and-forward, feed-backward, and null
-mode.
--->
-
 Instead, they have been divided into a few distinct modes of
       operation: feed-forward-and-up, feed-up-and-forward,
       feed-backward, and null mode. These modes are described in <xref
@@ -294,22 +188,13 @@ Instead, they have been divided into a few distinct modes of
       </section>
       <section anchor="ecnencap_Scope" numbered="true" toc="default">
         <name>Scope</name>
-<!-- [rfced] May we rephrase "explicit notification of congestion" as follows?
-
-Original: 
-This document only concerns wire protocol processing of explicit
-notification of congestion.
-
-Perhaps: 
-This document only concerns wire protocol processing of ECN.
--->
         <t>This document only concerns wire protocol processing of explicit
         notification of congestion. It makes no changes or recommendations
         concerning algorithms for congestion marking or congestion
         response because algorithm issues should be independent of the layer
         that the algorithm operates in.</t>
         <t>The default ECN semantics are described in <xref target="RFC3168" format="default"/>
-        and updated by <xref target="RFC8311" format="default"/>. Also, the guidelines for Active Queue Management (AQM)
+        and updated by <xref target="RFC8311" format="default"/>. Also, the guidelines for AQM
         designers <xref target="RFC7567" format="default"/> clarify the semantics of both drop
         and ECN signals from AQM algorithms. <xref target="RFC4774" format="default"/> is the
         appropriate best current practice specification of how algorithms with
@@ -370,25 +255,6 @@ This document only concerns wire protocol processing of ECN.
         between IP and lower-layer or tunnel protocols that can encapsulate
         IP, where the term 'IP' includes IPv4 or IPv6, unicast, multicast, or
         anycast. 
-<!-- [rfced] We note that "previously 802.1ah", "previously 802.1p", and
-"previously known as 802.1Qau" is written in instances where [IEEE802.1Q]
-is cited throughout the document (see below for an example). Is the added 
-context necessary for readers to understand the text? If not, we suggest 
-referencing the most up-to-date material and removing "previously X" from 
-each citation of [IEEE802.1Q]. See below for an example.
-
-Original (Section 1.2): 
-However, it is likely that the guidelines will also be
-useful when a lower layer protocol or tunnel encapsulates itself, e.g.
-Ethernet MAC in MAC ([IEEE802.1Q]; previously 802.1ah) or when it encapsulates
-other protocols.
-
-Perhaps: 
-However, it is likely that the guidelines will also be useful when a
-lower-layer protocol or tunnel encapsulates itself, e.g., Ethernet Media
-Access Control (MAC) in MAC [IEEE802.1Q], or when it encapsulates other
-protocols.
--->
 However, it is likely that the guidelines will also be useful
         when a lower-layer protocol or tunnel encapsulates itself, e.g.,
         Ethernet Media Access Control (MAC) in MAC (<xref target="IEEE802.1Q" format="default"/>; previously 802.1ah),
@@ -453,17 +319,6 @@ However, it is likely that the guidelines will also be useful
         <dt>Not-ECT:</dt>
         <dd>Not ECN-Capable (L4) Transport <xref target="RFC3168" format="default"/></dd>
         <dt>Load Regulator:</dt>
-<!-- [rfced] Does the proposed text improve readability of the definition for
-"Load Regulator" without changing the intended meaning?
-
-Original: 
-   Load Regulator:  For each flow of PDUs, the transport function that
-      is capable of controlling the data rate.
-
-Perhaps: 
-   Load Regulator:  The transport function that is capable of controlling 
-      the data rate for each flow of PDUs.
--->
         <dd>For each flow of PDUs, the transport function that is capable of
         controlling the data rate. Typically located at the data source, but
         in-path nodes can regulate load in some congestion control
@@ -508,15 +363,6 @@ Perhaps:
           notification towards the egress within the lower layer, then up and
           along the layers towards the end-to-end destination at the transport
           layer. The following local optimization is possible:</t>
-<!--[rfced] This original document contained a mix of British and American
-spelling (e.g., optimisation and minimize, behaviour and behavior).
-FYI, this has been updated to the latter per the RFC Style Guide, with
-the following exception. 
-
-Instances of 'tunnelling' will be changed to 'tunneling' except
-where they appear in the titles of documents. We have not yet made this
-update as it will make the diff file more noisy for review.
--->
 <dl newline="false" spacing="normal">
             <dt>Feed-Up-and-Forward:</dt>
             <dd>A lower-layer switch feeds up
@@ -603,41 +449,10 @@ header
         <t>Note that the Forward Explicit Congestion Notification (FECN) bit in Frame Relay <xref target="Buck00" format="default"/> and the Explicit Forward Congestion Indication (EFCI)
         <xref target="ITU-T.I.371" format="default"/> bit in ATM user data cells follow a
         feed-forward pattern. 
-<!-- [rfced] May we change "to interface to" to "to interface with" here?
-
-Original:
-   However, in ATM,
-   this arrangement is only part of a feed-forward-and-backward pattern
-   at the lower layer, not feed-forward-and-up out of the lower layer -
-   the intention was never to interface to IP ECN at the subnet egress. 
-
-Perhaps:
-   However, in ATM,
-   this arrangement is only part of a feed-forward-and-backward pattern
-   at the lower layer, not feed-forward-and-up out of the lower layer -
-   the intention was never to interface with IP ECN at the subnet egress.
--->
 However, in ATM, this arrangement is only part
         of a feed-forward-and-backward pattern at the lower layer, not
         feed-forward-and-up out of the lower layer -- the intention was
         never to interface with IP-ECN at the subnet egress.
-<!-- [rfced] The first sentence of paragraph 6 in Section 3.1 refers to "FECN"
-as a bit in Frame Relay. Should the following sentence be updated to
-reflect this?
-
-Original (Section 3.1):
-   Note that the FECN (forward ECN ) bit in Frame Relay [Buck00] and the
-   explicit forward congestion indication (EFCI [ITU-T.I.371]) bit in
-   ATM user data cells follow a feed-forward pattern.
-
-Original:
-   To our knowledge, Frame Relay FECN is solely used to detect where
-   more capacity should be provisioned.
-
-Perhaps:
-   To our knowledge, the FECN bit in Frame Relay is solely used to detect 
-   where more capacity should be provisioned.
--->
 To our knowledge,
         Frame Relay FECN is solely used by network operators to detect where they 
         should provision more capacity.</t>
@@ -682,24 +497,8 @@ header
         Layer 3 Ethernet switches) works in feed-up-and-forward mode by
         notifying congestion directly into L3 at the point of congestion, even
         though the congested switch does not otherwise act at L3. 
-<!-- [rfced] For clarity, may we split this sentence into two?
-Also, perhaps changing from 'natively' to 'innately'; see the final 
-question regarding inclusive language.
-
-Original: 
-   In this example, the technology in subnet F (e.g.  MPLS) does
-   support ECN natively, so when the router adds the layer-2 header it
-   copies the ECN marking from L3 to L2 as well, as shown by the 'C's in
-   both layers.
-
-Perhaps: 
-   In this example, the technology in subnet F (e.g., MPLS) innately
-   supports ECN.  When the router adds the Layer 2 header, it
-   copies the ECN marking from L3 to L2 as well, as shown by the 'C's in
-   both layers.
--->
 In this example, the technology in subnet F (e.g., MPLS) does support ECN.
-   So, when  the router adds the Layer 2 header it copies the ECN marking
+   So, when the router adds the Layer 2 header, it copies the ECN marking
 from L3 to L2 as well, as shown by the 'C's in both layers.</t>
       </section>
       <section anchor="ecnencap_Backward" numbered="true" toc="default">
@@ -708,29 +507,16 @@ from L3 to L2 as well, as shown by the 'C's in both layers.</t>
         been defined for use internally within the subnet with its own
         feedback and load regulation but the interface with IP for
         ECN has not been defined.</t>
-<!-- [rfced] To improve readability, may we rephrase this 
-sentence as follows and update "tending" to past tense (to match "was")?
-
-Original:
-For instance, for the available bit-rate (ABR) service in ATM, the
-relative rate mechanism was one of the more popular mechanisms for
-managing traffic, tending to supersede earlier designs.
-
-Perhaps: 
-For instance, the relative rate mechanism was one of the more popular
-ways to manage traffic for the Available Bit Rate (ABR) service in ATM,
-and it tended to supersede earlier designs.
--->
-<t>For instance, for the Available Bit Rate (ABR) service in ATM, the
-        relative rate mechanism was one of the more popular mechanisms for
-        managing traffic, tending to supersede earlier designs. In this
-        approach, ATM switches send special resource management (RM) cells in
-        both the forward and backward directions to control the ingress rate
-        of user data into a virtual circuit. If a switch buffer is approaching
-        congestion or is congested, it sends an RM cell back towards the
-        ingress with respectively the No Increase (NI) or Congestion
-        Indication (CI) bit set in its message type field <xref target="ATM-TM-ABR" format="default"/>.
-        The ingress then holds or decreases its sending bit rate accordingly.</t>
+<t>For instance, the relative rate mechanism was one of the more popular ways
+to manage traffic for the Available Bit Rate (ABR) service in ATM, and it
+tended to supersede earlier designs. In this approach, ATM switches send
+special resource management (RM) cells in both the forward and backward
+directions to control the ingress rate of user data into a virtual circuit. If
+a switch buffer is approaching congestion or is congested, it sends an RM cell
+back towards the ingress with respectively the No Increase (NI) or Congestion
+Indication (CI) bit set in its message type field <xref target="ATM-TM-ABR"
+format="default"/>.  The ingress then holds or decreases its sending bit rate
+accordingly.</t>
         <figure anchor="ecnencap_Fig_Feed-Backward">
           <name>Feed-Backward Mode</name>
           <artwork name="" type="" align="left" alt=""><![CDATA[
@@ -808,27 +594,6 @@ The resulting rate mismatch causes the
         congest any link, e.g., a Clos network <xref target="Clos53" format="default"/>.</t>
       </section>
     </section>
-<!-- [rfced] Should these section titles be updated as follows
-to use "ECN"?
-
-Original (Section 4): 
-  Feed-Forward-and-Up Mode: Guidelines for Adding Congestion Notification
-
-Perhaps: 
-  Feed-Forward-and-Up Mode: Guidelines for Adding ECN
-
-Original (Section 5): 
-  Feed-Up-and-Forward Mode: Guidelines for Adding Congestion Notification
-
-Perhaps: 
-  Feed-Up-and-Forward Mode: Guidelines for Adding ECN
-
-Original (Section 6): 
-  Feed-Backward Mode: Guidelines for Adding Congestion Notification
-
-Perhaps: 
-  Feed-Backward Mode: Guidelines for Adding ECN
--->
     <section anchor="ecnencap_Guidelines_Forward" numbered="true" toc="default">
       <name>Feed-Forward-and-Up Mode: Guidelines for Adding Congestion Notification</name>
       <t>Feed-forward-and-up is the mode already used for signalling ECN up
@@ -908,7 +673,7 @@ Perhaps:
         which is compatible with <xref target="RFC6040"/>.</t>
         <t>However, as <xref section="9.3" target="RFC3168" format="default"/> pointed out, ECN
         support needs to be defined for many earlier shim-based tunnelling
-        protocols, e.g., L2TPv2 <xref target="RFC2661" format="default"/>, L2TPv3 <xref target="RFC3931" format="default"/>, GRE <xref target="RFC2784" format="default"/>, PPTP <xref target="RFC2637" format="default"/>, GTP <xref target="GTPv1" format="default"/>, <xref target="GTPv1-U" format="default"/>, <xref target="GTPv2-C" format="default"/>, and Teredo <xref target="RFC4380" format="default"/>, as well as some recent ones, e.g., VXLAN <xref target="RFC7348" format="default"/>, NVGRE <xref target="RFC7637" format="default"/>, and NSH <xref target="RFC8300" format="default"/>.</t>
+        protocols, e.g., L2TPv2 <xref target="RFC2661" format="default"/>, L2TPv3 <xref target="RFC3931" format="default"/>, GRE <xref target="RFC2784" format="default"/>, PPTP <xref target="RFC2637" format="default"/>, GTP <xref target="GTPv1" format="default"/> <xref target="GTPv1-U" format="default"/> <xref target="GTPv2-C" format="default"/>, and Teredo <xref target="RFC4380" format="default"/>, as well as some recent ones, e.g., VXLAN <xref target="RFC7348" format="default"/>, NVGRE <xref target="RFC7637" format="default"/>, and NSH <xref target="RFC8300" format="default"/>.</t>
         <t>All these IP-based encapsulations can be updated in one shot by
         simple reference to <xref target="RFC6040"/>. However, it would not be appropriate to
         update all these protocols from within the present guidance document.
@@ -1015,60 +780,22 @@ Alternatively,
         TRILL provides an extension header word with space for flags of
         different categories depending on whether logic to understand the
         extension is critical. The congestion-experienced marking has been
-        defined as a 'critical ingress-to-egress' flag. 
-<!-- [rfced] May we rephrase the following sentence for clarity? 
-Specifically, "it" in the phrase "... does not have any logic to 
-process it, it will drop it..." seems unclear and repetitive.
-
-Original: 
-So if a transit RBridge sets this flag on a frame and an egress
-RBridge does not have any logic to process it, it will drop it; which is the
-desired default action anyway.
-
-Perhaps: 
-If a transit RBridge sets this flag on a frame and an egress RBridge
-does not have any logic to process it, then the egress RBridge will drop the
-frame, which is the desired default action anyway.
--->
-So if a transit
+        defined as a 'critical ingress-to-egress' flag. If a transit
         RBridge sets this flag on a frame and an egress RBridge does not have any logic
         to process it, then the egress RBridge will drop the frame, which is the desired default action
         anyway. Therefore, TRILL RBridges can be updated with support for congestion notification
         in no particular order and, at the egress of the TRILL campus,
         congestion notification will be propagated to IP as ECN whenever ECN
         logic has been implemented at the egress, or as drop otherwise.</t>
-        <t>QCN <xref target="IEEE802.1Q" format="default"/> is not intended to extend beyond a
-        single subnet or interoperate with IP-ECN. Nonetheless, the way QCN
-        indicates to lower-layer devices that the endpoints will not
-        understand QCN provides another example that a lower-layer protocol
-        designer might be able to mimic for their scenario. 
-<!-- [rfced] Please clarify this sentence. Is it indicating that both non-QCN 
-frames AND an ingress bridge are required to map arriving not-QCN-capable
-IP packets? Also, does each packet get mapped to a PCP?
-
-Original: 
-   An operator can define certain
-   Priority Code Points (PCPs [IEEE802.1Q]; previously 802.1p) to
-   indicate non-QCN frames and an ingress bridge is required to map
-   arriving not-QCN-capable IP packets to one of these non-QCN PCPs.
-
-Perhaps:
-   An operator can define certain 
-   Priority Code Points (PCPs) [IEEE802.1Q] to indicate that non-QCN 
-   frames and an ingress bridge are required to map arriving not-QCN-
-   capable IP packets to one of these non-QCN PCPs.
-
-Or (two independent clauses; added "each"):
-   An operator can define certain
-   Priority Code Points (PCPs [IEEE802.1Q]; previously 802.1p) to
-   indicate non-QCN frames, and an ingress bridge is required to map
-   each arriving not-QCN-capable IP packet to one of these non-QCN PCPs.
--->
-An operator can
-        define certain Priority Code Points (PCPs) (<xref target="IEEE802.1Q" format="default"/>;
-        previously 802.1p) to indicate non-QCN frames. Then an ingress bridge has to map
-   each arriving not-QCN-capable IP packet to one of these
-        non-QCN PCPs.</t>
+        <t>QCN <xref target="IEEE802.1Q" format="default"/> is not intended to
+        extend beyond a single subnet or interoperate with
+        IP-ECN. Nonetheless, the way QCN indicates to lower-layer devices that
+        the endpoints will not understand QCN provides another example that a
+        lower-layer protocol designer might be able to mimic for their
+        scenario. An operator can define certain Priority Code Points (PCPs
+        <xref target="IEEE802.1Q" format="default"/>; previously 802.1p) to
+        indicate non-QCN frames. Then an ingress bridge has to map each
+        arriving not-QCN-capable IP packet to one of these non-QCN PCPs.</t>
 
         <t>When drop for non-ECN traffic is deferred to the egress of a subnet,
         it cannot necessarily be assumed that one congestion mark is equivalent to one
@@ -1160,7 +887,7 @@ A node
             <t>As long as subnet and tunnel technologies use the
             standard congestion monitoring baseline in this guideline,
             monitoring systems will know to use the former approach rather
-            than having to "somehow know" which approach to use.
+            than having to 'somehow know' which approach to use.
             </t>
           </li>
         </ol>
@@ -1247,23 +974,6 @@ the packet <bcp14>SHOULD</bcp14> be dropped.</li>
         <t>In such cases, it would be sufficient for every encapsulation and
         decapsulation in the chain to comply with <xref
         target="RFC6040"/>. 
-<!-- [rfced] Should "outer" and "inner" be specified as "outer header" and
-"inner header" in this sentence for clarity?
-
-Original: 
-   Alternatively,
-   as an optimisation, a node that decapsulates a packet and immediately
-   re-encapsulates it for the next tunnel MAY copy the incoming outer
-   ECN field directly to the outgoing outer and the incoming inner ECN
-   field directly to the outgoing inner.
-
-Perhaps: 
-   Alternatively,
-   as an optimization, a node that decapsulates a packet and immediately    
-   re-encapsulates it for the next tunnel MAY copy the incoming
-   outer ECN field directly to the outgoing outer header and the incoming 
-   inner ECN field directly to the outgoing inner header.
--->
 Alternatively, as an optimization, a node that
         decapsulates a packet and immediately re-encapsulates it for the next
         tunnel <bcp14>MAY</bcp14> copy the incoming outer ECN field directly
@@ -1335,27 +1045,29 @@ Perhaps:
        arriving and departing.
 -->
         <t>Two possible design goals for propagating congestion indications,
-        described in <xref section="5.3" target="RFC3168" format="default"/> and <xref section="2.4" target="RFC7141" format="default"/>, are:</t>
-
-        <ol spacing="normal" type="1"><li anchor="ecnencap_reframing_goal_presence">approximate
-            preservation of the presence (and therefore timing) of congestion
-            marks on the L2 frames used to construct an IP packet;</li>
+        described in <xref section="5.3" target="RFC3168" format="default"/>
+        and <xref section="2.4" target="RFC7141" format="default"/>, are:</t>
+        <ol spacing="normal" type="1"><li
+        anchor="ecnencap_reframing_goal_presence">approximate preservation of
+        the presence (and therefore timing) of congestion marks on the L2
+        frames used to construct an IP packet;</li>
           <li anchor="ecnencap_reframing_goal_proportion"><t>...</t>
-            <ol spacing="normal" type="a"><li>at high frequency of congestion marking, approximate
-                preservation of the proportion of congestion marks arriving
-                and departing;</li>
-              <li>at low frequency of congestion marking, approximate
-                preservation of the timing of congestion marks arriving and
-                departing.</li>
+            <ol spacing="normal" type="a"><li>at high frequency of congestion
+            marking, approximate preservation of the proportion of congestion
+            marks arriving and departing;</li>
+              <li>at low frequency of congestion
+              marking, approximate preservation of the timing of congestion
+              marks arriving and departing.</li>
             </ol>
           </li>
         </ol>
-        <t>In either case, an implementation <bcp14>SHOULD</bcp14> ensure that any new
-        incoming congestion indication is propagated immediately; not held
-        awaiting the possibility of further congestion indications to be
-        sufficient to indicate congestion on an outgoing PDU <xref target="RFC7141" format="default"/>. Nonetheless, to facilitate pipelined
-        implementation, it would be acceptable for congestion marks to
-        propagate to a slightly later IP packet.</t>
+        <t>In either case, an implementation <bcp14>SHOULD</bcp14> ensure that
+        any new incoming congestion indication is propagated immediately; not
+        held awaiting the possibility of further congestion indications to be
+        sufficient to indicate congestion on an outgoing PDU <xref
+        target="RFC7141" format="default"/>. Nonetheless, to facilitate
+        pipelined implementation, it would be acceptable for congestion marks
+        to propagate to a slightly later IP packet.</t>
         <t>
    At decapsulation in either case:</t>
    <ul><li>ECN-marking propagation logically occurs
@@ -1421,7 +1133,7 @@ Current:
 For instance, if ECN-marking
             propagation would cause an ECN congestion indication to be applied
             to an IP packet that is a Not-ECN-PDU, then that IP packet is
-            dropped in accordance with Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/>:</li>
+            dropped in accordance with Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/>;</li>
           <li>where a mix of ECN-PDUs and non-ECN-PDUs arrives to construct the same
             IP packet, the decapsulation specification <bcp14>SHOULD</bcp14> require that packet to
             be discarded.</li>
@@ -1654,7 +1366,7 @@ For instance, if ECN-marking
 <title>
 TRILL (TRansparent Interconnection of Lots of Links): ECN (Explicit Congestion Notification) Support
 </title>
-<author initials="D." surname="Eastlake" fullname="Donald E. Eastlake 3rd">
+<author initials="D." surname="Eastlake 3rd" fullname="Donald E. Eastlake 3rd">
 <organization>Huawei</organization>
 </author>
 <author initials="B." surname="Briscoe" fullname="Bob Briscoe">
@@ -1891,16 +1603,4 @@ Propagating Explicit Congestion Notification Across IP Tunnel Headers Separated 
       publication.</t>
     </section>
   </back>
-<!-- [rfced] FYI, we have added expansions for abbreviations upon first use
-per Section 3.6 of RFC 7322 ("RFC Style Guide"). Please review each
-expansion in the document carefully to ensure correctness.
--->
-
-
-<!-- [rfced] Please review the "Inclusive Language" portion of the online
-Style Guide <https://www.rfc-editor.org/styleguide/part2/#inclusive_language>
-and let us know if any changes are needed. For example, please consider 
-whether the term "native" should be updated.
---> 
-
 </rfc>
