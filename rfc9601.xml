@@ -240,7 +240,7 @@ Nonetheless, some tunnel endpoints already look
           <ul spacing="normal">
             <li>
               <t><bcp14>MUST NOT</bcp14> treat the former Type of Service (ToS) octet (IPv4) or the former
-              Traffic Class octet (IPv6) as a single 8-bit field, as the
+              Traffic Class octet (IPv6) as a single 8-bit field. This is because the
               resulting linkage of ECN and Diffserv field propagation between
               inner and outer headers is not consistent with the definition of the
               6-bit Diffserv field in <xref target="RFC2474" format="default"/> and <xref target="RFC3260" format="default"/>.</t>
@@ -424,7 +424,7 @@ format="default"/> and is not limited to this list.</t>
       to include cases with a shim header as well as a UDP header between the
       IP headers.</t>
 
-      <t>The requirements in <xref target="rfc6040up_sec_safe" format="default"/> update <xref target="RFC6040"/>, and hence indirectly update the UDP usage guidelines in <xref target="RFC8085"/>
+      <t>The requirements in <xref target="rfc6040up_sec_safe" format="default"/> update <xref target="RFC6040"/>, and hence also indirectly update the UDP usage guidelines in <xref target="RFC8085"/>
       to add the important but previously unstated requirement that, if the
       UDP tunnel egress does not, or might not, support ECN propagation, a UDP
       tunnel ingress has to clear the outer IP ECN field to 0b00, e.g., by
@@ -550,6 +550,9 @@ Then, for any sessions created by that control
               the network operator is still expected to configure it to comply
               with the safety provisions set out in <xref target="rfc6040up_L2TP_Safe" format="default"/> when it acts as an ingress
               LCCE.</t>
+              <t>If ECN support by the ingress and egress LCCEs is configured
+              statically, as allowed in <xref target="rfc6040up_L2TP_ECN_Capability_AVP" format="default"/>,
+              they both ignore the presence or absence of any ECN capability AVP.</t>
             </section>
           </section>
         </section>
