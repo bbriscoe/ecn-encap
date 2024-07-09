@@ -780,9 +780,9 @@ Alternatively,
         TRILL provides an extension header word with space for flags of
         different categories depending on whether logic to understand the
         extension is critical. The congestion-experienced marking has been
-        defined as a 'critical ingress-to-egress' flag. If a transit
+        defined as a 'critical ingress-to-egress' flag. So, if a transit
         RBridge sets this flag on a frame and an egress RBridge does not have any logic
-        to process it, then the egress RBridge will drop the frame, which is the desired default action
+        to process it, the egress RBridge will drop the frame, which is the desired default action
         anyway. Therefore, TRILL RBridges can be updated with support for congestion notification
         in no particular order and, at the egress of the TRILL campus,
         congestion notification will be propagated to IP as ECN whenever ECN
@@ -1051,7 +1051,7 @@ Perhaps:
         anchor="ecnencap_reframing_goal_presence">approximate preservation of
         the presence (and therefore timing) of congestion marks on the L2
         frames used to construct an IP packet;</li>
-          <li anchor="ecnencap_reframing_goal_proportion"><t>...</t>
+          <li anchor="ecnencap_reframing_goal_proportion"><t>or:</t>
             <ol spacing="normal" type="a"><li>at high frequency of congestion
             marking, approximate preservation of the proportion of congestion
             marks arriving and departing;</li>
@@ -1133,11 +1133,11 @@ Current:
 For instance, if ECN-marking
             propagation would cause an ECN congestion indication to be applied
             to an IP packet that is a Not-ECN-PDU, then that IP packet is
-            dropped in accordance with Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/>;</li>
-          <li>where a mix of ECN-PDUs and non-ECN-PDUs arrives to construct the same
+            dropped in accordance with Guideline <xref format="counter" target="ecnencap_dropNot-ECTinnerCEouter"/>.</li>
+          <li>Where a mix of ECN-PDUs and non-ECN-PDUs arrives to construct the same
             IP packet, the decapsulation specification <bcp14>SHOULD</bcp14> require that packet to
             be discarded.</li>
-          <li>where a mix of different types of ECN-PDUs arrives to construct the
+          <li>Where a mix of different types of ECN-PDUs arrives to construct the
             same IP packet, e.g., a mix of frames that map to ECT(0) and ECT(1) IP packets,
             the decapsulation specification might consider this a protocol error. But, if
             the lower-layer protocol has defined such a mix of types of ECN-PDU as valid, it <bcp14>SHOULD</bcp14>
