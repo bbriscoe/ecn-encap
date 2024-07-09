@@ -551,7 +551,7 @@ Then, for any sessions created by that control
               with the safety provisions set out in <xref target="rfc6040up_L2TP_Safe" format="default"/> when it acts as an ingress
               LCCE.</t>
               <t>If ECN support by the ingress and egress LCCEs is configured
-              statically, as allowed in <xref target="rfc6040up_L2TP_ECN_Capability_AVP" format="default"/>,
+              statically, as allowed in <xref target="rfc6040up_L2TP_ECN" format="default"/>,
               they both ignore the presence or absence of any ECN capability AVP.</t>
             </section>
           </section>
