@@ -1241,7 +1241,7 @@ For instance, if ECN-marking
     <section anchor="ecnencap_Guidelines_Backward" numbered="true" toc="default">
       <name>Feed-Backward Mode: Guidelines for Adding Congestion Notification</name>
       <t>It can be seen from <xref target="ecnencap_Backward" format="default"/> that
-      congestion notification in a subnet using feed-backward mode have
+      congestion notification in a subnet using feed-backward mode has
       generally not been designed to be directly coupled with IP-layer
       congestion notification. The subnet attempts to minimize congestion
       internally, and if the incoming load at the ingress exceeds the capacity
@@ -1300,7 +1300,7 @@ For instance, if ECN-marking
       concerns. Experimental or proposed approaches exist for assuring the
       end-to-end integrity of in-band congestion signals, such as:</t>
       <ul spacing="normal">
-        <li><t>Congestion exposure (ConEx) for networks:</t>
+        <li><t>Congestion Exposure (ConEx) for networks:</t>
           <ul><li>to audit that their
           congestion signals are not being suppressed by other networks or by
           receivers; and</li>
