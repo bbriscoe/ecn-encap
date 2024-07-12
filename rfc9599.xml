@@ -1051,13 +1051,13 @@ Perhaps:
         anchor="ecnencap_reframing_goal_presence">approximate preservation of
         the presence (and therefore timing) of congestion marks on the L2
         frames used to construct an IP packet;</li>
-          <li anchor="ecnencap_reframing_goal_proportion"><t>or:</t>
-            <ol spacing="normal" type="a"><li>at high frequency of congestion
+          <li anchor="ecnencap_reframing_goal_proportion">
+            <ol spacing="normal" type="a"><li><t>at high frequency of congestion
             marking, approximate preservation of the proportion of congestion
-            marks arriving and departing;</li>
-              <li>at low frequency of congestion
+            marks arriving and departing;</t></li>
+              <li><t>at low frequency of congestion
               marking, approximate preservation of the timing of congestion
-              marks arriving and departing.</li>
+              marks arriving and departing.</t></li>
             </ol>
           </li>
         </ol>
